@@ -284,17 +284,37 @@
                   fontWeight: 'bold', 
                   color: '#4a0080'
                 }}>
-                  {Number(userInfo.todayEarnings).toFixed(2)}
-                </p>
-                <p style={{ 
-                  position: 'relative', 
-                  top: '-5px', 
-                  left: '-10px',  
-                  fontSize: '80px', 
-                  fontWeight: 'bold', 
-                  color: '#4a0080'
-                }}>
-                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
+            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '20px' }}>
+  {/* Top Left Box: Moxie Earned Today */}
+  <div style={{
+    width: '250px', // approximate width based on the image
+    height: '150px', // approximate height based on the image
+    borderRadius: '15px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+    fontSize: '24px',
+    fontWeight: 'bold',
+  }}>
+    ${Number(userInfo.todayEarnings).toFixed(2)}
+  </div>
+
+  {/* Top Right Box: Moxie Earned All-Time */}
+  <div style={{
+    width: '250px',
+    height: '150px',
+    borderRadius: '15px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+    fontSize: '24px',
+    fontWeight: 'bold',
+  }}>
+    ${Number(userInfo.lifetimeEarnings).toFixed(2)}
+  </div>
+</div>
                 </p>
               </>
             ) : (
