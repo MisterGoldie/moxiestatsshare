@@ -188,7 +188,7 @@
       ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
       : 'Check your @moxie.eth stats on Farcaster!';
     
-    const shareUrl = `https://moxiestats.vercel.app/api/share?fid=${fid}`;
+    const shareUrl = `https://moxiestatsv2.vercel.app//share?fid=${fid}`;
     const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
     // The '/check' frame rendering code you provided would go here
@@ -203,10 +203,10 @@
             justifyContent: 'center', 
             width: '100%', 
             height: '100%', 
-            aspectRatio: '1 / 1',
             backgroundImage: `url(${backgroundImageUrl})`,
-            backgroundSize: 'cover',
+            backgroundSize: 'contain',
             backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
             padding: '20px', 
             boxSizing: 'border-box',
             position: 'relative'
@@ -352,8 +352,9 @@
           width: '100%', 
           height: '100%', 
           backgroundImage: `url(${backgroundImageUrl})`,
-          backgroundSize: 'cover',
+          backgroundSize: 'contain',
           backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           padding: '20px', 
           boxSizing: 'border-box',
           position: 'relative'
