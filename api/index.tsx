@@ -276,7 +276,7 @@
             ) : userInfo ? (
               <>
                 <p style={{ 
-                  position: 'absolute', 
+                  position: 'relative', 
                   top: '50%', 
                   left: '25%', 
                   transform: 'translate(-50%, -50%)', 
@@ -287,10 +287,9 @@
                   {Number(userInfo.todayEarnings).toFixed(2)}
                 </p>
                 <p style={{ 
-                  position: 'absolute', 
-                  top: '50%', 
-                  left: '70%', 
-                  transform: 'translate(-50%, -50%)', 
+                  position: 'relative', 
+                  top: '-5px', 
+                  left: '-10px',  
                   fontSize: '80px', 
                   fontWeight: 'bold', 
                   color: '#4a0080'
