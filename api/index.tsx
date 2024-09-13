@@ -125,7 +125,7 @@
   }
 
   app.frame('/', (c) => {
-    const backgroundImageUrl = 'https://bafybeicjctl4q3qjccba622yjbfhc3qaklgmtuhmhwzwuy2lys2qizrvry.ipfs.w3s.link/Page%201.png';
+    const backgroundImageUrl = 'https://bafybeiazxgtp7qbviumnfy6p4j4qv7uqupzmsmfik77e77yf3yyty2hk2m.ipfs.w3s.link/Page%201%201.png';
     
     return c.res({
       image: (
