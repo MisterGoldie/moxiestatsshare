@@ -1,7 +1,7 @@
 import { Button, Frog } from 'frog';
 import { handle } from 'frog/vercel';
-import { neynar } from 'frog/middlewares';
 import fetch from 'node-fetch';
+import { neynar } from 'frog/middlewares';
 
 const AIRSTACK_API_URL = 'https://api.airstack.xyz/gql';
 const AIRSTACK_API_KEY = '103ba30da492d4a7e89e7026a6d3a234e'; // Your actual API key
@@ -23,31 +23,6 @@ interface MoxieUserInfo {
   todayEarnings: string;
   lifetimeEarnings: string;
   farScore: number | null;
-}
-
-interface ApiResponse {
-  data: {
-    socialInfo?: {
-      Social?: Array<{
-        profileName?: string;
-        profileImage?: string;
-        farcasterScore?: {
-          farScore?: number;
-        };
-      }>;
-    };
-    todayEarnings?: {
-      FarcasterMoxieEarningStat?: Array<{
-        allEarningsAmount?: string;
-      }>;
-    };
-    lifetimeEarnings?: {
-      FarcasterMoxieEarningStat?: Array<{
-        allEarningsAmount?: string;
-      }>;
-    };
-  };
-  errors?: Array<{ message: string }>;
 }
 
 async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
@@ -99,7 +74,32 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json() as ApiResponse;
+    const data = await response.json() as AirstackApiResponse;
+
+    interface AirstackApiResponse {
+      data: {
+        socialInfo?: {
+          Social?: Array<{
+            profileName?: string;
+            profileImage?: string;
+            farcasterScore?: {
+              farScore?: number;
+            };
+          }>;
+        };
+        todayEarnings?: {
+          FarcasterMoxieEarningStat?: Array<{
+            allEarningsAmount?: string;
+          }>;
+        };
+        lifetimeEarnings?: {
+          FarcasterMoxieEarningStat?: Array<{
+            allEarningsAmount?: string;
+          }>;
+        };
+      };
+      errors?: Array<{ message: string }>;
+    }
 
     if (data.errors) {
       throw new Error('GraphQL errors in the response');
@@ -124,24 +124,22 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 app.frame('/', (c) => {
-  const backgroundImageUrl = 'https://amaranth-adequate-condor-278.mypinata.cloud/ipfs/QmNa4UgwGS1LZFCFqQ8yyPkLZ2dHomUh1WyrmEFkv3TY2s';
+  const backgroundImageUrl = 'https://bafybeicjctl4q3qjccba622yjbfhc3qaklgmtuhmhwzwuy2lys2qizrvry.ipfs.w3s.link/Page%201.png';
   
   return c.res({
     image: (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          height: '100%',
-          backgroundImage: `url(${backgroundImageUrl})`,
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundColor: '#1DA1F2',
-        }}
-      />
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#1DA1F2',
+      }} />
     ),
     intents: [
       <Button action="/check">Check stats</Button>,
@@ -150,77 +148,160 @@ app.frame('/', (c) => {
 });
 
 app.frame('/check', async (c) => {
+  console.log('Entering /check frame');
   const { fid } = c.frameData || {};
   const { displayName, pfpUrl } = c.var.interactor || {};
 
+  console.log(`FID: ${fid}, Display Name: ${displayName}, PFP URL: ${pfpUrl}`);
+
   if (!fid) {
+    console.error('No FID found in frameData');
     return c.res({
       image: (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#1DA1F2' }}>
-          <h1 style={{ color: 'white', fontSize: '36px' }}>Error: No FID</h1>
+          <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'white' }}>Error: No FID</h1>
         </div>
       ),
-      intents: [<Button action="/">Back</Button>]
+      intents: [
+        <Button action="/">Back</Button>
+      ]
     });
   }
 
-  let userInfo: MoxieUserInfo;
+  let userInfo: MoxieUserInfo | null = null;
+  let errorMessage = '';
+
   try {
+    console.log(`Fetching user info for FID: ${fid}`);
     userInfo = await getMoxieUserInfo(fid.toString());
+    console.log('User info retrieved:', JSON.stringify(userInfo, null, 2));
   } catch (error) {
     console.error('Error in getMoxieUserInfo:', error);
-    return c.res({
-      image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#1DA1F2' }}>
-          <h1 style={{ color: 'white', fontSize: '36px' }}>Error fetching user info</h1>
-        </div>
-      ),
-      intents: [<Button action="/">Back</Button>]
-    });
+    errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const shareText = `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`;
+  const backgroundImageUrl = 'https://bafybeid3kgnwha4w76fkape5r6xy7h4c4w3j5amvf3tyujymnug26ple4i.ipfs.w3s.link/Page%202%20(2).png';
+
+  const shareText = userInfo 
+    ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
+    : 'Check your @moxie.eth stats on Farcaster!';
+  
   const shareUrl = `https://moxiestats.vercel.app/api/share?fid=${fid}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
-  return c.res({
-    image: (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: '#f0e6fa', padding: '20px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-          {pfpUrl ? (
-            <img src={pfpUrl} alt="Profile" style={{ width: '120px', height: '120px', borderRadius: '50%', marginRight: '20px' }} />
-          ) : (
-            <div style={{ width: '120px', height: '120px', borderRadius: '50%', backgroundColor: '#a64dff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '20px' }}>
-              <span style={{ color: 'white', fontSize: '60px' }}>{displayName ? displayName.charAt(0).toUpperCase() : 'U'}</span>
-            </div>
-          )}
-          <div>
-            <h1 style={{ color: '#4a0080', fontSize: '48px', margin: '0' }}>@{displayName || userInfo.profileName || 'Unknown'}</h1>
-            <p style={{ color: '#666', fontSize: '24px', margin: '5px 0' }}>FID: {fid} | Farscore: {userInfo.farScore?.toFixed(2) || 'N/A'}</p>
+  // The '/check' frame rendering code you provided would go here
+  console.log('Rendering frame');
+  try {
+    return c.res({
+      image: (
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          width: '100%', 
+          height: '100%', 
+          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          padding: '20px', 
+          boxSizing: 'border-box',
+          position: 'relative'
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: '30px',
+            left: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
+            {pfpUrl ? (
+              <img 
+                src={pfpUrl} 
+                alt="Profile" 
+                style={{ 
+                  width: '150px', 
+                  height: '150px', 
+                  borderRadius: '50%',
+                  border: '3px solid black'
+                }}
+              />
+            ) : (
+              <div style={{ 
+                width: '150px', 
+                height: '150px', 
+                borderRadius: '50%', 
+                backgroundColor: '#ccc', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                border: '3px solid black',
+                fontSize: '90px',
+                color: '#333'
+              }}>
+                {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
+              </div>
+            )}
+            <p style={{ 
+              fontSize: '30px', 
+              marginTop: '10px', 
+              color: 'black', 
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+            }}>
+              FID: {fid}
+            </p>
+            {userInfo && userInfo.farScore !== null && (
+              <p style={{ 
+                fontSize: '30px', 
+                marginTop: '5px', 
+                color: 'black', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+              }}>
+                Farscore: {userInfo.farScore.toFixed(2)}
+              </p>
+            )}
           </div>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', flex: 1 }}>
-          {[
-            { title: 'Moxie earned today', value: userInfo.todayEarnings },
-            { title: 'Moxie earned all-time', value: userInfo.lifetimeEarnings },
-            { title: 'Moxie in progress', value: null },
-            { title: 'How much Moxie you\'ve claimed', value: null }
-          ].map(({ title, value }, index) => (
-            <div key={index} style={{ backgroundColor: '#d9b3ff', borderRadius: '15px', padding: '15px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', textAlign: 'center' }}>
-              <h2 style={{ color: '#4a0080', fontSize: '22px', margin: '0 0 10px 0' }}>{title}</h2>
-              <p style={{ color: '#4a0080', fontSize: value ? '36px' : '24px', margin: '0', fontWeight: 'bold' }}>{value ? Number(value).toFixed(2) : 'N/A'}</p>
+          
+          {errorMessage ? (
+            <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
+          ) : userInfo ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today
+              </p>
+              <p style={{ fontSize: '55px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              {Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all - time
+              </p>
             </div>
-          ))}
+          ) : (
+            <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
+          )}
         </div>
-        <p style={{ color: '#666', fontSize: '18px', textAlign: 'center', marginTop: '20px' }}>frame by @goldie</p>
-      </div>
-    ),
-    intents: [
-      <Button action="/">Back</Button>,
-      <Button action="/check">Refresh</Button>,
-      <Button.Link href={farcasterShareURL}>Share</Button.Link>,
-    ],
-  });
+      ),
+      intents: [
+        <Button action="/">Back</Button>,
+        <Button action="/check">Refresh</Button>,
+        <Button.Link href={farcasterShareURL}>Share</Button.Link>,
+      ]
+    });
+  } catch (renderError) {
+    console.error('Error rendering frame:', renderError);
+    return c.res({
+      image: (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#1DA1F2' }}>
+          <h1 style={{ fontSize: '60px', marginBottom: '20px', color: 'black' }}>Render Error</h1>
+          <p style={{ fontSize: '50px', textAlign: 'center', color: 'black' }}>
+            {renderError instanceof Error ? renderError.message : 'An unknown error occurred during rendering'}
+          </p>
+        </div>
+      ),
+      intents: [
+        <Button action="/">Back</Button>,
+        <Button action="/check">Retry</Button>
+      ]
+    });
+  }
 });
 
 app.frame('/share', async (c) => {
@@ -229,50 +310,97 @@ app.frame('/share', async (c) => {
   if (!fid) {
     return c.res({
       image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#1DA1F2' }}>
-          <h1 style={{ color: 'white', fontSize: '48px' }}>Error: No FID provided</h1>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          width: '100%', 
+          height: '100%', 
+          backgroundColor: '#1DA1F2',
+          color: 'white',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error: No FID provided</h1>
         </div>
       ),
-      intents: [<Button action="/check">Check Your Stats</Button>]
+      intents: [
+        <Button action="/check">Check Your Stats</Button>
+      ]
     });
   }
 
-  let userInfo: MoxieUserInfo;
+  let userInfo: MoxieUserInfo | null = null;
   try {
-    userInfo = await getMoxieUserInfo(fid.toString());
+    userInfo = await getMoxieUserInfo(fid);
   } catch (error) {
     console.error('Error fetching user info:', error);
-    return c.res({
-      image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#1DA1F2' }}>
-          <h1 style={{ color: 'white', fontSize: '48px' }}>Error fetching user info</h1>
-        </div>
-      ),
-      intents: [<Button action="/check">Check Your Stats</Button>]
-    });
   }
+
+  const backgroundImageUrl = 'https://bafybeid3kgnwha4w76fkape5r6xy7h4c4w3j5amvf3tyujymnug26ple4i.ipfs.w3s.link/Page%202%20(2).png';
 
   return c.res({
     image: (
-      <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: '#f0e6fa', padding: '20px' }}>
-        <h1 style={{ color: '#4a0080', fontSize: '48px', margin: '0 0 10px 0' }}>@{userInfo.profileName || 'Unknown'}</h1>
-        <p style={{ color: '#666', fontSize: '24px', margin: '0 0 20px 0' }}>FID: {fid} | Farscore: {userInfo.farScore?.toFixed(2) || 'N/A'}</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginTop: '20px' }}>
-          <div style={{ backgroundColor: '#d9b3ff', borderRadius: '15px', padding: '15px', textAlign: 'center' }}>
-            <h2 style={{ color: '#4a0080', fontSize: '22px', margin: '0 0 10px 0' }}>Moxie earned today</h2>
-            <p style={{ color: '#4a0080', fontSize: '36px', margin: '0', fontWeight: 'bold' }}>{Number(userInfo.todayEarnings).toFixed(2)}</p>
-          </div>
-          <div style={{ backgroundColor: '#d9b3ff', borderRadius: '15px', padding: '15px', textAlign: 'center' }}>
-            <h2 style={{ color: '#4a0080', fontSize: '22px', margin: '0 0 10px 0' }}>Moxie earned all-time</h2>
-            <p style={{ color: '#4a0080', fontSize: '36px', margin: '0', fontWeight: 'bold' }}>{Number(userInfo.lifetimeEarnings).toFixed(2)}</p>
-          </div>
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        width: '100%', 
+        height: '100%', 
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        padding: '20px', 
+        boxSizing: 'border-box',
+        position: 'relative'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '30px',
+          left: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}>
+          <p style={{ 
+            fontSize: '30px', 
+            marginTop: '10px', 
+            color: 'black', 
+            textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+          }}>
+            FID: {fid}
+          </p>
+          {userInfo && userInfo.farScore !== null && (
+            <p style={{ 
+              fontSize: '30px', 
+              marginTop: '5px', 
+              color: 'black', 
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+            }}>
+              Farscore: {userInfo.farScore.toFixed(2)}
+            </p>
+          )}
         </div>
-        <p style={{ color: '#666', fontSize: '18px', textAlign: 'center', marginTop: '20px' }}>frame by @goldie</p>
+        
+        {userInfo ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today
+            </p>
+            <p style={{ fontSize: '55px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              {Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time
+            </p>
+          </div>
+        ) : (
+          <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
+        )}
       </div>
     ),
-    intents: [<Button action="/check">Check Your Stats</Button>]
+    intents: [
+      <Button action="/check">Check Your Stats</Button>
+    ]
   });
 });
-
 export const GET = handle(app);
 export const POST = handle(app);
