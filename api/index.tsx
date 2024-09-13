@@ -288,7 +288,7 @@
                 </p>
                 <p style={{ 
                   position: 'absolute', 
-                  top: '70%', 
+                  top: '50%', 
                   left: '70%', 
                   transform: 'translate(-50%, -50%)', 
                   fontSize: '80px', 
