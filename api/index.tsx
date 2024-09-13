@@ -152,15 +152,15 @@
     console.log('Entering /check frame');
     const { fid } = c.frameData || {};
     const { displayName, pfpUrl } = c.var.interactor || {};
-
+  
     console.log(`FID: ${fid}, Display Name: ${displayName}, PFP URL: ${pfpUrl}`);
-
+  
     if (!fid) {
       console.error('No FID found in frameData');
       return c.res({
         image: (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#1DA1F2' }}>
-            <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'white' }}>Error: No FID</h1>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#f0e6fa' }}>
+            <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'black' }}>Error: No FID</h1>
           </div>
         ),
         intents: [
@@ -168,10 +168,10 @@
         ]
       });
     }
-
+  
     let userInfo: MoxieUserInfo | null = null;
     let errorMessage = '';
-
+  
     try {
       console.log(`Fetching user info for FID: ${fid}`);
       userInfo = await getMoxieUserInfo(fid.toString());
@@ -180,17 +180,16 @@
       console.error('Error in getMoxieUserInfo:', error);
       errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     }
-
+  
     const backgroundImageUrl = 'https://bafybeid3kgnwha4w76fkape5r6xy7h4c4w3j5amvf3tyujymnug26ple4i.ipfs.w3s.link/Page%202%20(2).png';
-
+  
     const shareText = userInfo 
       ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
       : 'Check your @moxie.eth stats on Farcaster!';
     
     const shareUrl = `https://moxiestatsv2.vercel.app//share?fid=${fid}`;
     const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
-
-    // The '/check' frame rendering code you provided would go here
+  
     console.log('Rendering frame');
     try {
       return c.res({
@@ -206,6 +205,7 @@
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
+            backgroundColor: '#f0e6fa',
             padding: '20px', 
             boxSizing: 'border-box',
             position: 'relative'
@@ -268,17 +268,68 @@
             {errorMessage ? (
               <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
             ) : userInfo ? (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today
-                </p>
-                <p style={{ fontSize: '55px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-                {Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all - time
-                </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', width: '80%', marginTop: '200px' }}>
+                <div style={{ 
+                  backgroundColor: '#d9b3ff', 
+                  borderRadius: '15px', 
+                  padding: '15px', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  textAlign: 'center' 
+                }}>
+                  <p style={{ fontSize: '22px', margin: '0 0 10px 0', color: '#4a0080' }}>Moxie earned today</p>
+                  <p style={{ fontSize: '36px', margin: '0', fontWeight: 'bold', color: '#4a0080' }}>
+                    {Number(userInfo.todayEarnings).toFixed(2)}
+                  </p>
+                </div>
+                <div style={{ 
+                  backgroundColor: '#d9b3ff', 
+                  borderRadius: '15px', 
+                  padding: '15px', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  textAlign: 'center' 
+                }}>
+                  <p style={{ fontSize: '22px', margin: '0 0 10px 0', color: '#4a0080' }}>Moxie earned all-time</p>
+                  <p style={{ fontSize: '36px', margin: '0', fontWeight: 'bold', color: '#4a0080' }}>
+                    {Number(userInfo.lifetimeEarnings).toFixed(2)}
+                  </p>
+                </div>
+                <div style={{ 
+                  backgroundColor: '#d9b3ff', 
+                  borderRadius: '15px', 
+                  padding: '15px', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  textAlign: 'center' 
+                }}>
+                  <p style={{ fontSize: '22px', margin: '0 0 10px 0', color: '#4a0080' }}>Moxie in progress</p>
+                  <p style={{ fontSize: '36px', margin: '0', fontWeight: 'bold', color: '#4a0080' }}>N/A</p>
+                </div>
+                <div style={{ 
+                  backgroundColor: '#d9b3ff', 
+                  borderRadius: '15px', 
+                  padding: '15px', 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  justifyContent: 'center', 
+                  alignItems: 'center', 
+                  textAlign: 'center' 
+                }}>
+                  <p style={{ fontSize: '22px', margin: '0 0 10px 0', color: '#4a0080' }}>How much Moxie you've claimed</p>
+                  <p style={{ fontSize: '36px', margin: '0', fontWeight: 'bold', color: '#4a0080' }}>N/A</p>
+                </div>
               </div>
             ) : (
               <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
             )}
+            <p style={{ position: 'absolute', bottom: '10px', right: '10px', fontSize: '18px', color: '#666' }}>frame by @goldie</p>
           </div>
         ),
         intents: [
@@ -291,7 +342,7 @@
       console.error('Error rendering frame:', renderError);
       return c.res({
         image: (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#1DA1F2' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#f0e6fa' }}>
             <h1 style={{ fontSize: '60px', marginBottom: '20px', color: 'black' }}>Render Error</h1>
             <p style={{ fontSize: '50px', textAlign: 'center', color: 'black' }}>
               {renderError instanceof Error ? renderError.message : 'An unknown error occurred during rendering'}
