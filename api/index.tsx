@@ -277,23 +277,23 @@
               <>
                 <p style={{ 
                   position: 'absolute', 
-                  top: '48%', 
+                  top: '49%', 
                   left: '22%', 
                   transform: 'translate(-50%, -50%)', 
                   fontSize: '60px', 
                   fontWeight: 'bold', 
-                  color: '#4a0080'
+                  color: '#FFFFFF'
                 }}>
                   {Number(userInfo.todayEarnings).toFixed(2)}
                 </p>
                 <p style={{ 
                   position: 'absolute', 
-                  top: '48%', 
+                  top: '49%', 
                   left: '68%', 
                   transform: 'translate(-50%, -50%)', 
                   fontSize: '60px', 
                   fontWeight: 'bold', 
-                  color: '#4a0080'
+                  color: '#FFFFFF'
                 }}>
                   {Number(userInfo.lifetimeEarnings).toFixed(2)}
                 </p>
