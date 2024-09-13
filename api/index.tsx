@@ -269,7 +269,7 @@
                   top: '50%', 
                   left: '25%', 
                   transform: 'translate(-50%, -50%)', 
-                  fontSize: '36px', 
+                  fontSize: '60px', 
                   fontWeight: 'bold', 
                   color: '#4a0080'
                 }}>
@@ -280,7 +280,7 @@
                   top: '50%', 
                   left: '75%', 
                   transform: 'translate(-50%, -50%)', 
-                  fontSize: '36px', 
+                  fontSize: '60px', 
                   fontWeight: 'bold', 
                   color: '#4a0080'
                 }}>
@@ -290,7 +290,7 @@
             ) : (
               <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
             )}
-            <p style={{ position: 'absolute', bottom: '10px', right: '10px', fontSize: '18px', color: '#666' }}>frame by @goldie</p>
+            <p style={{ position: 'absolute', bottom: '10px', right: '10px', fontSize: '26px', color: '#666' }}>frame by @goldie</p>
           </div>
         ),
         intents: [
