@@ -244,7 +244,7 @@
                 </div>
               )}
               <p style={{ 
-                fontSize: '100px', 
+                fontSize: '25px', 
                 marginTop: '10px', 
                 color: 'black', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
@@ -252,7 +252,7 @@
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
               <p style={{ 
-                fontSize: '100px', 
+                fontSize: '25px', 
                 marginTop: '5px', 
                 color: 'black', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
@@ -261,7 +261,7 @@
               </p>
               {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
-                  fontSize: '100px', 
+                  fontSize: '25px', 
                   marginTop: '5px', 
                   color: 'black', 
                   textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
@@ -288,10 +288,10 @@
                 </p>
                 <p style={{ 
                   position: 'absolute', 
-                  top: '60%', 
-                  left: '50%', 
+                  top: '70%', 
+                  left: '70%', 
                   transform: 'translate(-50%, -50%)', 
-                  fontSize: '100px', 
+                  fontSize: '80px', 
                   fontWeight: 'bold', 
                   color: '#4a0080'
                 }}>
