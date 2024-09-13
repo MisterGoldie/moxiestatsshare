@@ -205,7 +205,6 @@
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            backgroundColor: '#f0e6fa',
             padding: '20px', 
             boxSizing: 'border-box',
             position: 'relative'
@@ -270,7 +269,7 @@
             ) : userInfo ? (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', width: '80%', marginTop: '200px' }}>
                 <div style={{ 
-                  backgroundColor: '#d9b3ff', 
+                  backgroundColor: 'rgba(217, 179, 255, 0.8)', 
                   borderRadius: '15px', 
                   padding: '15px', 
                   display: 'flex', 
@@ -285,7 +284,7 @@
                   </p>
                 </div>
                 <div style={{ 
-                  backgroundColor: '#d9b3ff', 
+                  backgroundColor: 'rgba(217, 179, 255, 0.8)', 
                   borderRadius: '15px', 
                   padding: '15px', 
                   display: 'flex', 
@@ -300,7 +299,7 @@
                   </p>
                 </div>
                 <div style={{ 
-                  backgroundColor: '#d9b3ff', 
+                  backgroundColor: 'rgba(217, 179, 255, 0.8)', 
                   borderRadius: '15px', 
                   padding: '15px', 
                   display: 'flex', 
@@ -313,7 +312,7 @@
                   <p style={{ fontSize: '36px', margin: '0', fontWeight: 'bold', color: '#4a0080' }}>N/A</p>
                 </div>
                 <div style={{ 
-                  backgroundColor: '#d9b3ff', 
+                  backgroundColor: 'rgba(217, 179, 255, 0.8)', 
                   borderRadius: '15px', 
                   padding: '15px', 
                   display: 'flex', 
