@@ -9,6 +9,7 @@
   export const app = new Frog({
     basePath: '/api',
     imageOptions: { width: 1200, height: 1200 },
+    imageAspectRatio: '1:1',
     title: '$MOXIE Earnings Tracker',
   }).use(
     neynar({
