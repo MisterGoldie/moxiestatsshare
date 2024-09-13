@@ -18,17 +18,43 @@
     })
   );
 
+  interface AirstackApiResponse {
+    data: {
+      socialInfo?: {
+        Social?: Array<{
+          profileName?: string;
+          profileImage?: string;
+          farcasterScore?: {
+            farScore?: number;
+          };
+        }>;
+      };
+      todayEarnings?: {
+        FarcasterMoxieEarningStat?: Array<{
+          allEarningsAmount?: string;
+        }>;
+      };
+      lifetimeEarnings?: {
+        FarcasterMoxieEarningStat?: Array<{
+          allEarningsAmount?: string;
+        }>;
+      };
+    };
+    errors?: Array<{ message: string }>;
+  }
+
   interface MoxieUserInfo {
     profileName: string | null;
     profileImage: string | null;
     todayEarnings: string;
     lifetimeEarnings: string;
     farScore: number | null;
+    username: string | null;
   }
-
+  
   async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
     console.log(`Fetching info for FID: ${fid}`);
-
+  
     const query = `
       query MoxieEarnings($fid: String!) {
         socialInfo: Socials(
@@ -58,9 +84,9 @@
         }
       }
     `;
-
+  
     const variables = { fid: fid };
-
+  
     try {
       const response = await fetch(AIRSTACK_API_URL, {
         method: 'POST',
@@ -70,53 +96,30 @@
         },
         body: JSON.stringify({ query, variables }),
       });
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
+  
       const data = await response.json() as AirstackApiResponse;
-
-      interface AirstackApiResponse {
-        data: {
-          socialInfo?: {
-            Social?: Array<{
-              profileName?: string;
-              profileImage?: string;
-              farcasterScore?: {
-                farScore?: number;
-              };
-            }>;
-          };
-          todayEarnings?: {
-            FarcasterMoxieEarningStat?: Array<{
-              allEarningsAmount?: string;
-            }>;
-          };
-          lifetimeEarnings?: {
-            FarcasterMoxieEarningStat?: Array<{
-              allEarningsAmount?: string;
-            }>;
-          };
-        };
-        errors?: Array<{ message: string }>;
-      }
-
+  
       if (data.errors) {
         throw new Error('GraphQL errors in the response');
       }
-
+  
       const socialInfo = data.data.socialInfo?.Social?.[0] || {};
       const todayEarnings = data.data.todayEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0';
       const lifetimeEarnings = data.data.lifetimeEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0';
       const farScore = socialInfo.farcasterScore?.farScore || null;
-
+      const username = socialInfo.profileName || null;
+  
       return {
         profileName: socialInfo.profileName || null,
         profileImage: socialInfo.profileImage || null,
         todayEarnings: todayEarnings,
         lifetimeEarnings: lifetimeEarnings,
         farScore: farScore,
+        username: username,
       };
     } catch (error) {
       console.error('Detailed error in getMoxieUserInfo:', error);
@@ -246,11 +249,19 @@
                 color: 'black', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
               }}>
+                @{userInfo?.username || displayName || 'Unknown'}
+              </p>
+              <p style={{ 
+                fontSize: '24px', 
+                marginTop: '5px', 
+                color: 'black', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+              }}>
                 FID: {fid}
               </p>
               {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
-                  fontSize: '30px', 
+                  fontSize: '24px', 
                   marginTop: '5px', 
                   color: 'black', 
                   textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
@@ -269,7 +280,7 @@
                   top: '50%', 
                   left: '25%', 
                   transform: 'translate(-50%, -50%)', 
-                  fontSize: '60px', 
+                  fontSize: '36px', 
                   fontWeight: 'bold', 
                   color: '#4a0080'
                 }}>
@@ -280,7 +291,7 @@
                   top: '50%', 
                   left: '75%', 
                   transform: 'translate(-50%, -50%)', 
-                  fontSize: '60px', 
+                  fontSize: '36px', 
                   fontWeight: 'bold', 
                   color: '#4a0080'
                 }}>
@@ -290,7 +301,7 @@
             ) : (
               <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
             )}
-            <p style={{ position: 'absolute', bottom: '10px', right: '10px', fontSize: '26px', color: '#666' }}>frame by @goldie</p>
+            <p style={{ position: 'absolute', bottom: '10px', right: '10px', fontSize: '18px', color: '#666' }}>frame by @goldie</p>
           </div>
         ),
         intents: [
