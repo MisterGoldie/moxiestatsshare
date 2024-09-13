@@ -128,7 +128,7 @@
   }
 
   app.frame('/', (c) => {
-    const backgroundImageUrl = 'https://bafybeiazedvqidyzy56y4c3t6vwscz5rlhgemcmfxivrhtomccsonuw5fe.ipfs.w3s.link/1.png';
+    const backgroundImageUrl = 'https://bafybeiexemztgtb3j2aj6piespw3auqz5ql4xshjkrzun3swmzvdv2snai.ipfs.w3s.link/Page%201.png';
     
     return c.res({
       image: (
@@ -182,7 +182,7 @@
       errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     }
   
-    const backgroundImageUrl = 'https://bafybeid3kgnwha4w76fkape5r6xy7h4c4w3j5amvf3tyujymnug26ple4i.ipfs.w3s.link/Page%202%20(2).png';
+    const backgroundImageUrl = 'https://bafybeih4ucb5wtdjinquwsqu4azm5z2tseu27jqsbgxyn2psqmpglo2fva.ipfs.w3s.link/Page%202%20(4).png';
   
     const shareText = userInfo 
       ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
@@ -361,7 +361,7 @@
       console.error('Error fetching user info:', error);
     }
 
-    const backgroundImageUrl = 'https://bafybeid3kgnwha4w76fkape5r6xy7h4c4w3j5amvf3tyujymnug26ple4i.ipfs.w3s.link/Page%202%20(2).png';
+    const backgroundImageUrl = 'https://bafybeih4ucb5wtdjinquwsqu4azm5z2tseu27jqsbgxyn2psqmpglo2fva.ipfs.w3s.link/Page%202%20(4).png';
 
     return c.res({
       image: (
