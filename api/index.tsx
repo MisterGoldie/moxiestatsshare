@@ -8,7 +8,7 @@
 
   export const app = new Frog({
     basePath: '/api',
-    imageOptions: { width: 1200, height: 1200 },
+    imageOptions: { width: 1500, height: 1500 },
     imageAspectRatio: '1:1',
     title: '$MOXIE Earnings Tracker',
   }).use(
@@ -125,7 +125,7 @@
   }
 
   app.frame('/', (c) => {
-    const backgroundImageUrl = 'https://bafybeiazxgtp7qbviumnfy6p4j4qv7uqupzmsmfik77e77yf3yyty2hk2m.ipfs.w3s.link/Page%201%201.png';
+    const backgroundImageUrl = 'https://bafybeiazedvqidyzy56y4c3t6vwscz5rlhgemcmfxivrhtomccsonuw5fe.ipfs.w3s.link/1.png';
     
     return c.res({
       image: (
