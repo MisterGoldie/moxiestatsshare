@@ -221,16 +221,16 @@
                   src={pfpUrl} 
                   alt="Profile" 
                   style={{ 
-                    width: '150px', 
-                    height: '150px', 
+                    width: '250px', 
+                    height: '250px', 
                     borderRadius: '50%',
                     border: '3px solid black'
                   }}
                 />
               ) : (
                 <div style={{ 
-                  width: '150px', 
-                  height: '150px', 
+                  width: '250px', 
+                  height: '250px', 
                   borderRadius: '50%', 
                   backgroundColor: '#ccc', 
                   display: 'flex', 
@@ -244,7 +244,7 @@
                 </div>
               )}
               <p style={{ 
-                fontSize: '30px', 
+                fontSize: '100px', 
                 marginTop: '10px', 
                 color: 'black', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
@@ -252,7 +252,7 @@
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
               <p style={{ 
-                fontSize: '24px', 
+                fontSize: '100px', 
                 marginTop: '5px', 
                 color: 'black', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
@@ -261,7 +261,7 @@
               </p>
               {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
-                  fontSize: '24px', 
+                  fontSize: '100px', 
                   marginTop: '5px', 
                   color: 'black', 
                   textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
@@ -288,10 +288,10 @@
                 </p>
                 <p style={{ 
                   position: 'absolute', 
-                  top: '50%', 
-                  left: '75%', 
+                  top: '60%', 
+                  left: '50%', 
                   transform: 'translate(-50%, -50%)', 
-                  fontSize: '36px', 
+                  fontSize: '100px', 
                   fontWeight: 'bold', 
                   color: '#4a0080'
                 }}>
@@ -301,7 +301,6 @@
             ) : (
               <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
             )}
-            <p style={{ position: 'absolute', bottom: '10px', right: '10px', fontSize: '18px', color: '#666' }}>frame by @goldie</p>
           </div>
         ),
         intents: [
