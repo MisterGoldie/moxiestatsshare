@@ -184,22 +184,32 @@ app.frame('/', (c) => {
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
   const { fid } = c.frameData || {};
-  const { displayName } = c.var.interactor || {};
+  const { displayName, pfpUrl } = c.var.interactor || {};
+
+  if (!fid) {
+    console.error('No FID found in frameData');
+    return c.res({
+      image: (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#f0e6fa' }}>
+          <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'black' }}>Error: No FID</h1>
+        </div>
+      ),
+      intents: [
+        <Button action="/">Back</Button>
+      ]
+    });
+  }
 
   let userInfo: MoxieUserInfo | null = null;
   let errorMessage = '';
 
-  if (!fid) {
-    errorMessage = 'No FID found';
-  } else {
-    try {
-      console.log(`Fetching user info for FID: ${fid}`);
-      userInfo = await getMoxieUserInfo(fid.toString());
-      console.log('User info retrieved:', JSON.stringify(userInfo, null, 2));
-    } catch (error) {
-      console.error('Error in getMoxieUserInfo:', error);
-      errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    }
+  try {
+    console.log(`Fetching user info for FID: ${fid}`);
+    userInfo = await getMoxieUserInfo(fid.toString());
+    console.log('User info retrieved:', JSON.stringify(userInfo, null, 2));
+  } catch (error) {
+    console.error('Error in getMoxieUserInfo:', error);
+    errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
   const backgroundImageUrl = 'https://bafybeih4ucb5wtdjinquwsqu4azm5z2tseu27jqsbgxyn2psqmpglo2fva.ipfs.w3s.link/Page%202%20(4).png';
@@ -215,51 +225,129 @@ app.frame('/check', async (c) => {
   try {
     return c.res({
       image: (
-        <div
-          style={{
-            width: '100%',
-            height: '100%',
-            backgroundImage: `url(${backgroundImageUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          width: '100%', 
+          height: '100%', 
+          backgroundImage: `url(${backgroundImageUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          position: 'relative'
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: '30px',
+            left: '30px',
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
-            fontFamily: 'Arial, sans-serif',
-            color: 'white',
-            textAlign: 'center',
-          }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
-              @{userInfo?.username || displayName || 'Unknown'}
-            </div>
-            <div style={{ fontSize: '18px', marginBottom: '20px' }}>
-              {fid ? `FID: ${fid}` : 'FID: Unknown'} 
-              {userInfo?.farScore !== null && userInfo?.farScore !== undefined && 
-                ` | Farscore: ${userInfo.farScore.toFixed(2)}`}
+            width: '100%'
+          }}>
+            {pfpUrl ? (
+              <img 
+                src={pfpUrl} 
+                alt="Profile" 
+                style={{ 
+                  width: '200px', 
+                  height: '200px', 
+                  borderRadius: '50%',
+                  border: '3px solid black'
+                }}
+              />
+            ) : (
+              <div style={{ 
+                width: '200px', 
+                height: '200px', 
+                borderRadius: '50%', 
+                backgroundColor: '#ccc', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                border: '3px solid black',
+                fontSize: '72px',
+                color: '#333'
+              }}>
+                {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
+              </div>
+            )}
+            <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column' }}>
+              <p style={{ 
+                fontSize: '48px', 
+                color: 'black', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                margin: '0 0 10px 0'
+              }}>
+                @{userInfo?.username || displayName || 'Unknown'}
+              </p>
+              <p style={{ 
+                fontSize: '24px', 
+                color: 'black', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                margin: '0'
+              }}>
+                FID: {fid}
+              </p>
+              {userInfo && userInfo.farScore !== null && (
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: 'black', 
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                  margin: '5px 0 0 0'
+                }}>
+                  Farscore: {userInfo.farScore.toFixed(2)}
+                </p>
+              )}
             </div>
           </div>
+          
           {errorMessage ? (
-            <div style={{ fontSize: '20px', color: 'red' }}>{errorMessage}</div>
+            <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ fontSize: '20px', marginBottom: '10px' }}>
-                Today: {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE
-              </div>
-              <div style={{ fontSize: '20px', marginBottom: '10px' }}>
-                All-time: {Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE
-              </div>
-              <div style={{ fontSize: '20px', marginBottom: '10px' }}>
-                In progress: {Number(userInfo.moxieInProcess).toFixed(2)} $MOXIE
-              </div>
-              <div style={{ fontSize: '20px' }}>
-                Claimed: {Number(userInfo.moxieClaimed).toFixed(2)} $MOXIE
-              </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '46%', width: '100%' }}>
+              <p style={{ 
+                fontSize: '60px', 
+                fontWeight: 'bold', 
+                color: '#FFFFFF',
+                textAlign: 'center',
+                width: '45%'
+              }}>
+                {Number(userInfo.todayEarnings).toFixed(2)}
+              </p>
+              <p style={{ 
+                fontSize: '60px', 
+                fontWeight: 'bold', 
+                color: '#FFFFFF',
+                textAlign: 'center',
+                width: '45%'
+              }}>
+                {Number(userInfo.lifetimeEarnings).toFixed(2)}
+              </p>
+              <p style={{ 
+                fontSize: '60px', 
+                fontWeight: 'bold', 
+                color: '#FFFFFF',
+                textAlign: 'center',
+                width: '45%',
+                marginTop: '20px'
+              }}>
+                {Number(userInfo.moxieInProcess).toFixed(2)}
+              </p>
+              <p style={{ 
+                fontSize: '60px', 
+                fontWeight: 'bold', 
+                color: '#FFFFFF',
+                textAlign: 'center',
+                width: '45%',
+                marginTop: '20px'
+              }}>
+                {Number(userInfo.moxieClaimed).toFixed(2)}
+              </p>
             </div>
           ) : (
-            <div style={{ fontSize: '20px' }}>No user data available</div>
+            <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
           )}
         </div>
       ),
@@ -274,8 +362,8 @@ app.frame('/check', async (c) => {
     return c.res({
       image: (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#f0e6fa' }}>
-          <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'black' }}>Render Error</h1>
-          <p style={{ fontSize: '24px', textAlign: 'center', color: 'black' }}>
+          <h1 style={{ fontSize: '60px', marginBottom: '20px', color: 'black' }}>Render Error</h1>
+          <p style={{ fontSize: '50px', textAlign: 'center', color: 'black' }}>
             {renderError instanceof Error ? renderError.message : 'An unknown error occurred during rendering'}
           </p>
         </div>
@@ -396,3 +484,9 @@ app.frame('/share', async (c) => {
 
 export const GET = handle(app);
 export const POST = handle(app);
+
+
+
+
+
+
