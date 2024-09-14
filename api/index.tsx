@@ -272,7 +272,7 @@ app.frame('/check', async (c) => {
                 {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
               </div>
             )}
-            <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ marginLeft: 'auto', marginRight: '30px', display: 'flex', flexDirection: 'column' }}>
               <p style={{ 
                 fontSize: '48px', 
                 color: 'white', 
