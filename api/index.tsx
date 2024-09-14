@@ -8,8 +8,7 @@ const AIRSTACK_API_KEY = '103ba30da492d4a7e89e7026a6d3a234e'; // Your actual API
 
 export const app = new Frog({
   basePath: '/api',
-  imageOptions: { width: 1500, height: 1500 },
-  imageAspectRatio: '1:1',
+  imageOptions: { width: 1200, height: 630 },
   title: '$MOXIE Earnings Tracker',
 }).use(
   neynar({
@@ -158,7 +157,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 app.frame('/', (c) => {
-  const backgroundImageUrl = 'https://bafybeiexemztgtb3j2aj6piespw3auqz5ql4xshjkrzun3swmzvdv2snai.ipfs.w3s.link/Page%201.png';
+  const backgroundImageUrl = 'https://bafybeifsz3woqoydly2fllyhpae7ih6f6dygdh5z2v2lft7joni5snex54.ipfs.w3s.link/Frame%2058.png';
   
   return c.res({
     image: (
@@ -212,7 +211,7 @@ app.frame('/check', async (c) => {
     errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const backgroundImageUrl = 'https://bafybeierlccvb24ddi5sjryl65dhguuvbmrtekxtx76p34nkwzewn4ysmi.ipfs.w3s.link/Page%203%20(2).png';
+  const backgroundImageUrl = 'https://bafybeieym4xs7ztpetoxwf7uy7j2qmo7c6ma7lqzebrn2shzt6q7biy45q.ipfs.w3s.link/Frame%2059.png';
 
   const shareText = userInfo 
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
@@ -435,7 +434,7 @@ app.frame('/share', async (c) => {
     console.error('Error fetching user info:', error);
   }
 
-  const backgroundImageUrl = 'https://bafybeierlccvb24ddi5sjryl65dhguuvbmrtekxtx76p34nkwzewn4ysmi.ipfs.w3s.link/Page%203%20(2).png';
+  const backgroundImageUrl = 'https://bafybeieym4xs7ztpetoxwf7uy7j2qmo7c6ma7lqzebrn2shzt6q7biy45q.ipfs.w3s.link/Frame%2059.png';
 
   return c.res({
     image: (
