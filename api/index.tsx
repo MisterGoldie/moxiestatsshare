@@ -228,134 +228,97 @@ app.frame('/check', async (c) => {
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
           width: '100%', 
           height: '100%', 
           backgroundImage: `url(${backgroundImageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          position: 'relative',
+          padding: '20px', 
           fontFamily: 'Arial, sans-serif',
         }}>
           <div style={{
-            position: 'absolute',
-            top: '30px',
-            left: '30px',
             display: 'flex',
-            alignItems: 'center',
-            width: 'calc(100% - 60px)',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            width: '100%',
+            marginBottom: '20px'
           }}>
-            {pfpUrl ? (
-              <img 
-                src={pfpUrl} 
-                alt="Profile" 
-                style={{ 
-                  width: '150px', 
-                  height: '150px', 
-                  borderRadius: '50%',
-                  border: '3px solid black'
-                }}
-              />
-            ) : (
-              <div style={{ 
-                width: '150px', 
-                height: '150px', 
-                borderRadius: '50%', 
-                backgroundColor: '#ccc', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                border: '3px solid black',
-                fontSize: '72px',
-                color: '#333'
-              }}>
-                {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
-              </div>
-            )}
-            <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-              <p style={{ 
-                fontSize: '48px', 
-                color: 'black', 
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                margin: '0 0 10px 0'
-              }}>
-                @{userInfo?.username || displayName || 'Unknown'}
-              </p>
-              <p style={{ 
-                fontSize: '24px', 
-                color: 'black', 
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                margin: '0'
-              }}>
-                FID: {fid}
-              </p>
-              {userInfo && userInfo.farScore !== null && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center'
+            }}>
+              {pfpUrl && (
+                <img 
+                  src={pfpUrl} 
+                  alt="Profile" 
+                  style={{ 
+                    width: '80px', 
+                    height: '80px', 
+                    borderRadius: '50%',
+                    marginRight: '10px'
+                  }}
+                />
+              )}
+              <div>
                 <p style={{ 
                   fontSize: '24px', 
-                  color: 'black', 
-                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                  fontWeight: 'bold',
+                  color: 'white', 
+                  margin: '0'
+                }}>
+                  @{userInfo?.username || displayName || 'Unknown'}
+                </p>
+                <p style={{ 
+                  fontSize: '16px', 
+                  color: 'white', 
                   margin: '5px 0 0 0'
                 }}>
-                  Farscore: {userInfo.farScore.toFixed(2)}
+                  FID: {fid}
                 </p>
-              )}
+              </div>
             </div>
+            {userInfo && userInfo.farScore !== null && (
+              <p style={{ 
+                fontSize: '16px', 
+                color: 'white', 
+                margin: 0
+              }}>
+                Farscore: {userInfo.farScore.toFixed(2)}
+              </p>
+            )}
           </div>
           
           {errorMessage ? (
-            <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
+            <p style={{ fontSize: '24px', color: 'red', textAlign: 'center' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
-            <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: '1fr 1fr', 
-              gap: '20px', 
-              position: 'absolute', 
-              top: '250px', 
-              left: '30px', 
-              right: '30px'
-            }}>
-              {[
-                { label: 'Moxie earned today', value: userInfo.todayEarnings },
-                { label: 'Moxie earned all-time', value: userInfo.lifetimeEarnings },
-                { label: 'Moxie in progress', value: userInfo.moxieInProcess },
-                { label: 'Moxie claimed', value: userInfo.moxieClaimed }
-              ].map((item, index) => (
-                <div key={index} style={{
-                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                  borderRadius: '15px',
-                  padding: '20px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  border: '2px solid white',
-                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-                }}>
-                  <p style={{ 
-                    fontSize: '24px', 
-                    color: 'white', 
-                    margin: '0 0 10px 0',
-                    textAlign: 'center',
-                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
-                  }}>
-                    {item.label}
-                  </p>
-                  <p style={{ 
-                    fontSize: '36px', 
-                    fontWeight: 'bold', 
-                    color: 'white',
-                    margin: 0,
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-                  }}>
-                    {Number(item.value).toFixed(2)}
-                  </p>
-                </div>
-              ))}
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+              <div style={{ width: '45%', margin: '10px', textAlign: 'center' }}>
+                <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>Moxie earned today</p>
+                <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
+                  {Number(userInfo.todayEarnings).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', margin: '10px', textAlign: 'center' }}>
+                <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>Moxie earned all-time</p>
+                <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
+                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', margin: '10px', textAlign: 'center' }}>
+                <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>Moxie in progress</p>
+                <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
+                  {Number(userInfo.moxieInProcess).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', margin: '10px', textAlign: 'center' }}>
+                <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>Moxie claimed</p>
+                <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
+                  {Number(userInfo.moxieClaimed).toFixed(2)}
+                </p>
+              </div>
             </div>
           ) : (
-            <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
+            <p style={{ fontSize: '24px', color: 'white', textAlign: 'center' }}>No user data available</p>
           )}
         </div>
       ),
@@ -370,8 +333,8 @@ app.frame('/check', async (c) => {
     return c.res({
       image: (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#f0e6fa' }}>
-          <h1 style={{ fontSize: '60px', marginBottom: '20px', color: 'black' }}>Render Error</h1>
-          <p style={{ fontSize: '50px', textAlign: 'center', color: 'black' }}>
+          <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'black' }}>Render Error</h1>
+          <p style={{ fontSize: '24px', textAlign: 'center', color: 'black' }}>
             {renderError instanceof Error ? renderError.message : 'An unknown error occurred during rendering'}
           </p>
         </div>
