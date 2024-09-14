@@ -243,7 +243,6 @@ app.frame('/check', async (c) => {
             left: '30px',
             display: 'flex',
             alignItems: 'flex-start',
-            justifyContent: 'space-between',
             width: 'calc(100% - 60px)'
           }}>
             {pfpUrl ? (
@@ -274,6 +273,7 @@ app.frame('/check', async (c) => {
               </div>
             )}
             <div style={{ 
+              marginLeft: 'auto', 
               display: 'flex', 
               flexDirection: 'column', 
               alignItems: 'flex-end'
@@ -283,7 +283,8 @@ app.frame('/check', async (c) => {
                 fontWeight: 'bold',
                 color: 'white', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                margin: '0 0 10px 0'
+                margin: '0 0 10px 0',
+                fontFamily: '"Arial Black", Gadget, sans-serif'
               }}>
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
