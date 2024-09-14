@@ -275,7 +275,7 @@ app.frame('/check', async (c) => {
             <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column' }}>
               <p style={{ 
                 fontSize: '48px', 
-                color: 'black', 
+                color: 'white', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                 margin: '0 0 10px 0'
               }}>
@@ -283,7 +283,7 @@ app.frame('/check', async (c) => {
               </p>
               <p style={{ 
                 fontSize: '24px', 
-                color: 'black', 
+                color: 'white', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                 margin: '0'
               }}>
@@ -292,7 +292,7 @@ app.frame('/check', async (c) => {
               {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
                   fontSize: '24px', 
-                  color: 'black', 
+                  color: 'white', 
                   textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                   margin: '5px 0 0 0'
                 }}>
@@ -303,19 +303,19 @@ app.frame('/check', async (c) => {
           </div>
           
           {errorMessage ? (
-            <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
+            <p style={{ fontSize: '46px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '46%', width: '100%' }}>
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
-                  fontSize: '30px', 
+                  fontSize: '24px', 
                   color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
                   Moxie earned today
                 </p>
                 <p style={{ 
-                  fontSize: '55px', 
+                  fontSize: '46px', 
                   fontWeight: 'bold', 
                   color: '#FFFFFF',
                 }}>
@@ -324,14 +324,14 @@ app.frame('/check', async (c) => {
               </div>
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
-                  fontSize: '30px', 
+                  fontSize: '24px', 
                   color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
                   Moxie earned all-time
                 </p>
                 <p style={{ 
-                  fontSize: '55px', 
+                  fontSize: '46px', 
                   fontWeight: 'bold', 
                   color: '#FFFFFF',
                 }}>
@@ -340,14 +340,14 @@ app.frame('/check', async (c) => {
               </div>
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
-                  fontSize: '30px', 
+                  fontSize: '24px', 
                   color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
                   Moxie in process
                 </p>
                 <p style={{ 
-                  fontSize: '55px', 
+                  fontSize: '46px', 
                   fontWeight: 'bold', 
                   color: '#FFFFFF',
                 }}>
@@ -356,14 +356,14 @@ app.frame('/check', async (c) => {
               </div>
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
-                  fontSize: '30px', 
+                  fontSize: '24px', 
                   color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
                   Moxie claimed
                 </p>
                 <p style={{ 
-                  fontSize: '55px', 
+                  fontSize: '46px', 
                   fontWeight: 'bold', 
                   color: '#FFFFFF',
                 }}>
@@ -483,21 +483,21 @@ app.frame('/share', async (c) => {
         
         {userInfo ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+            <p style={{ fontSize: '40px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
               {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today
             </p>
-            <p style={{ fontSize: '55px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+            <p style={{ fontSize: '40px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
               {Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time
             </p>
-            <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+            <p style={{ fontSize: '40px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
               {Number(userInfo.moxieInProcess).toFixed(2)} $MOXIE in process
             </p>
-            <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+            <p style={{ fontSize: '40px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
               {Number(userInfo.moxieClaimed).toFixed(2)} $MOXIE claimed
             </p>
           </div>
         ) : (
-          <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
+          <p style={{ fontSize: '40px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
         )}
       </div>
     ),
