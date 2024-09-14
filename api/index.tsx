@@ -259,7 +259,7 @@ app.frame('/check', async (c) => {
                   }}
                 />
               )}
-              <div>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
                   fontWeight: 'bold',
@@ -292,30 +292,19 @@ app.frame('/check', async (c) => {
             <p style={{ fontSize: '24px', color: 'red', textAlign: 'center' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-              <div style={{ width: '45%', margin: '10px', textAlign: 'center' }}>
-                <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>Moxie earned today</p>
-                <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
-                  {Number(userInfo.todayEarnings).toFixed(2)}
-                </p>
-              </div>
-              <div style={{ width: '45%', margin: '10px', textAlign: 'center' }}>
-                <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>Moxie earned all-time</p>
-                <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
-                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
-                </p>
-              </div>
-              <div style={{ width: '45%', margin: '10px', textAlign: 'center' }}>
-                <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>Moxie in progress</p>
-                <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
-                  {Number(userInfo.moxieInProcess).toFixed(2)}
-                </p>
-              </div>
-              <div style={{ width: '45%', margin: '10px', textAlign: 'center' }}>
-                <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>Moxie claimed</p>
-                <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
-                  {Number(userInfo.moxieClaimed).toFixed(2)}
-                </p>
-              </div>
+              {[
+                { label: 'Moxie earned today', value: userInfo.todayEarnings },
+                { label: 'Moxie earned all-time', value: userInfo.lifetimeEarnings },
+                { label: 'Moxie in progress', value: userInfo.moxieInProcess },
+                { label: 'Moxie claimed', value: userInfo.moxieClaimed }
+              ].map((item, index) => (
+                <div key={index} style={{ width: '45%', margin: '10px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <p style={{ fontSize: '16px', color: 'white', margin: '0 0 5px 0' }}>{item.label}</p>
+                  <p style={{ fontSize: '24px', fontWeight: 'bold', color: 'white', margin: 0 }}>
+                    {Number(item.value).toFixed(2)}
+                  </p>
+                </div>
+              ))}
             </div>
           ) : (
             <p style={{ fontSize: '24px', color: 'white', textAlign: 'center' }}>No user data available</p>
