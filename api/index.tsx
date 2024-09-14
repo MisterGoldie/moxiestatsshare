@@ -310,27 +310,18 @@ app.frame('/check', async (c) => {
               }}>
                 {Number(userInfo.lifetimeEarnings).toFixed(2)}
               </p>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%',
-                marginTop: '20px'
-              }}>
-                {Number(userInfo.moxieInProcess).toFixed(2)}
-              </p>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%',
-                marginTop: '20px'
-              }}>
-                {/* Placeholder for claimed Moxie */}
-                0.00
-              </p>
+              {Number(userInfo.moxieInProcess) > 0 && (
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                  textAlign: 'center',
+                  width: '45%',
+                  marginTop: '20px'
+                }}>
+                  {Number(userInfo.moxieInProcess).toFixed(2)}
+                </p>
+              )}
             </div>
           ) : (
             <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
