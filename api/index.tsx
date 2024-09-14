@@ -276,7 +276,7 @@
             {errorMessage ? (
               <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
             ) : userInfo ? (
-              <div style={{ display: 'flex', width: '100%', justifyContent: 'center', position: 'absolute', top: '46%' }}>
+              <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around', position: 'absolute', top: '46%' }}>
                 <p style={{ 
                   fontSize: '60px', 
                   fontWeight: 'bold', 
