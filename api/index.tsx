@@ -280,7 +280,8 @@
                 <p style={{ 
                   fontSize: '60px', 
                   fontWeight: 'bold', 
-                  color: '#FFFFFF'
+                  color: '#FFFFFF',
+                  textAlign: 'center'
                 }}>
                   {Number(userInfo.todayEarnings).toFixed(2)}
                 </p>
