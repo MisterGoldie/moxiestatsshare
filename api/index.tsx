@@ -44,6 +44,11 @@ interface AirstackApiResponse {
         processingAmount?: string;
       }>;
     };
+    moxieClaimed?: {
+      FarcasterMoxieClaimDetails?: Array<{
+        claimedAmount?: string;
+      }>;
+    };
   };
   errors?: Array<{ message: string }>;
 }
@@ -54,6 +59,7 @@ interface MoxieUserInfo {
   todayEarnings: string;
   lifetimeEarnings: string;
   moxieInProcess: string;
+  moxieClaimed: string;
   farScore: number | null;
   username: string | null;
 }
@@ -95,6 +101,13 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
           processingAmount
         }
       }
+      moxieClaimed: FarcasterMoxieClaimDetails(
+        input: {filter: {fid: {_eq: $fid}}, blockchain: ALL}
+      ) {
+        FarcasterMoxieClaimDetails {
+          claimedAmount
+        }
+      }
     }
   `;
 
@@ -124,6 +137,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
     const todayEarnings = data.data.todayEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0';
     const lifetimeEarnings = data.data.lifetimeEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0';
     const moxieInProcess = data.data.moxieInProcess?.FarcasterMoxieClaimDetails?.[0]?.processingAmount || '0';
+    const moxieClaimed = data.data.moxieClaimed?.FarcasterMoxieClaimDetails?.[0]?.claimedAmount || '0';
     const farScore = socialInfo.farcasterScore?.farScore || null;
     const username = socialInfo.profileName || null;
 
@@ -133,6 +147,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
       todayEarnings: todayEarnings,
       lifetimeEarnings: lifetimeEarnings,
       moxieInProcess: moxieInProcess,
+      moxieClaimed: moxieClaimed,
       farScore: farScore,
       username: username,
     };
@@ -310,18 +325,26 @@ app.frame('/check', async (c) => {
               }}>
                 {Number(userInfo.lifetimeEarnings).toFixed(2)}
               </p>
-              {Number(userInfo.moxieInProcess) > 0 && (
-                <p style={{ 
-                  fontSize: '60px', 
-                  fontWeight: 'bold', 
-                  color: '#FFFFFF',
-                  textAlign: 'center',
-                  width: '45%',
-                  marginTop: '20px'
-                }}>
-                  {Number(userInfo.moxieInProcess).toFixed(2)}
-                </p>
-              )}
+              <p style={{ 
+                fontSize: '60px', 
+                fontWeight: 'bold', 
+                color: '#FFFFFF',
+                textAlign: 'center',
+                width: '45%',
+                marginTop: '20px'
+              }}>
+                {Number(userInfo.moxieInProcess).toFixed(2)}
+              </p>
+              <p style={{ 
+                fontSize: '60px', 
+                fontWeight: 'bold', 
+                color: '#FFFFFF',
+                textAlign: 'center',
+                width: '45%',
+                marginTop: '20px'
+              }}>
+                {Number(userInfo.moxieClaimed).toFixed(2)}
+              </p>
             </div>
           ) : (
             <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
@@ -443,6 +466,9 @@ app.frame('/share', async (c) => {
             </p>
             <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
               {Number(userInfo.moxieInProcess).toFixed(2)} $MOXIE in process
+            </p>
+            <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              {Number(userInfo.moxieClaimed).toFixed(2)} $MOXIE claimed
             </p>
           </div>
         ) : (
