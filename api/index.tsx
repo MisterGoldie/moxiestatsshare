@@ -183,6 +183,7 @@ app.frame('/', (c) => {
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
   const { fid } = c.frameData || {};
+  const { displayName, pfpUrl } = c.var.interactor || {};
 
   if (!fid) {
     console.error('No FID found in frameData');
@@ -199,7 +200,7 @@ app.frame('/check', async (c) => {
   }
 
   let userInfo: MoxieUserInfo | null = null;
-  let errorMessage = ''; // Declare errorMessage
+  let errorMessage = '';
 
   try {
     console.log(`Fetching user info for FID: ${fid}`);
@@ -207,7 +208,7 @@ app.frame('/check', async (c) => {
     console.log('User info retrieved:', JSON.stringify(userInfo, null, 2));
   } catch (error) {
     console.error('Error in getMoxieUserInfo:', error);
-    errorMessage = error instanceof Error ? error.message : 'An unknown error occurred'; // Set errorMessage
+    errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
   const backgroundImageUrl = 'https://bafybeieym4xs7ztpetoxwf7uy7j2qmo7c6ma7lqzebrn2shzt6q7biy45q.ipfs.w3s.link/Frame%2059.png';
@@ -225,46 +226,153 @@ app.frame('/check', async (c) => {
       image: (
         <div style={{ 
           display: 'flex', 
-          justifyContent: 'center',  // Centers horizontally
-          alignItems: 'center',      // Centers vertically
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
           width: '100%', 
           height: '100%', 
           backgroundImage: `url(${backgroundImageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          position: 'relative',
-          textAlign: 'center'        // Ensures the text is centered
+          position: 'relative'
         }}>
-          {errorMessage ? ( // Handle error display with errorMessage
-            <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%' }}>
-              <h1 style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</h1>
+          <div style={{
+            position: 'absolute',
+            top: '30px',
+            left: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%'
+          }}>
+            {pfpUrl ? (
+              <img 
+                src={pfpUrl} 
+                alt="Profile" 
+                style={{ 
+                  width: '200px', 
+                  height: '200px', 
+                  borderRadius: '50%',
+                  border: '3px solid black'
+                }}
+              />
+            ) : (
+              <div style={{ 
+                width: '200px', 
+                height: '200px', 
+                borderRadius: '50%', 
+                backgroundColor: '#ccc', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                border: '3px solid black',
+                fontSize: '72px',
+                color: '#333'
+              }}>
+                {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
+              </div>
+            )}
+            <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column' }}>
+              <p style={{ 
+                fontSize: '48px', 
+                color: 'black', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                margin: '0 0 10px 0'
+              }}>
+                @{userInfo?.username || displayName || 'Unknown'}
+              </p>
+              <p style={{ 
+                fontSize: '24px', 
+                color: 'black', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                margin: '0'
+              }}>
+                FID: {fid}
+              </p>
+              {userInfo && userInfo.farScore !== null && (
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: 'black', 
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                  margin: '5px 0 0 0'
+                }}>
+                  Farscore: {userInfo.farScore.toFixed(2)}
+                </p>
+              )}
+            </div>
+          </div>
+          
+          {errorMessage ? (
+            <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
+          ) : userInfo ? (
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '46%', width: '100%' }}>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '30px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie earned today
+                </p>
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.todayEarnings).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '30px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie earned all-time
+                </p>
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '30px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie in process
+                </p>
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.moxieInProcess).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '30px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie claimed
+                </p>
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.moxieClaimed).toFixed(2)}
+                </p>
+              </div>
             </div>
           ) : (
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',  // Centers the content in both directions
-              width: '100%'                         // Ensures it spans the entire width
-            }}>
-              <div style={{ marginBottom: '20px' }}>
-                <p style={{ fontSize: '30px', color: '#FFFFFF' }}>Moxie earned today</p>
-                <p style={{ fontSize: '60px', fontWeight: 'bold', color: '#FFFFFF' }}>{userInfo ? Number(userInfo.todayEarnings).toFixed(2) : '0.00'}</p>
-              </div>
-              <div style={{ marginBottom: '20px' }}>
-                <p style={{ fontSize: '30px', color: '#FFFFFF' }}>Moxie earned all-time</p>
-                <p style={{ fontSize: '60px', fontWeight: 'bold', color: '#FFFFFF' }}>{userInfo ? Number(userInfo.lifetimeEarnings).toFixed(2) : '0.00'}</p>
-              </div>
-              <div style={{ marginBottom: '20px' }}>
-                <p style={{ fontSize: '30px', color: '#FFFFFF' }}>Moxie in process</p>
-                <p style={{ fontSize: '60px', fontWeight: 'bold', color: '#FFFFFF' }}>{userInfo ? Number(userInfo.moxieInProcess).toFixed(2) : '0.00'}</p>
-              </div>
-              <div>
-                <p style={{ fontSize: '30px', color: '#FFFFFF' }}>Moxie claimed</p>
-                <p style={{ fontSize: '60px', fontWeight: 'bold', color: '#FFFFFF' }}>{userInfo ? Number(userInfo.moxieClaimed).toFixed(2) : '0.00'}</p>
-              </div>
-            </div>
+            <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
           )}
         </div>
       ),
@@ -292,9 +400,6 @@ app.frame('/check', async (c) => {
     });
   }
 });
-
-
-
 
 app.frame('/share', async (c) => {
   const fid = c.req.query('fid');
