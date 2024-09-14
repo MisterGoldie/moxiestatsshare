@@ -307,7 +307,7 @@ app.frame('/check', async (c) => {
             <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '46%', width: '100%' }}>
-              <div style={{ width: '45%', textAlign: 'center' }}>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '30px', 
                   color: '#FFFFFF',
@@ -323,7 +323,7 @@ app.frame('/check', async (c) => {
                   {Number(userInfo.todayEarnings).toFixed(2)}
                 </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center' }}>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '30px', 
                   color: '#FFFFFF',
@@ -339,7 +339,7 @@ app.frame('/check', async (c) => {
                   {Number(userInfo.lifetimeEarnings).toFixed(2)}
                 </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px' }}>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '30px', 
                   color: '#FFFFFF',
@@ -355,7 +355,7 @@ app.frame('/check', async (c) => {
                   {Number(userInfo.moxieInProcess).toFixed(2)}
                 </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px' }}>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '30px', 
                   color: '#FFFFFF',
