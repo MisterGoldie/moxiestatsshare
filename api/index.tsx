@@ -307,44 +307,70 @@ app.frame('/check', async (c) => {
             <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '46%', width: '100%' }}>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%'
-              }}>
-                {Number(userInfo.todayEarnings).toFixed(2)}
-              </p>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%'
-              }}>
-                {Number(userInfo.lifetimeEarnings).toFixed(2)}
-              </p>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%',
-                marginTop: '20px'
-              }}>
-                {Number(userInfo.moxieInProcess).toFixed(2)}
-              </p>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%',
-                marginTop: '20px'
-              }}>
-                {Number(userInfo.moxieClaimed).toFixed(2)}
-              </p>
+              <div style={{ width: '45%', textAlign: 'center' }}>
+                <p style={{ 
+                  fontSize: '30px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie earned today
+                </p>
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.todayEarnings).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center' }}>
+                <p style={{ 
+                  fontSize: '30px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie earned all-time
+                </p>
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px' }}>
+                <p style={{ 
+                  fontSize: '30px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie in process
+                </p>
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.moxieInProcess).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px' }}>
+                <p style={{ 
+                  fontSize: '30px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie claimed
+                </p>
+                <p style={{ 
+                  fontSize: '60px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.moxieClaimed).toFixed(2)}
+                </p>
+              </div>
             </div>
           ) : (
             <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
