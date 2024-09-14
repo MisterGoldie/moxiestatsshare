@@ -231,18 +231,20 @@ app.frame('/check', async (c) => {
             textAlign: 'center',
           }}
         >
-          <div style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
-            @{userInfo?.username || displayName || 'Unknown'}
-          </div>
-          <div style={{ fontSize: '18px', marginBottom: '20px' }}>
-            {fid ? `FID: ${fid}` : 'FID: Unknown'} 
-            {userInfo?.farScore !== null && userInfo?.farScore !== undefined && 
-              ` | Farscore: ${userInfo.farScore.toFixed(2)}`}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '10px' }}>
+              @{userInfo?.username || displayName || 'Unknown'}
+            </div>
+            <div style={{ fontSize: '18px', marginBottom: '20px' }}>
+              {fid ? `FID: ${fid}` : 'FID: Unknown'} 
+              {userInfo?.farScore !== null && userInfo?.farScore !== undefined && 
+                ` | Farscore: ${userInfo.farScore.toFixed(2)}`}
+            </div>
           </div>
           {errorMessage ? (
             <div style={{ fontSize: '20px', color: 'red' }}>{errorMessage}</div>
           ) : userInfo ? (
-            <>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <div style={{ fontSize: '20px', marginBottom: '10px' }}>
                 Today: {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE
               </div>
@@ -255,7 +257,7 @@ app.frame('/check', async (c) => {
               <div style={{ fontSize: '20px' }}>
                 Claimed: {Number(userInfo.moxieClaimed).toFixed(2)} $MOXIE
               </div>
-            </>
+            </div>
           ) : (
             <div style={{ fontSize: '20px' }}>No user data available</div>
           )}
