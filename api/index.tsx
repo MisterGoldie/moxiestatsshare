@@ -274,7 +274,7 @@ app.frame('/check', async (c) => {
             )}
             <div style={{ marginLeft: 'auto', marginRight: '30px', display: 'flex', flexDirection: 'column' }}>
               <p style={{ 
-                fontSize: '48px', 
+                fontSize: '72px', 
                 color: 'white', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                 margin: '0 0 10px 0'
