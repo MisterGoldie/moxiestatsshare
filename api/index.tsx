@@ -227,93 +227,90 @@ app.frame('/check', async (c) => {
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
           width: '100%', 
           height: '100%', 
           backgroundImage: `url(${backgroundImageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          position: 'relative',
-          fontFamily: 'Arial, sans-serif',
+          position: 'relative'
         }}>
-          {/* Profile Picture */}
           <div style={{
             position: 'absolute',
             top: '30px',
             left: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%'
           }}>
             {pfpUrl ? (
               <img 
                 src={pfpUrl} 
                 alt="Profile" 
                 style={{ 
-                  width: '150px', 
-                  height: '150px', 
+                  width: '200px', 
+                  height: '200px', 
                   borderRadius: '50%',
-                  border: '3px solid white'
+                  border: '3px solid black'
                 }}
               />
             ) : (
               <div style={{ 
-                width: '150px', 
-                height: '150px', 
+                width: '200px', 
+                height: '200px', 
                 borderRadius: '50%', 
                 backgroundColor: '#ccc', 
                 display: 'flex', 
                 alignItems: 'center', 
                 justifyContent: 'center',
-                border: '3px solid white',
+                border: '3px solid black',
                 fontSize: '72px',
                 color: '#333'
               }}>
                 {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
               </div>
             )}
-          </div>
-
-          {/* Username and User Info */}
-          <div style={{
-            position: 'absolute',
-            top: '30px',
-            right: '30px',
-            textAlign: 'right',
-            width: '60%'
-          }}>
-            <p style={{ 
-              fontSize: '72px', 
-              fontWeight: 'bold',
-              color: 'white', 
-              textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-              margin: '0 0 10px 0'
-            }}>
-              @{userInfo?.username || displayName || 'Unknown'}
-            </p>
-            <p style={{ 
-              fontSize: '24px', 
-              color: 'white', 
-              textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-              margin: '0'
-            }}>
-              FID: {fid}
-            </p>
-            {userInfo && userInfo.farScore !== null && (
+            <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column' }}>
+              <p style={{ 
+                fontSize: '72px', 
+                fontWeight: 'bold',
+                color: 'white', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                margin: '0 0 10px 0',
+                position: 'absolute',
+                right: '30px',
+                top: '30px'
+              }}>
+                @{userInfo?.username || displayName || 'Unknown'}
+              </p>
               <p style={{ 
                 fontSize: '24px', 
                 color: 'white', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                margin: '5px 0 0 0'
+                margin: '0'
               }}>
-                Farscore: {userInfo.farScore.toFixed(2)}
+                FID: {fid}
               </p>
-            )}
+              {userInfo && userInfo.farScore !== null && (
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: 'white', 
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                  margin: '5px 0 0 0'
+                }}>
+                  Farscore: {userInfo.farScore.toFixed(2)}
+                </p>
+              )}
+            </div>
           </div>
           
-          {/* Moxie Stats */}
           {errorMessage ? (
-            <p style={{ fontSize: '46px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)', textAlign: 'center', marginTop: '200px' }}>Error: {errorMessage}</p>
+            <p style={{ fontSize: '46px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '250px', width: '100%' }}>
-              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '46%', width: '100%' }}>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
                   color: '#FFFFFF',
@@ -329,7 +326,7 @@ app.frame('/check', async (c) => {
                   {Number(userInfo.todayEarnings).toFixed(2)}
                 </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column', marginBottom: '20px' }}>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
                   color: '#FFFFFF',
@@ -345,7 +342,7 @@ app.frame('/check', async (c) => {
                   {Number(userInfo.lifetimeEarnings).toFixed(2)}
                 </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
                   color: '#FFFFFF',
@@ -361,7 +358,7 @@ app.frame('/check', async (c) => {
                   {Number(userInfo.moxieInProcess).toFixed(2)}
                 </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
                   color: '#FFFFFF',
@@ -379,7 +376,7 @@ app.frame('/check', async (c) => {
               </div>
             </div>
           ) : (
-            <p style={{ fontSize: '55px', color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.5)', textAlign: 'center', marginTop: '200px' }}>No user data available</p>
+            <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
           )}
         </div>
       ),
