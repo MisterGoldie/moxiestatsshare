@@ -211,7 +211,7 @@ app.frame('/check', async (c) => {
     errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const backgroundImageUrl = 'https://bafybeiceigwyc2vpzozsn2znyslzwytp47cvi7agdeh545r26qy2qrzmb4.ipfs.w3s.link/Frame%2059%20(1).png';
+  const backgroundImageUrl = 'https://bafybeib5s3bessybhkjwbqqiuy2ly6behwabr3mcmaze3b2bos25cs2bfa.ipfs.w3s.link/Frame%2059%20(2).png';
 
   const shareText = userInfo 
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
@@ -434,7 +434,7 @@ app.frame('/share', async (c) => {
     console.error('Error fetching user info:', error);
   }
 
-  const backgroundImageUrl = 'https://bafybeiceigwyc2vpzozsn2znyslzwytp47cvi7agdeh545r26qy2qrzmb4.ipfs.w3s.link/Frame%2059%20(1).png';
+  const backgroundImageUrl = 'https://bafybeib5s3bessybhkjwbqqiuy2ly6behwabr3mcmaze3b2bos25cs2bfa.ipfs.w3s.link/Frame%2059%20(2).png';
 
   return c.res({
     image: (
