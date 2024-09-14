@@ -315,7 +315,7 @@ app.frame('/check', async (c) => {
                   Moxie earned today
                 </p>
                 <p style={{ 
-                  fontSize: '60px', 
+                  fontSize: '45px', 
                   fontWeight: 'bold', 
                   color: '#000000',
                 }}>
@@ -331,7 +331,7 @@ app.frame('/check', async (c) => {
                   Moxie earned all-time
                 </p>
                 <p style={{ 
-                  fontSize: '50px', 
+                  fontSize: '45px', 
                   fontWeight: 'bold', 
                   color: '#000000',
                 }}>
@@ -347,7 +347,7 @@ app.frame('/check', async (c) => {
                   Moxie in process
                 </p>
                 <p style={{ 
-                  fontSize: '50px', 
+                  fontSize: '45px', 
                   fontWeight: 'bold', 
                   color: '#000000',
                 }}>
@@ -363,7 +363,7 @@ app.frame('/check', async (c) => {
                   Moxie claimed
                 </p>
                 <p style={{ 
-                  fontSize: '50px', 
+                  fontSize: '45px', 
                   fontWeight: 'bold', 
                   color: '#000000',
                 }}>
