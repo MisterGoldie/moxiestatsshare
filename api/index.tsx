@@ -242,8 +242,9 @@ app.frame('/check', async (c) => {
             top: '30px',
             left: '30px',
             display: 'flex',
-            alignItems: 'center',
-            width: '100%'
+            alignItems: 'flex-start',
+            justifyContent: 'space-between',
+            width: 'calc(100% - 60px)'
           }}>
             {pfpUrl ? (
               <img 
@@ -272,16 +273,17 @@ app.frame('/check', async (c) => {
                 {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
               </div>
             )}
-            <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'flex-end'
+            }}>
               <p style={{ 
                 fontSize: '72px', 
                 fontWeight: 'bold',
                 color: 'white', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                margin: '0 0 10px 0',
-                position: 'absolute',
-                right: '30px',
-                top: '30px'
+                margin: '0 0 10px 0'
               }}>
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
