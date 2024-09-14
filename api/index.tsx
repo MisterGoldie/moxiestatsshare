@@ -236,7 +236,8 @@ app.frame('/check', async (c) => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          position: 'relative'
+          position: 'relative',
+          fontFamily: 'Arial, sans-serif',
         }}>
           <div style={{
             position: 'absolute',
@@ -244,23 +245,23 @@ app.frame('/check', async (c) => {
             left: '30px',
             display: 'flex',
             alignItems: 'center',
-            width: '100%'
+            width: 'calc(100% - 60px)',
           }}>
             {pfpUrl ? (
               <img 
                 src={pfpUrl} 
                 alt="Profile" 
                 style={{ 
-                  width: '200px', 
-                  height: '200px', 
+                  width: '150px', 
+                  height: '150px', 
                   borderRadius: '50%',
                   border: '3px solid black'
                 }}
               />
             ) : (
               <div style={{ 
-                width: '200px', 
-                height: '200px', 
+                width: '150px', 
+                height: '150px', 
                 borderRadius: '50%', 
                 backgroundColor: '#ccc', 
                 display: 'flex', 
@@ -273,7 +274,7 @@ app.frame('/check', async (c) => {
                 {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
               </div>
             )}
-            <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column' }}>
+            <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
               <p style={{ 
                 fontSize: '48px', 
                 color: 'black', 
@@ -306,45 +307,52 @@ app.frame('/check', async (c) => {
           {errorMessage ? (
             <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '46%', width: '100%' }}>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%'
-              }}>
-                {Number(userInfo.todayEarnings).toFixed(2)}
-              </p>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%'
-              }}>
-                {Number(userInfo.lifetimeEarnings).toFixed(2)}
-              </p>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%',
-                marginTop: '20px'
-              }}>
-                {Number(userInfo.moxieInProcess).toFixed(2)}
-              </p>
-              <p style={{ 
-                fontSize: '60px', 
-                fontWeight: 'bold', 
-                color: '#FFFFFF',
-                textAlign: 'center',
-                width: '45%',
-                marginTop: '20px'
-              }}>
-                {Number(userInfo.moxieClaimed).toFixed(2)}
-              </p>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: '1fr 1fr', 
+              gap: '20px', 
+              position: 'absolute', 
+              top: '250px', 
+              left: '30px', 
+              right: '30px'
+            }}>
+              {[
+                { label: 'Moxie earned today', value: userInfo.todayEarnings },
+                { label: 'Moxie earned all-time', value: userInfo.lifetimeEarnings },
+                { label: 'Moxie in progress', value: userInfo.moxieInProcess },
+                { label: 'Moxie claimed', value: userInfo.moxieClaimed }
+              ].map((item, index) => (
+                <div key={index} style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.2)',
+                  borderRadius: '15px',
+                  padding: '20px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  border: '2px solid white',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                }}>
+                  <p style={{ 
+                    fontSize: '24px', 
+                    color: 'white', 
+                    margin: '0 0 10px 0',
+                    textAlign: 'center',
+                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)'
+                  }}>
+                    {item.label}
+                  </p>
+                  <p style={{ 
+                    fontSize: '36px', 
+                    fontWeight: 'bold', 
+                    color: 'white',
+                    margin: 0,
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                  }}>
+                    {Number(item.value).toFixed(2)}
+                  </p>
+                </div>
+              ))}
             </div>
           ) : (
             <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
