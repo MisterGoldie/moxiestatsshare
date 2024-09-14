@@ -243,7 +243,7 @@
                   {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
                 </div>
               )}
-              <div style={{ marginLeft: '20px' }}>
+              <div style={{ marginLeft: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '48px', 
                   color: 'black', 
@@ -276,12 +276,8 @@
             {errorMessage ? (
               <p style={{ fontSize: '55px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
             ) : userInfo ? (
-              <>
+              <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around', position: 'absolute', top: '46%' }}>
                 <p style={{ 
-                  position: 'absolute', 
-                  top: '46%', 
-                  left: '23%', 
-                  transform: 'translate(-50%, -50%)', 
                   fontSize: '60px', 
                   fontWeight: 'bold', 
                   color: '#FFFFFF'
@@ -289,17 +285,13 @@
                   {Number(userInfo.todayEarnings).toFixed(2)}
                 </p>
                 <p style={{ 
-                  position: 'absolute', 
-                  top: '46%', 
-                  left: '69%', 
-                  transform: 'translate(-50%, -50%)', 
                   fontSize: '60px', 
                   fontWeight: 'bold', 
                   color: '#FFFFFF'
                 }}>
                   {Number(userInfo.lifetimeEarnings).toFixed(2)}
                 </p>
-              </>
+              </div>
             ) : (
               <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
             )}
