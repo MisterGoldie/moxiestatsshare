@@ -211,64 +211,66 @@
             <div style={{
               position: 'absolute',
               top: '30px',
-              left: '20px',
+              left: '30px',
               display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
+              alignItems: 'center',
+              width: '100%'
             }}>
               {pfpUrl ? (
                 <img 
                   src={pfpUrl} 
                   alt="Profile" 
                   style={{ 
-                    width: '250px', 
-                    height: '250px', 
+                    width: '200px', 
+                    height: '200px', 
                     borderRadius: '50%',
                     border: '3px solid black'
                   }}
                 />
               ) : (
                 <div style={{ 
-                  width: '250px', 
-                  height: '250px', 
+                  width: '200px', 
+                  height: '200px', 
                   borderRadius: '50%', 
                   backgroundColor: '#ccc', 
                   display: 'flex', 
                   alignItems: 'center', 
                   justifyContent: 'center',
                   border: '3px solid black',
-                  fontSize: '90px',
+                  fontSize: '72px',
                   color: '#333'
                 }}>
                   {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
                 </div>
               )}
-              <p style={{ 
-                fontSize: '25px', 
-                marginTop: '10px', 
-                color: 'black', 
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-              }}>
-                @{userInfo?.username || displayName || 'Unknown'}
-              </p>
-              <p style={{ 
-                fontSize: '25px', 
-                marginTop: '5px', 
-                color: 'black', 
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-              }}>
-                FID: {fid}
-              </p>
-              {userInfo && userInfo.farScore !== null && (
+              <div style={{ marginLeft: '20px' }}>
                 <p style={{ 
-                  fontSize: '25px', 
-                  marginTop: '5px', 
+                  fontSize: '48px', 
                   color: 'black', 
-                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                  margin: '0 0 10px 0'
                 }}>
-                  Farscore: {userInfo.farScore.toFixed(2)}
+                  @{userInfo?.username || displayName || 'Unknown'}
                 </p>
-              )}
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: 'black', 
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                  margin: '0'
+                }}>
+                  FID: {fid}
+                </p>
+                {userInfo && userInfo.farScore !== null && (
+                  <p style={{ 
+                    fontSize: '24px', 
+                    color: 'black', 
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                    margin: '5px 0 0 0'
+                  }}>
+                    Farscore: {userInfo.farScore.toFixed(2)}
+                  </p>
+                )}
+              </div>
             </div>
             
             {errorMessage ? (
