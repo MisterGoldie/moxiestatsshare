@@ -272,7 +272,7 @@ app.frame('/check', async (c) => {
                 {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
               </div>
             )}
-            <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+            <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <p style={{ 
                 fontSize: '72px', 
                 color: 'white', 
@@ -281,95 +281,65 @@ app.frame('/check', async (c) => {
               }}>
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
-              <p style={{ 
-                fontSize: '24px', 
-                color: 'white', 
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                margin: '0'
-              }}>
-                FID: {fid}
-              </p>
-              {userInfo && userInfo.farScore !== null && (
+              <div>
                 <p style={{ 
                   fontSize: '24px', 
                   color: 'white', 
                   textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                  margin: '5px 0 0 0'
+                  margin: '0'
                 }}>
-                  Farscore: {userInfo.farScore.toFixed(2)}
+                  FID: {fid}
                 </p>
-              )}
+                {userInfo && userInfo.farScore !== null && (
+                  <p style={{ 
+                    fontSize: '24px', 
+                    color: 'white', 
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                    margin: '5px 0 0 0'
+                  }}>
+                    Farscore: {userInfo.farScore.toFixed(2)}
+                  </p>
+                )}
+              </div>
             </div>
           </div>
           
           {errorMessage ? (
             <p style={{ fontSize: '46px', color: 'red', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
-            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', position: 'absolute', top: '46%', width: '100%' }}>
-              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-                <p style={{ 
-                  fontSize: '24px', 
-                  color: '#FFFFFF',
-                  marginBottom: '10px'
-                }}>
-                  Moxie earned today
-                </p>
-                <p style={{ 
-                  fontSize: '46px', 
-                  fontWeight: 'bold', 
-                  color: '#FFFFFF',
-                }}>
-                  {Number(userInfo.todayEarnings).toFixed(2)}
-                </p>
-              </div>
-              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-                <p style={{ 
-                  fontSize: '24px', 
-                  color: '#FFFFFF',
-                  marginBottom: '10px'
-                }}>
-                  Moxie earned all-time
-                </p>
-                <p style={{ 
-                  fontSize: '46px', 
-                  fontWeight: 'bold', 
-                  color: '#FFFFFF',
-                }}>
-                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
-                </p>
-              </div>
-              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
-                <p style={{ 
-                  fontSize: '24px', 
-                  color: '#FFFFFF',
-                  marginBottom: '10px'
-                }}>
-                  Moxie in process
-                </p>
-                <p style={{ 
-                  fontSize: '46px', 
-                  fontWeight: 'bold', 
-                  color: '#FFFFFF',
-                }}>
-                  {Number(userInfo.moxieInProcess).toFixed(2)}
-                </p>
-              </div>
-              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
-                <p style={{ 
-                  fontSize: '24px', 
-                  color: '#FFFFFF',
-                  marginBottom: '10px'
-                }}>
-                  Moxie claimed
-                </p>
-                <p style={{ 
-                  fontSize: '46px', 
-                  fontWeight: 'bold', 
-                  color: '#FFFFFF',
-                }}>
-                  {Number(userInfo.moxieClaimed).toFixed(2)}
-                </p>
-              </div>
+            <div style={{ 
+              display: 'flex', 
+              flexWrap: 'wrap', 
+              justifyContent: 'center', 
+              position: 'absolute', 
+              top: '50%', 
+              left: '50%', 
+              transform: 'translate(-50%, -50%)', 
+              width: '80%' 
+            }}>
+              {[
+                { label: 'Moxie earned today', value: userInfo.todayEarnings },
+                { label: 'Moxie earned all-time', value: userInfo.lifetimeEarnings },
+                { label: 'Moxie in process', value: userInfo.moxieInProcess },
+                { label: 'Moxie claimed', value: userInfo.moxieClaimed }
+              ].map((item, index) => (
+                <div key={index} style={{ width: '40%', textAlign: 'center', margin: '10px' }}>
+                  <p style={{ 
+                    fontSize: '24px', 
+                    color: '#FFFFFF',
+                    marginBottom: '10px'
+                  }}>
+                    {item.label}
+                  </p>
+                  <p style={{ 
+                    fontSize: '46px', 
+                    fontWeight: 'bold', 
+                    color: '#FFFFFF',
+                  }}>
+                    {Number(item.value).toFixed(2)}
+                  </p>
+                </div>
+              ))}
             </div>
           ) : (
             <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
