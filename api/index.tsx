@@ -446,13 +446,6 @@ app.frame('/share', async (c) => {
 
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
 
-  const shareText = userInfo 
-    ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
-    : 'Check your @moxie.eth stats on Farcaster!';
-  
-  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}`;
-  const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
-
   return c.res({
     image: (
       <div style={{ 
@@ -519,9 +512,7 @@ app.frame('/share', async (c) => {
       </div>
     ),
     intents: [
-      <Button action="/check">Check Your Stats</Button>,
-      <Button.Link href={farcasterShareURL}>Share</Button.Link> // This button now shares both text and the link
-    ]
+      <Button action="/check">Check Your Stats</Button>,    ]
   });
 });
 
