@@ -166,17 +166,24 @@ app.frame('/', (c) => {
         display: 'flex',
         width: '100%',
         height: '100%',
-        background: `url(${gifUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}></div>
+        overflow: 'hidden',
+      }}>
+        <img 
+          src={gifUrl} 
+          alt="Animated background"
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      </div>
     ),
     intents: [
       <Button action="/check">Check stats</Button>,
     ],
   });
 });
-
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
