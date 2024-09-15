@@ -275,7 +275,7 @@ app.frame('/check', async (c) => {
             <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <p style={{ 
                 fontSize: '72px', 
-                color: 'white', 
+                color: 'black', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                 margin: '0 0 10px 0'
               }}>
@@ -283,7 +283,7 @@ app.frame('/check', async (c) => {
               </p>
               <p style={{ 
                 fontSize: '24px', 
-                color: 'white', 
+                color: 'black', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                 margin: '0'
               }}>
@@ -292,7 +292,7 @@ app.frame('/check', async (c) => {
               {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
                   fontSize: '24px', 
-                  color: 'white', 
+                  color: 'black', 
                   textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                   margin: '5px 0 0 0'
                 }}>
@@ -318,7 +318,7 @@ app.frame('/check', async (c) => {
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
-                  color: '#FFFFFF',
+                  color: '#000000',
                   marginBottom: '10px'
                 }}>
                   Moxie earned today
@@ -326,7 +326,7 @@ app.frame('/check', async (c) => {
                 <p style={{ 
                   fontSize: '46px', 
                   fontWeight: 'bold', 
-                  color: '#FFFFFF',
+                  color: '#000000',
                 }}>
                   {Number(userInfo.todayEarnings).toFixed(2)}
                 </p>
@@ -334,7 +334,7 @@ app.frame('/check', async (c) => {
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
-                  color: '#FFFFFF',
+                  color: '#000000',
                   marginBottom: '10px'
                 }}>
                   Moxie earned all-time
@@ -342,7 +342,7 @@ app.frame('/check', async (c) => {
                 <p style={{ 
                   fontSize: '46px', 
                   fontWeight: 'bold', 
-                  color: '#FFFFFF',
+                  color: '#000000',
                 }}>
                   {Number(userInfo.lifetimeEarnings).toFixed(2)}
                 </p>
@@ -350,7 +350,7 @@ app.frame('/check', async (c) => {
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
-                  color: '#FFFFFF',
+                  color: '#000000',
                   marginBottom: '10px'
                 }}>
                   Moxie in process
@@ -358,7 +358,7 @@ app.frame('/check', async (c) => {
                 <p style={{ 
                   fontSize: '46px', 
                   fontWeight: 'bold', 
-                  color: '#FFFFFF',
+                  color: '#000000',
                 }}>
                   {Number(userInfo.moxieInProcess).toFixed(2)}
                 </p>
@@ -366,7 +366,7 @@ app.frame('/check', async (c) => {
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '24px', 
-                  color: '#FFFFFF',
+                  color: '#000000',
                   marginBottom: '10px'
                 }}>
                   Moxie claimed
@@ -374,7 +374,7 @@ app.frame('/check', async (c) => {
                 <p style={{ 
                   fontSize: '46px', 
                   fontWeight: 'bold', 
-                  color: '#FFFFFF',
+                  color: '#000000',
                 }}>
                   {Number(userInfo.moxieClaimed).toFixed(2)}
                 </p>
