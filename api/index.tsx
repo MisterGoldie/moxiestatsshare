@@ -242,7 +242,7 @@ app.frame('/check', async (c) => {
             top: '30px',
             left: '30px',
             display: 'flex',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             width: '100%'
           }}>
             {pfpUrl ? (
@@ -272,13 +272,7 @@ app.frame('/check', async (c) => {
                 {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
               </div>
             )}
-            <div style={{ 
-              marginLeft: 'auto', 
-              marginRight: '60px', 
-              display: 'flex', 
-              flexDirection: 'column',
-              alignItems: 'center'
-            }}>
+            <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column' }}>
               <p style={{ 
                 fontSize: '72px', 
                 color: 'white', 
@@ -287,30 +281,24 @@ app.frame('/check', async (c) => {
               }}>
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
+              <p style={{ 
+                fontSize: '24px', 
+                color: 'white', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                margin: '0'
               }}>
+                FID: {fid}
+              </p>
+              {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
                   fontSize: '24px', 
                   color: 'white', 
                   textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                  margin: '0'
+                  margin: '5px 0 0 0'
                 }}>
-                  FID: {fid}
+                  Farscore: {userInfo.farScore.toFixed(2)}
                 </p>
-                {userInfo && userInfo.farScore !== null && (
-                  <p style={{ 
-                    fontSize: '24px', 
-                    color: 'white', 
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                    margin: '5px 0 0 0'
-                  }}>
-                    Farscore: {userInfo.farScore.toFixed(2)}
-                  </p>
-                )}
-              </div>
+              )}
             </div>
           </div>
           
