@@ -317,7 +317,7 @@ app.frame('/check', async (c) => {
             }}>
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
-                  fontSize: '24px', 
+                  fontSize: '28px', 
                   color: '#000000',
                   marginBottom: '10px'
                 }}>
@@ -333,7 +333,7 @@ app.frame('/check', async (c) => {
               </div>
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
-                  fontSize: '24px', 
+                  fontSize: '28px', 
                   color: '#000000',
                   marginBottom: '10px'
                 }}>
@@ -349,7 +349,7 @@ app.frame('/check', async (c) => {
               </div>
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
-                  fontSize: '24px', 
+                  fontSize: '28px', 
                   color: '#000000',
                   marginBottom: '10px'
                 }}>
@@ -365,7 +365,7 @@ app.frame('/check', async (c) => {
               </div>
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
-                  fontSize: '24px', 
+                  fontSize: '28px', 
                   color: '#000000',
                   marginBottom: '10px'
                 }}>
