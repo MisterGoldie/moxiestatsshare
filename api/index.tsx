@@ -276,7 +276,7 @@ app.frame('/check', async (c) => {
             <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <p style={{ 
                 fontSize: '72px', 
-                color: 'black', 
+                color: 'white', 
                 margin: '0 0 10px 0',
                 fontWeight: 'bold'
               }}>
@@ -284,7 +284,7 @@ app.frame('/check', async (c) => {
               </p>
               <p style={{ 
                 fontSize: '24px', 
-                color: 'black', 
+                color: 'white', 
                 margin: '0',
                 fontWeight: 'bold'
               }}>
@@ -293,7 +293,7 @@ app.frame('/check', async (c) => {
               {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
                   fontSize: '24px', 
-                  color: 'black', 
+                  color: 'white', 
                   margin: '5px 0 0 0',
                   fontWeight: 'bold'
                 }}>
