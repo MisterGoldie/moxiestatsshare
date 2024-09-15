@@ -162,7 +162,7 @@ app.frame('/', (c) => {
     image: (
       <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
         <img 
-          src="https://media.giphy.com/media/32ou4q9dHMFynb1jjF/giphy.gif"
+          src="https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif"
           alt="Animated GIF"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
