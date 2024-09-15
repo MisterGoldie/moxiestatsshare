@@ -633,6 +633,11 @@ app.frame('/share', async (c) => {
       ),
       intents: [
         <Button action="/">Back</Button>,
+        <Button.Link 
+        href={farcasterShareURL}
+      >
+        Share
+      </Button.Link>,  // This button now shares both text and the link
         <Button action="/check">Retry</Button>
       ]
     });
