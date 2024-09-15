@@ -158,7 +158,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 app.frame('/', (c) => {
-  const backgroundImageUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
+  const videoUrl = 'https://bafybeihg4caiabydvgrp7nkyfrtakh47f75geae5goz5qiusttn34u4q7m.ipfs.w3s.link/720p_Match_Framerate.MP4';
   
   return c.res({
     image: (
@@ -171,10 +171,14 @@ app.frame('/', (c) => {
         height: '100%',
         position: 'relative',
         overflow: 'hidden',
+        backgroundColor: '#1DA1F2', // Fallback background color
       }}>
-        <img 
-          src={backgroundImageUrl} 
-          alt="Animated Background" 
+        <video
+          src={videoUrl}
+          autoPlay
+          loop
+          muted
+          playsInline
           style={{
             position: 'absolute',
             top: 0,
@@ -184,26 +188,26 @@ app.frame('/', (c) => {
             objectFit: 'cover',
           }}
         />
-        <h1 style={{
-          fontSize: '48px',
+        <div style={{
+          position: 'relative',
+          zIndex: 1,
+          textAlign: 'center',
           color: 'white',
           textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-          zIndex: 1,
-          textAlign: 'center',
-          marginBottom: '20px',
         }}>
-          $MOXIE Earnings Tracker
-        </h1>
-        <p style={{
-          fontSize: '24px',
-          color: 'white',
-          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
-          zIndex: 1,
-          textAlign: 'center',
-          marginBottom: '40px',
-        }}>
-          Check your Moxie stats and earnings!
-        </p>
+          <h1 style={{
+            fontSize: '48px',
+            marginBottom: '20px',
+          }}>
+            $MOXIE Earnings Tracker
+          </h1>
+          <p style={{
+            fontSize: '24px',
+            marginBottom: '40px',
+          }}>
+            Check your Moxie stats and earnings!
+          </p>
+        </div>
       </div>
     ),
     intents: [
