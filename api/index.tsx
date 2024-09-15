@@ -163,7 +163,7 @@ app.frame('/', (c) => {
   return c.res({
     image: (
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <img src={gifUrl} alt="Animated background" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={gifUrl} alt="Animated GIF" style={{ width: '100%', height: '100%' }} />
       </div>
     ),
     intents: [
