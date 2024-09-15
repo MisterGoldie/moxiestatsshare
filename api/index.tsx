@@ -158,7 +158,8 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 async function hasUserLikedOrRecast(fid: string) {
-  const url = 'https://api.neynar.com/v2/farcaster/reactions/cast?hash=0xfe90f9de682273e05b201629ad2338bdcd89b6be&types=likes%2Crecasts&limit=100';
+  const castHash = '0xf23b288d'; // Updated cast hash
+  const url = `https://api.neynar.com/v2/farcaster/reactions/cast?hash=${castHash}&types=likes%2Crecasts&limit=100`;
   const options = {
     method: 'GET',
     headers: {accept: 'application/json', api_key: NEYNAR_API_KEY}
@@ -196,6 +197,7 @@ app.frame('/', (c) => {
     ],
   });
 });
+
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
