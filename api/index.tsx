@@ -158,60 +158,22 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 app.frame('/', (c) => {
-  const videoUrl = 'https://bafybeihg4caiabydvgrp7nkyfrtakh47f75geae5goz5qiusttn34u4q7m.ipfs.w3s.link/720p_Match_Framerate.MP4';
+  const backgroundImageUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
   
   return c.res({
     image: (
       <div style={{
         display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        position: 'relative',
-        overflow: 'hidden',
-        backgroundColor: '#1DA1F2', // Fallback background color
-      }}>
-        <video
-          src={videoUrl}
-          autoPlay
-          loop
-          muted
-          playsInline
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-        />
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          position: 'relative',
-          zIndex: 1,
-          textAlign: 'center',
-          color: 'white',
-          textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-        }}>
-          <h1 style={{
-            fontSize: '48px',
-            marginBottom: '20px',
-          }}>
-            $MOXIE Earnings Tracker
-          </h1>
-          <p style={{
-            fontSize: '24px',
-            marginBottom: '40px',
-          }}>
-            Check your Moxie stats and earnings!
-          </p>
-        </div>
-      </div>
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#1DA1F2',
+      }} />
     ),
     intents: [
       <Button action="/check">Check stats</Button>,
