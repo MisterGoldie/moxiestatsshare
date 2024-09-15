@@ -5,7 +5,7 @@ import { neynar } from 'frog/middlewares';
 
 const AIRSTACK_API_URL = 'https://api.airstack.xyz/gql';
 const AIRSTACK_API_KEY = '103ba30da492d4a7e89e7026a6d3a234e'; // Your actual API key
-
+const NEYNAR_API_KEY = '71332A9D-240D-41E0-8644-31BD70E64036';
 
 export const app = new Frog({
   basePath: '/api',
@@ -157,6 +157,22 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
   }
 }
 
+async function hasUserLikedOrRecast(fid: string) {
+  const url = 'https://api.neynar.com/v2/farcaster/reactions/cast?hash=0xfe90f9de682273e05b201629ad2338bdcd89b6be&types=likes%2Crecasts&limit=100';
+  const options = {
+    method: 'GET',
+    headers: {accept: 'application/json', api_key: NEYNAR_API_KEY}
+  };
+  try {
+    const response = await fetch(url, options);
+    const json = await response.json();
+    return json.reactions.some((reaction: { user: { fid: number } }) => reaction.user.fid.toString() === fid);
+  } catch (err) {
+    console.error('Error checking likes/recasts:', err);
+    return false;
+  }
+}
+
 app.frame('/', (c) => {
   const backgroundImageUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
   
@@ -196,6 +212,31 @@ app.frame('/check', async (c) => {
       ),
       intents: [
         <Button action="/">Back</Button>
+      ]
+    });
+  }
+
+  const hasInteracted = await hasUserLikedOrRecast(fid.toString());
+  if (!hasInteracted) {
+    return c.res({
+      image: (
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          width: '100%', 
+          height: '100%', 
+          backgroundColor: '#1DA1F2',
+          color: 'white',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <h1 style={{ fontSize: '48px', marginBottom: '20px', textAlign: 'center' }}>Like or Recast to See Your Stats!</h1>
+          <p style={{ fontSize: '24px', textAlign: 'center' }}>We appreciate your support!</p>
+        </div>
+      ),
+      intents: [
+        <Button action="/check">Check Again</Button>
       ]
     });
   }
