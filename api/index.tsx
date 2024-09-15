@@ -158,19 +158,16 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 app.frame('/', (c) => {
-  // Replace this URL with the actual Giphy embed URL you received
-  const giphyEmbedUrl = 'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdmM4Z2IyZndodXgwODBleG45MnlxeWNuOXRnY3JxNjh4ZTVvdjNzeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/32ou4q9dHMFynb1jjF/giphy.gif';
+  const giphyUrl = 'https://media.giphy.com/media/32ou4q9dHMFynb1jjF/giphy.gif';
   
   return c.res({
     image: (
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <iframe 
-          src={giphyEmbedUrl} 
-          width="100%" 
-          height="100%" 
-          style={{ border: 'none', pointerEvents: 'none' }}
-          allowFullScreen
-        ></iframe>
+        <img 
+          src={giphyUrl} 
+          alt="Animated GIF"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
       </div>
     ),
     intents: [
@@ -178,6 +175,22 @@ app.frame('/', (c) => {
     ],
   });
 });
+
+app.composerAction(
+  '/',
+  (c) => {
+    return c.res({
+      title: 'Insert GIF',
+      url: 'https://giphy.com',
+    })
+  },
+  {
+    name: 'Insert GIF',
+    description: 'Search and insert GIFs',
+    icon: 'image',
+    imageUrl: 'https://giphy.com/static/img/giphy-logo-square.png',
+  }
+)
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
