@@ -158,7 +158,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 app.frame('/', (c) => {
-  const backgroundImageUrl = 'https://bafybeifsz3woqoydly2fllyhpae7ih6f6dygdh5z2v2lft7joni5snex54.ipfs.w3s.link/Frame%2058.png';
+  const backgroundImageUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
   
   return c.res({
     image: (
