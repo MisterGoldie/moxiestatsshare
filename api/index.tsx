@@ -276,14 +276,16 @@ app.frame('/check', async (c) => {
               <p style={{ 
                 fontSize: '72px', 
                 color: 'black', 
-                margin: '0 0 10px 0'
+                margin: '0 0 10px 0',
+                fontWeight: 'bold'
               }}>
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
               <p style={{ 
                 fontSize: '24px', 
                 color: 'black', 
-                margin: '0'
+                margin: '0',
+                fontWeight: 'bold'
               }}>
                 FID: {fid}
               </p>
@@ -291,7 +293,8 @@ app.frame('/check', async (c) => {
                 <p style={{ 
                   fontSize: '24px', 
                   color: 'black', 
-                  margin: '5px 0 0 0'
+                  margin: '5px 0 0 0',
+                  fontWeight: 'bold'
                 }}>
                   Farscore: {userInfo.farScore.toFixed(2)}
                 </p>
