@@ -158,7 +158,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 app.frame('/', (c) => {
-  const backgroundImageUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
+  const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
   
   return c.res({
     image: (
@@ -168,18 +168,20 @@ app.frame('/', (c) => {
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundImage: `url(${backgroundImageUrl})`,
-        backgroundSize: 'contain',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundColor: '#1DA1F2',
-      }} />
+      }}>
+        <img src={gifUrl} alt="GIF Background" style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover', // Ensures the GIF covers the entire div
+        }} />
+      </div>
     ),
     intents: [
       <Button action="/check">Check stats</Button>,
     ],
   });
 });
+
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
