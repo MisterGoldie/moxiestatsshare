@@ -158,26 +158,19 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 }
 
 app.frame('/', (c) => {
-  // Replace this URL with the actual Giphy embed URL you received
-  const giphyEmbedUrl = 'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdmM4Z2IyZndodXgwODBleG45MnlxeWNuOXRnY3JxNjh4ZTVvdjNzeCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/32ou4q9dHMFynb1jjF/giphy.gif';
+  const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif'
   
   return c.res({
     image: (
       <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <iframe 
-          src={giphyEmbedUrl} 
-          width="100%" 
-          height="100%" 
-          style={{ border: 'none', pointerEvents: 'none' }}
-          allowFullScreen
-        ></iframe>
+        <img src={gifUrl} alt="Animated GIF" style={{ width: '100%', height: '100%' }} />
       </div>
     ),
     intents: [
       <Button action="/check">Check stats</Button>,
     ],
-  });
-});
+  })
+})
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
