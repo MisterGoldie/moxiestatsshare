@@ -157,40 +157,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
   }
 }
 
-app.frame('/', (c) => {
-  const giphyUrl = 'https://media.giphy.com/media/32ou4q9dHMFynb1jjF/giphy.gif';
-  
-  return c.res({
-    image: (
-      <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <img 
-          src={giphyUrl} 
-          alt="Animated GIF"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-      </div>
-    ),
-    intents: [
-      <Button action="/check">Check stats</Button>,
-    ],
-  });
-});
 
-app.composerAction(
-  '/',
-  (c) => {
-    return c.res({
-      title: 'Insert GIF',
-      url: 'https://giphy.com',
-    })
-  },
-  {
-    name: 'Insert GIF',
-    description: 'Search and insert GIFs',
-    icon: 'image',
-    imageUrl: 'https://giphy.com/static/img/giphy-logo-square.png',
-  }
-)
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
