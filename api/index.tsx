@@ -163,12 +163,13 @@ app.frame('/', (c) => {
   return c.res({
     image: (
       <div style={{
+        display: 'flex',
         width: '100%',
         height: '100%',
         background: `url(${gifUrl})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-      }}/>
+      }}></div>
     ),
     intents: [
       <Button action="/check">Check stats</Button>,
