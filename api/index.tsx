@@ -189,6 +189,9 @@ app.frame('/', (c) => {
           }}
         />
         <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           position: 'relative',
           zIndex: 1,
           textAlign: 'center',
