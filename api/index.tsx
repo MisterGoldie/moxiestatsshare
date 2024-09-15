@@ -211,7 +211,7 @@ app.frame('/check', async (c) => {
     errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const backgroundImageUrl = 'https://bafybeib5s3bessybhkjwbqqiuy2ly6behwabr3mcmaze3b2bos25cs2bfa.ipfs.w3s.link/Frame%2059%20(2).png';
+  const backgroundImageUrl = 'https://bafybeiajbch2tb6veul2ydzqmzc62arz5vtpbycei3fcyehase5amv62we.ipfs.w3s.link/Frame%2059%20(5).png';
 
   const shareText = userInfo 
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
@@ -272,48 +272,33 @@ app.frame('/check', async (c) => {
                 {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
               </div>
             )}
-            <div style={{ 
-              marginLeft: 'auto', 
-              marginRight: '60px', 
-              display: 'flex', 
-              flexDirection: 'column',
-              alignItems: 'center'
-            }}>
+            <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column' }}>
               <p style={{ 
                 fontSize: '72px', 
                 color: 'white', 
                 textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                margin: '0 0 10px 0',
-                textAlign: 'center'
+                margin: '0 0 10px 0'
               }}>
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
-              <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
+              <p style={{ 
+                fontSize: '24px', 
+                color: 'white', 
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                margin: '0'
               }}>
+                FID: {fid}
+              </p>
+              {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
                   fontSize: '24px', 
                   color: 'white', 
                   textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                  margin: '0',
-                  textAlign: 'center'
+                  margin: '5px 0 0 0'
                 }}>
-                  FID: {fid}
+                  Farscore: {userInfo.farScore.toFixed(2)}
                 </p>
-                {userInfo && userInfo.farScore !== null && (
-                  <p style={{ 
-                    fontSize: '24px', 
-                    color: 'white', 
-                    textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
-                    margin: '5px 0 0 0',
-                    textAlign: 'center'
-                  }}>
-                    Farscore: {userInfo.farScore.toFixed(2)}
-                  </p>
-                )}
-              </div>
+              )}
             </div>
           </div>
           
