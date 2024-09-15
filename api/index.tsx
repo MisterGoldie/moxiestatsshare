@@ -315,17 +315,22 @@ app.frame('/check', async (c) => {
               transform: 'translateX(-50%)',
               width: '90%' 
             }}>
-              {[
-                { label: 'Moxie earned today', value: userInfo.todayEarnings },
-                { label: 'Moxie earned all-time', value: userInfo.lifetimeEarnings },
-                { label: 'Moxie in process', value: userInfo.moxieInProcess },
-                { label: 'Moxie claimed', value: userInfo.moxieClaimed }
-              ].map((item, index) => (
-                <div key={index} style={{ width: '45%', textAlign: 'center', margin: '10px', display: 'flex', flexDirection: 'column' }}>
-                  <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>{item.label}</p>
-                  <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(item.value).toFixed(2)}</p>
-                </div>
-              ))}
+              <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
+                <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>Moxie earned today</p>
+                <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(userInfo.todayEarnings).toFixed(2)}</p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
+                <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>Moxie earned all-time</p>
+                <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(userInfo.lifetimeEarnings).toFixed(2)}</p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
+                <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>Moxie in process</p>
+                <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(userInfo.moxieInProcess).toFixed(2)}</p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
+                <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>Moxie claimed</p>
+                <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(userInfo.moxieClaimed).toFixed(2)}</p>
+              </div>
             </div>
           ) : (
             <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
