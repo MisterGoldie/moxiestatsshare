@@ -319,7 +319,7 @@ app.frame('/check', async (c) => {
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '28px', 
-                  color: '#000000',
+                  color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
                   Moxie earned today
@@ -335,7 +335,7 @@ app.frame('/check', async (c) => {
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '28px', 
-                  color: '#000000',
+                  color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
                   Moxie earned all-time
@@ -351,7 +351,7 @@ app.frame('/check', async (c) => {
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '28px', 
-                  color: '#000000',
+                  color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
                   Moxie in process
@@ -367,7 +367,7 @@ app.frame('/check', async (c) => {
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
                 <p style={{ 
                   fontSize: '28px', 
-                  color: '#000000',
+                  color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
                   Moxie claimed
