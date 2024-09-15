@@ -157,7 +157,22 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
   }
 }
 
-
+app.frame('/', (c) => {
+  return c.res({
+    image: (
+      <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
+        <img 
+          src="https://media.giphy.com/media/32ou4q9dHMFynb1jjF/giphy.gif"
+          alt="Animated GIF"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      </div>
+    ),
+    intents: [
+      <Button action="/check">Check stats</Button>,
+    ],
+  });
+});
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
