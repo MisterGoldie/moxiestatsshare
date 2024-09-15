@@ -6,6 +6,7 @@ import { neynar } from 'frog/middlewares';
 const AIRSTACK_API_URL = 'https://api.airstack.xyz/gql';
 const AIRSTACK_API_KEY = '103ba30da492d4a7e89e7026a6d3a234e'; // Your actual API key
 
+
 export const app = new Frog({
   basePath: '/api',
   imageOptions: { width: 1200, height: 630 },
