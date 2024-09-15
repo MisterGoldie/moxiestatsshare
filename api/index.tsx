@@ -313,23 +313,71 @@ app.frame('/check', async (c) => {
               top: '46%', 
               left: '50%', 
               transform: 'translateX(-50%)',
-              width: '90%' 
+              width: '100%' 
             }}>
-              <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
-                <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>Moxie earned today</p>
-                <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(userInfo.todayEarnings).toFixed(2)}</p>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie earned today
+                </p>
+                <p style={{ 
+                  fontSize: '46px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.todayEarnings).toFixed(2)}
+                </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
-                <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>Moxie earned all-time</p>
-                <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(userInfo.lifetimeEarnings).toFixed(2)}</p>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie earned all-time
+                </p>
+                <p style={{ 
+                  fontSize: '46px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
+                </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
-                <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>Moxie in process</p>
-                <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(userInfo.moxieInProcess).toFixed(2)}</p>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie in process
+                </p>
+                <p style={{ 
+                  fontSize: '46px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.moxieInProcess).toFixed(2)}
+                </p>
               </div>
-              <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
-                <p style={{ fontSize: '24px', color: '#FFFFFF', marginBottom: '10px' }}>Moxie claimed</p>
-                <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#FFFFFF' }}>{Number(userInfo.moxieClaimed).toFixed(2)}</p>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie claimed
+                </p>
+                <p style={{ 
+                  fontSize: '46px', 
+                  fontWeight: 'bold', 
+                  color: '#FFFFFF',
+                }}>
+                  {Number(userInfo.moxieClaimed).toFixed(2)}
+                </p>
               </div>
             </div>
           ) : (
@@ -470,9 +518,3 @@ app.frame('/share', async (c) => {
 
 export const GET = handle(app);
 export const POST = handle(app);
-
-
-
-
-
-
