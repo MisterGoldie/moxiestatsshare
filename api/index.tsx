@@ -164,16 +164,47 @@ app.frame('/', (c) => {
     image: (
       <div style={{
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%',
         height: '100%',
-        backgroundImage: `url(${backgroundImageUrl})`,
-        backgroundSize: 'contain',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundColor: '#1DA1F2',
-      }} />
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <img 
+          src={backgroundImageUrl} 
+          alt="Animated Background" 
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+        <h1 style={{
+          fontSize: '48px',
+          color: 'white',
+          textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+          zIndex: 1,
+          textAlign: 'center',
+          marginBottom: '20px',
+        }}>
+          $MOXIE Earnings Tracker
+        </h1>
+        <p style={{
+          fontSize: '24px',
+          color: 'white',
+          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+          zIndex: 1,
+          textAlign: 'center',
+          marginBottom: '40px',
+        }}>
+          Check your Moxie stats and earnings!
+        </p>
+      </div>
     ),
     intents: [
       <Button action="/check">Check stats</Button>,
