@@ -450,8 +450,8 @@ app.frame('/share', async (c) => {
 
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
 
-  // Add these two constants for sharing
-  const originalFramesLink = 'https://moxiestatsv2.vercel.app/api'; // Replace with your actual Frames link
+  // Adjust these constants for sharing
+  const originalFramesLink = 'https://moxiestatsv2.vercel.app/api/index'; // Updated to point to the correct API route
   const shareText = userInfo 
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
