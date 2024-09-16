@@ -160,17 +160,26 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 app.frame('/', (c) => {
   const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif'
   
-  return c.res({
-    image: (
-      <div style={{
-        width: '100%',
-        height: '100%',
-        background: `url(${gifUrl}) center center / cover no-repeat`,
-      }} />
-    ),
-    intents: [
-      <Button action="/check">Check stats</Button>,
-    ]
+  const html = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>$MOXIE Earnings Tracker</title>
+      <meta property="fc:frame" content="vNext">
+      <meta property="fc:frame:image" content="${gifUrl}">
+      <meta property="fc:frame:button:1" content="Check stats">
+      <meta property="fc:frame:button:1:action" content="post">
+    </head>
+    <body>
+      <h1>$MOXIE Earnings Tracker</h1>
+    </body>
+    </html>
+  `
+
+  return new Response(html, {
+    headers: { 'Content-Type': 'text/html' },
   })
 })
 
