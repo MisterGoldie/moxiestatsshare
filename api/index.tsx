@@ -280,29 +280,26 @@ app.frame('/check', async (c) => {
             <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <p style={{ 
                 fontSize: '72px', 
-                color: 'white', 
+                color: 'black', 
                 margin: '0 0 10px 0',
-                fontWeight: 'bold',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                fontWeight: 'bold'
               }}>
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
               <p style={{ 
                 fontSize: '24px', 
-                color: 'white', 
+                color: 'black', 
                 margin: '0',
-                fontWeight: 'bold',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                fontWeight: 'bold'
               }}>
                 FID: {fid}
               </p>
               {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
                   fontSize: '24px', 
-                  color: 'white', 
+                  color: 'black', 
                   margin: '5px 0 0 0',
-                  fontWeight: 'bold',
-                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                  fontWeight: 'bold'
                 }}>
                   Farscore: {userInfo.farScore.toFixed(2)}
                 </p>
@@ -517,29 +514,26 @@ app.frame('/share', async (c) => {
           <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
             <p style={{ 
               fontSize: '72px', 
-              color: 'white', 
+              color: 'black', 
               margin: '0 0 10px 0',
-              fontWeight: 'bold',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+              fontWeight: 'bold'
             }}>
               @{userInfo.username || 'Unknown'}
             </p>
             <p style={{ 
               fontSize: '24px', 
-              color: 'white', 
+              color: 'black', 
               margin: '0',
-              fontWeight: 'bold',
-              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+              fontWeight: 'bold'
             }}>
               FID: {fid}
             </p>
             {userInfo.farScore !== null && (
               <p style={{ 
                 fontSize: '24px', 
-                color: 'white', 
+                color: 'black', 
                 margin: '5px 0 0 0',
-                fontWeight: 'bold',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                fontWeight: 'bold'
               }}>
                 Farscore: {userInfo.farScore.toFixed(2)}
               </p>
