@@ -417,7 +417,7 @@ app.frame('/check', async (c) => {
 
 app.frame('/share', async (c) => {
   const fid = c.req.query('fid');
-  const baseUrl = 'https://moxiestatsv2.vercel.app'; // Replace with your actual base URL
+  const baseUrl = 'https://moxiestatsv2.vercel.app/api'; // Replace with your actual base URL
   
   if (!fid) {
     return c.res({
