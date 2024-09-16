@@ -417,6 +417,7 @@ app.frame('/check', async (c) => {
 
 app.frame('/share', async (c) => {
   const fid = c.req.query('fid');
+  const baseUrl = 'https://moxiestatsv2.vercel.app'; // Replace with your actual base URL
   
   if (!fid) {
     return c.res({
@@ -449,75 +450,32 @@ app.frame('/share', async (c) => {
   }
 
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
+  const shareText = userInfo 
+    ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
+    : 'Check your @moxie.eth stats on Farcaster!';
 
-  return c.res({
-    image: (
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        width: '100%', 
-        height: '100%', 
-        backgroundImage: `url(${backgroundImageUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        padding: '20px', 
-        boxSizing: 'border-box',
-        position: 'relative'
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: '30px',
-          left: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}>
-          <p style={{ 
-            fontSize: '30px', 
-            marginTop: '10px', 
-            color: 'black', 
-            textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-          }}>
-            FID: {fid}
-          </p>
-          {userInfo && userInfo.farScore !== null && (
-            <p style={{ 
-              fontSize: '30px', 
-              marginTop: '5px', 
-              color: 'black', 
-              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-            }}>
-              Farscore: {userInfo.farScore.toFixed(2)}
-            </p>
-          )}
-        </div>
-        
-        {userInfo ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <p style={{ fontSize: '40px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-              {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today
-            </p>
-            <p style={{ fontSize: '40px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-              {Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time
-            </p>
-            <p style={{ fontSize: '40px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-              {Number(userInfo.moxieInProcess).toFixed(2)} $MOXIE in process
-            </p>
-            <p style={{ fontSize: '40px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-              {Number(userInfo.moxieClaimed).toFixed(2)} $MOXIE claimed
-            </p>
-          </div>
-        ) : (
-          <p style={{ fontSize: '40px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
-        )}
-      </div>
-    ),
-    intents: [
-      <Button action="/check">Check Your Stats</Button>
-    ]
+  const html = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>$MOXIE Earnings Share</title>
+      <meta property="fc:frame" content="vNext">
+      <meta property="fc:frame:image" content="${backgroundImageUrl}">
+      <meta property="fc:frame:button:1" content="Check Your Stats">
+      <meta property="fc:frame:post_url" content="${baseUrl}/api/check">
+      <meta property="og:title" content="$MOXIE Earnings">
+      <meta property="og:description" content="${shareText}">
+    </head>
+    <body>
+      <h1>$MOXIE Earnings Share</h1>
+    </body>
+    </html>
+  `;
+
+  return new Response(html, {
+    headers: { 'Content-Type': 'text/html' },
   });
 });
 
