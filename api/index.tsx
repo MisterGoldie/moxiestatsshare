@@ -159,19 +159,17 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 
 app.frame('/', (c) => {
   const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif'
-
+  
   return c.res({
     image: (
-      <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
-        <img 
-          src={gifUrl} 
-          alt="Animated GIF"
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-      </div>
+      <div style={{
+        width: '100%',
+        height: '100%',
+        background: `url(${gifUrl}) center center / cover no-repeat`,
+      }} />
     ),
     intents: [
-      <Button action="/check">Check stats</Button>
+      <Button action="/check">Check stats</Button>,
     ]
   })
 })
