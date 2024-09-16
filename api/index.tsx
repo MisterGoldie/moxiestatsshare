@@ -222,7 +222,7 @@ app.frame('/check', async (c) => {
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
-  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&moxieInProcess=${userInfo?.moxieInProcess}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
+  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&moxieInProcess=${userInfo?.moxieInProcess}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}&pfpUrl=${encodeURIComponent(pfpUrl || '')}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
   console.log('Rendering frame');
@@ -423,6 +423,7 @@ app.frame('/share', async (c) => {
   const moxieClaimed = c.req.query('moxieClaimed');
   const username = c.req.query('username');
   const farScore = c.req.query('farScore');
+  const pfpUrl = decodeURIComponent(c.req.query('pfpUrl') || '');
   
   if (!fid || !todayEarnings || !lifetimeEarnings || !moxieInProcess || !moxieClaimed) {
     return c.res({
@@ -453,7 +454,8 @@ app.frame('/share', async (c) => {
     lifetimeEarnings,
     moxieInProcess,
     moxieClaimed,
-    farScore: farScore ? parseFloat(farScore) : null
+    farScore: farScore ? parseFloat(farScore) : null,
+    pfpUrl
   };
 
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
@@ -482,6 +484,33 @@ app.frame('/share', async (c) => {
           alignItems: 'center',
           width: '100%'
         }}>
+          {userInfo.pfpUrl ? (
+            <img 
+              src={userInfo.pfpUrl} 
+              alt="Profile" 
+              style={{ 
+                width: '200px', 
+                height: '200px', 
+                borderRadius: '50%',
+                border: '3px solid black'
+              }}
+            />
+          ) : (
+            <div style={{ 
+              width: '200px', 
+              height: '200px', 
+              borderRadius: '50%', 
+              backgroundColor: '#ccc', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              border: '3px solid black',
+              fontSize: '72px',
+              color: '#333'
+            }}>
+              {userInfo.username ? userInfo.username.charAt(0).toUpperCase() : 'U'}
+            </div>
+          )}
           <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
             <p style={{ 
               fontSize: '72px', 
