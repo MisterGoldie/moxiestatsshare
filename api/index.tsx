@@ -282,7 +282,8 @@ app.frame('/check', async (c) => {
                 fontSize: '72px', 
                 color: 'white', 
                 margin: '0 0 10px 0',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
               }}>
                 @{userInfo?.username || displayName || 'Unknown'}
               </p>
@@ -290,7 +291,8 @@ app.frame('/check', async (c) => {
                 fontSize: '24px', 
                 color: 'white', 
                 margin: '0',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
               }}>
                 FID: {fid}
               </p>
@@ -299,7 +301,8 @@ app.frame('/check', async (c) => {
                   fontSize: '24px', 
                   color: 'white', 
                   margin: '5px 0 0 0',
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
                 }}>
                   Farscore: {userInfo.farScore.toFixed(2)}
                 </p>
@@ -516,7 +519,8 @@ app.frame('/share', async (c) => {
               fontSize: '72px', 
               color: 'white', 
               margin: '0 0 10px 0',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
             }}>
               @{userInfo.username || 'Unknown'}
             </p>
@@ -524,7 +528,8 @@ app.frame('/share', async (c) => {
               fontSize: '24px', 
               color: 'white', 
               margin: '0',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
             }}>
               FID: {fid}
             </p>
@@ -533,7 +538,8 @@ app.frame('/share', async (c) => {
                 fontSize: '24px', 
                 color: 'white', 
                 margin: '5px 0 0 0',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
               }}>
                 Farscore: {userInfo.farScore.toFixed(2)}
               </p>
