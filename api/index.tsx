@@ -450,8 +450,7 @@ app.frame('/share', async (c) => {
 
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
 
-  // Adjust these constants for sharing
-  const originalFramesLink = 'https://moxiestatsv2.vercel.app/api/index'; // Updated to point to the correct API route
+  const originalFramesLink = 'https://moxiestatsv2.vercel.app/api/index';
   const shareText = userInfo 
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
@@ -503,13 +502,39 @@ app.frame('/share', async (c) => {
         </div>
         
         {userInfo ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-              {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today
-            </p>
-            <p style={{ fontSize: '55px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
-              {Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time
-            </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
+            <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
+              <p style={{ fontSize: '28px', color: '#FFFFFF', marginBottom: '10px' }}>
+                Moxie earned today
+              </p>
+              <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#000000' }}>
+                {Number(userInfo.todayEarnings).toFixed(2)}
+              </p>
+            </div>
+            <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
+              <p style={{ fontSize: '28px', color: '#FFFFFF', marginBottom: '10px' }}>
+                Moxie earned all-time
+              </p>
+              <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#000000' }}>
+                {Number(userInfo.lifetimeEarnings).toFixed(2)}
+              </p>
+            </div>
+            <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
+              <p style={{ fontSize: '28px', color: '#FFFFFF', marginBottom: '10px' }}>
+                Moxie in process
+              </p>
+              <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#000000' }}>
+                {Number(userInfo.moxieInProcess).toFixed(2)}
+              </p>
+            </div>
+            <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
+              <p style={{ fontSize: '28px', color: '#FFFFFF', marginBottom: '10px' }}>
+                Moxie claimed
+              </p>
+              <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#000000' }}>
+                {Number(userInfo.moxieClaimed).toFixed(2)}
+              </p>
+            </div>
           </div>
         ) : (
           <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
