@@ -222,7 +222,7 @@ app.frame('/check', async (c) => {
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
-  const shareUrl = `https://moxiestatsv2.vercel.app//share?fid=${fid}`;
+  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
   console.log('Rendering frame');
@@ -428,8 +428,8 @@ app.frame('/share', async (c) => {
           justifyContent: 'center', 
           width: '100%', 
           height: '100%', 
-          backgroundColor: '#1DA1F2',
-          color: 'white',
+          backgroundColor: '#f0e6fa',
+          color: 'black',
           fontFamily: 'Arial, sans-serif'
         }}>
           <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error: No FID provided</h1>
@@ -449,13 +449,6 @@ app.frame('/share', async (c) => {
   }
 
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
-
-  // Define the original Frames link and construct the Farcaster share URL
-  const originalFramesLink = 'https://moxiestatsv2.vercel.app/api' // Replace with your actual Frames link
-  const shareText = userInfo 
-    ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
-    : 'Check your @moxie.eth stats on Farcaster!';
-  const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(originalFramesLink)}`;
 
   return c.res({
     image: (
@@ -543,8 +536,7 @@ app.frame('/share', async (c) => {
       </div>
     ),
     intents: [
-      <Button action="/check">Check Your Stats</Button>,
-      <Button.Link href={farcasterShareURL}>Share</Button.Link>
+      <Button action="/check">Check Your Stats</Button>
     ]
   });
 });
