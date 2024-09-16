@@ -222,7 +222,7 @@ app.frame('/check', async (c) => {
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
-  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}`;
+  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&moxieInProcess=${userInfo?.moxieInProcess}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
   console.log('Rendering frame');
