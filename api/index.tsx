@@ -222,7 +222,7 @@ app.frame('/check', async (c) => {
     ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
-  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&moxieInProcess=${userInfo?.moxieInProcess}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}&pfpUrl=${encodeURIComponent(pfpUrl || '')}`;
+  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
   console.log('Rendering frame');
@@ -280,7 +280,7 @@ app.frame('/check', async (c) => {
             <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
               <p style={{ 
                 fontSize: '72px', 
-                color: 'black', 
+                color: 'white', 
                 margin: '0 0 10px 0',
                 fontWeight: 'bold'
               }}>
@@ -288,7 +288,7 @@ app.frame('/check', async (c) => {
               </p>
               <p style={{ 
                 fontSize: '24px', 
-                color: 'black', 
+                color: 'white', 
                 margin: '0',
                 fontWeight: 'bold'
               }}>
@@ -297,7 +297,7 @@ app.frame('/check', async (c) => {
               {userInfo && userInfo.farScore !== null && (
                 <p style={{ 
                   fontSize: '24px', 
-                  color: 'black', 
+                  color: 'white', 
                   margin: '5px 0 0 0',
                   fontWeight: 'bold'
                 }}>
@@ -417,15 +417,8 @@ app.frame('/check', async (c) => {
 
 app.frame('/share', async (c) => {
   const fid = c.req.query('fid');
-  const todayEarnings = c.req.query('todayEarnings');
-  const lifetimeEarnings = c.req.query('lifetimeEarnings');
-  const moxieInProcess = c.req.query('moxieInProcess');
-  const moxieClaimed = c.req.query('moxieClaimed');
-  const username = c.req.query('username');
-  const farScore = c.req.query('farScore');
-  const pfpUrl = decodeURIComponent(c.req.query('pfpUrl') || '');
   
-  if (!fid || !todayEarnings || !lifetimeEarnings || !moxieInProcess || !moxieClaimed) {
+  if (!fid) {
     return c.res({
       image: (
         <div style={{ 
@@ -439,7 +432,7 @@ app.frame('/share', async (c) => {
           color: 'black',
           fontFamily: 'Arial, sans-serif'
         }}>
-          <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error: Incomplete data provided</h1>
+          <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error: No FID provided</h1>
         </div>
       ),
       intents: [
@@ -448,15 +441,32 @@ app.frame('/share', async (c) => {
     });
   }
 
-  const userInfo = {
-    username,
-    todayEarnings,
-    lifetimeEarnings,
-    moxieInProcess,
-    moxieClaimed,
-    farScore: farScore ? parseFloat(farScore) : null,
-    pfpUrl
-  };
+  let userInfo: MoxieUserInfo | null = null;
+  try {
+    userInfo = await getMoxieUserInfo(fid);
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+    return c.res({
+      image: (
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          width: '100%', 
+          height: '100%', 
+          backgroundColor: '#f0e6fa',
+          color: 'black',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error fetching user data</h1>
+        </div>
+      ),
+      intents: [
+        <Button action="/check">Try Again</Button>
+      ]
+    });
+  }
 
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
 
@@ -476,146 +486,125 @@ app.frame('/share', async (c) => {
         position: 'relative',
         fontFamily: 'Arial, sans-serif'
       }}>
-        <div style={{
-          position: 'absolute',
-          top: '30px',
-          left: '30px',
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%'
-        }}>
-          {userInfo.pfpUrl ? (
-            <img 
-              src={userInfo.pfpUrl} 
-              alt="Profile" 
-              style={{ 
-                width: '200px', 
-                height: '200px', 
-                borderRadius: '50%',
-                border: '3px solid black'
-              }}
-            />
-          ) : (
-            <div style={{ 
-              width: '200px', 
-              height: '200px', 
-              borderRadius: '50%', 
-              backgroundColor: '#ccc', 
-              display: 'flex', 
-              alignItems: 'center', 
-              justifyContent: 'center',
-              border: '3px solid black',
-              fontSize: '72px',
-              color: '#333'
+        {userInfo ? (
+          <>
+            <div style={{
+              position: 'absolute',
+              top: '30px',
+              left: '30px',
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%'
             }}>
-              {userInfo.username ? userInfo.username.charAt(0).toUpperCase() : 'U'}
+              <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <p style={{ 
+                  fontSize: '72px', 
+                  color: 'white', 
+                  margin: '0 0 10px 0',
+                  fontWeight: 'bold'
+                }}>
+                  @{userInfo.username || 'Unknown'}
+                </p>
+                <p style={{ 
+                  fontSize: '24px', 
+                  color: 'white', 
+                  margin: '0',
+                  fontWeight: 'bold'
+                }}>
+                  FID: {fid}
+                </p>
+                {userInfo.farScore !== null && (
+                  <p style={{ 
+                    fontSize: '24px', 
+                    color: 'white', 
+                    margin: '5px 0 0 0',
+                    fontWeight: 'bold'
+                  }}>
+                    Farscore: {userInfo.farScore.toFixed(2)}
+                  </p>
+                )}
+              </div>
             </div>
-          )}
-          <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <p style={{ 
-              fontSize: '72px', 
-              color: 'black', 
-              margin: '0 0 10px 0',
-              fontWeight: 'bold'
+            
+            <div style={{ 
+              display: 'flex', 
+              flexWrap: 'wrap', 
+              justifyContent: 'center', 
+              position: 'absolute', 
+              top: '46%', 
+              left: '50%', 
+              transform: 'translateX(-50%)',
+              width: '100%' 
             }}>
-              @{userInfo.username || 'Unknown'}
-            </p>
-            <p style={{ 
-              fontSize: '24px', 
-              color: 'black', 
-              margin: '0',
-              fontWeight: 'bold'
-            }}>
-              FID: {fid}
-            </p>
-            {userInfo.farScore !== null && (
-              <p style={{ 
-                fontSize: '24px', 
-                color: 'black', 
-                margin: '5px 0 0 0',
-                fontWeight: 'bold'
-              }}>
-                Farscore: {userInfo.farScore.toFixed(2)}
-              </p>
-            )}
-          </div>
-        </div>
-        
-        <div style={{ 
-          display: 'flex', 
-          flexWrap: 'wrap', 
-          justifyContent: 'center', 
-          position: 'absolute', 
-          top: '46%', 
-          left: '50%', 
-          transform: 'translateX(-50%)',
-          width: '100%' 
-        }}>
-          <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-            <p style={{ 
-              fontSize: '28px', 
-              color: '#FFFFFF',
-              marginBottom: '10px'
-            }}>
-              Moxie earned today
-            </p>
-            <p style={{ 
-              fontSize: '46px', 
-              fontWeight: 'bold', 
-              color: '#000000',
-            }}>
-              {Number(userInfo.todayEarnings).toFixed(2)}
-            </p>
-          </div>
-          <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-            <p style={{ 
-              fontSize: '28px', 
-              color: '#FFFFFF',
-              marginBottom: '10px'
-            }}>
-              Moxie earned all-time
-            </p>
-            <p style={{ 
-              fontSize: '46px', 
-              fontWeight: 'bold', 
-              color: '#000000',
-            }}>
-              {Number(userInfo.lifetimeEarnings).toFixed(2)}
-            </p>
-          </div>
-          <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
-            <p style={{ 
-              fontSize: '28px', 
-              color: '#FFFFFF',
-              marginBottom: '10px'
-            }}>
-              Moxie in process
-            </p>
-            <p style={{ 
-              fontSize: '46px', 
-              fontWeight: 'bold', 
-              color: '#000000',
-            }}>
-              {Number(userInfo.moxieInProcess).toFixed(2)}
-            </p>
-          </div>
-          <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
-            <p style={{ 
-              fontSize: '28px', 
-              color: '#FFFFFF',
-              marginBottom: '10px'
-            }}>
-              Moxie claimed
-            </p>
-            <p style={{ 
-              fontSize: '46px', 
-              fontWeight: 'bold', 
-              color: '#000000',
-            }}>
-              {Number(userInfo.moxieClaimed).toFixed(2)}
-            </p>
-          </div>
-        </div>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '28px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie earned today
+                </p>
+                <p style={{ 
+                  fontSize: '46px', 
+                  fontWeight: 'bold', 
+                  color: '#000000',
+                }}>
+                  {Number(userInfo.todayEarnings).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '28px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie earned all-time
+                </p>
+                <p style={{ 
+                  fontSize: '46px', 
+                  fontWeight: 'bold', 
+                  color: '#000000',
+                }}>
+                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '28px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie in process
+                </p>
+                <p style={{ 
+                  fontSize: '46px', 
+                  fontWeight: 'bold', 
+                  color: '#000000',
+                }}>
+                  {Number(userInfo.moxieInProcess).toFixed(2)}
+                </p>
+              </div>
+              <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
+                <p style={{ 
+                  fontSize: '28px', 
+                  color: '#FFFFFF',
+                  marginBottom: '10px'
+                }}>
+                  Moxie claimed
+                </p>
+                <p style={{ 
+                  fontSize: '46px', 
+                  fontWeight: 'bold', 
+                  color: '#000000',
+                }}>
+                  {Number(userInfo.moxieClaimed).toFixed(2)}
+                </p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <p style={{ fontSize: '55px', color: 'white', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
+        )}
       </div>
     ),
     intents: [
