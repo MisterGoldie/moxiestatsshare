@@ -162,9 +162,11 @@ app.frame('/', (c) => {
   
   return c.res({
     image: (
-      <div style={{ display: 'flex', width: '100%', height: '100%' }}>
-        <img src={gifUrl} alt="Animated GIF" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-      </div>
+      <div style={{
+        width: '100%',
+        height: '100%',
+        background: `url(${gifUrl}) center center / cover no-repeat`,
+      }} />
     ),
     intents: [
       <Button action="/check">Check stats</Button>,
