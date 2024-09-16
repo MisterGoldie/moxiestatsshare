@@ -157,7 +157,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
   }
 }
 
-app.frame('/', (c) => {
+app.frame('/', () => {
   const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif'
   const baseUrl = 'https://moxiestatsv2.vercel.app' // Replace with your actual base URL
 
