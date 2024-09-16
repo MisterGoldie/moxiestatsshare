@@ -175,7 +175,7 @@ app.frame('/', () => {
       <meta property="fc:frame:post_url" content="${baseUrl}/api/check">
     </head>
     <body>
-      <h1>$MOXIE Earnings Tracker</h1>
+      <h1>$MOXIE Earnings Tracker by @goldie. Only viewable on Warpcast</h1>
     </body>
     </html>
   `
