@@ -428,13 +428,15 @@ app.frame('/share', async (c) => {
           justifyContent: 'center', 
           width: '100%', 
           height: '100%', 
-          backgroundColor: '#f0e6fa' 
+          backgroundColor: '#1DA1F2',
+          color: 'white',
+          fontFamily: 'Arial, sans-serif'
         }}>
-          <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'black' }}>Error: No FID provided</h1>
+          <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error: No FID provided</h1>
         </div>
       ),
       intents: [
-        <Button action="/">Back</Button>
+        <Button action="/check">Check Your Stats</Button>
       ]
     });
   }
@@ -494,39 +496,13 @@ app.frame('/share', async (c) => {
         </div>
         
         {userInfo ? (
-          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', width: '100%' }}>
-            <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
-              <p style={{ fontSize: '28px', color: '#FFFFFF', marginBottom: '10px' }}>
-                Moxie earned today
-              </p>
-              <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#000000' }}>
-                {Number(userInfo.todayEarnings).toFixed(2)}
-              </p>
-            </div>
-            <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
-              <p style={{ fontSize: '28px', color: '#FFFFFF', marginBottom: '10px' }}>
-                Moxie earned all-time
-              </p>
-              <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#000000' }}>
-                {Number(userInfo.lifetimeEarnings).toFixed(2)}
-              </p>
-            </div>
-            <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
-              <p style={{ fontSize: '28px', color: '#FFFFFF', marginBottom: '10px' }}>
-                Moxie in process
-              </p>
-              <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#000000' }}>
-                {Number(userInfo.moxieInProcess).toFixed(2)}
-              </p>
-            </div>
-            <div style={{ width: '45%', textAlign: 'center', margin: '10px' }}>
-              <p style={{ fontSize: '28px', color: '#FFFFFF', marginBottom: '10px' }}>
-                Moxie claimed
-              </p>
-              <p style={{ fontSize: '46px', fontWeight: 'bold', color: '#000000' }}>
-                {Number(userInfo.moxieClaimed).toFixed(2)}
-              </p>
-            </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <p style={{ fontSize: '50px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              {Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today
+            </p>
+            <p style={{ fontSize: '55px', marginBottom: '10px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+              {Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time
+            </p>
           </div>
         ) : (
           <p style={{ fontSize: '55px', color: 'black', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>No user data available</p>
@@ -534,8 +510,7 @@ app.frame('/share', async (c) => {
       </div>
     ),
     intents: [
-      <Button action="/">Back</Button>,
-      <Button action="/check">Refresh</Button>
+      <Button action="/check">Check Your Stats</Button>
     ]
   });
 });
