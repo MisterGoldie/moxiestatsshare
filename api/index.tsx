@@ -159,7 +159,8 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 
 app.frame('/', (c) => {
   const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif'
-  
+  const baseUrl = 'https://moxiestatsv2.vercel.app' // Replace with your actual base URL
+
   const html = `
     <!DOCTYPE html>
     <html lang="en">
@@ -171,6 +172,7 @@ app.frame('/', (c) => {
       <meta property="fc:frame:image" content="${gifUrl}">
       <meta property="fc:frame:button:1" content="Check stats">
       <meta property="fc:frame:button:1:action" content="post">
+      <meta property="fc:frame:post_url" content="${baseUrl}/api/check">
     </head>
     <body>
       <h1>$MOXIE Earnings Tracker</h1>
