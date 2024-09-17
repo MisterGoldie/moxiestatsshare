@@ -176,7 +176,7 @@ app.frame('/', () => {
       <meta property="fc:frame:post_url" content="${baseUrl}/api/check">
     </head>
     <body>
-      <h1>$MOXIE stats V2 earnings tracker by @goldie. Only viewable on Warpcast. FOllow Goldie on Warpcast - https://warpcast.com/goldie </h1>
+      <h1>$MOXIE stats V2 earnings tracker by @goldie. Only viewable on Warpcast. Follow Goldie on Warpcast - https://warpcast.com/goldie </h1>
     </body>
     </html>
   `
