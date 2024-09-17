@@ -10,6 +10,7 @@
   "dependencies": {
     "@airstack/node": "^0.0.7",
     "@vercel/og": "^0.6.2",
+    "@vercel/speed-insights": "^1.0.12",
     "frog": "^0.17.2",
     "hono": "^4",
     "node-fetch": "^2.7.0",

@@ -3,6 +3,12 @@ import { Button, Frog } from 'frog';
 import { handle } from 'frog/vercel';
 import fetch from 'node-fetch';
 import { neynar } from 'frog/middlewares';
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+// Initialize Speed Insights
+if (typeof window !== 'undefined') {
+  injectSpeedInsights({});
+}
 
 const AIRSTACK_API_URL = 'https://api.airstack.xyz/gql';
 const AIRSTACK_API_KEY = '103ba30da492d4a7e89e7026a6d3a234e'; // Your actual API key
