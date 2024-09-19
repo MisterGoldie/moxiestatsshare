@@ -25,7 +25,7 @@ interface AirstackApiResponse {
         profileImage?: string;
         farcasterScore?: {
           farScore?: number;
-          tvl?: number;
+          farBoost?: number;
         };
       }>;
     };
@@ -53,7 +53,7 @@ interface MoxieUserInfo {
   profileImage: string | null;
   todayEarnings: number;
   lifetimeEarnings: number;
-  tvl: number | null;
+  farBoost: number | null;
   moxieClaimed: number;
   farScore: number | null;
   username: string | null;
@@ -72,7 +72,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
           profileImage
           farcasterScore {
             farScore
-            tvl
+            farBoost
           }
         }
       }
@@ -127,7 +127,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
     const lifetimeEarnings = Number(data.data.lifetimeEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0');
     const moxieClaimed = Number(data.data.moxieClaimed?.FarcasterMoxieClaimDetails?.[0]?.claimedAmount || '0');
     const farScore = socialInfo.farcasterScore?.farScore || null;
-    const tvl = socialInfo.farcasterScore?.tvl || null;
+    const farBoost = socialInfo.farcasterScore?.farBoost || null;
     const username = socialInfo.profileName || null;
 
     return {
@@ -135,7 +135,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
       profileImage: socialInfo.profileImage || null,
       todayEarnings: todayEarnings,
       lifetimeEarnings: lifetimeEarnings,
-      tvl: tvl,
+      farBoost: farBoost,
       moxieClaimed: moxieClaimed,
       farScore: farScore,
       username: username,
@@ -208,10 +208,10 @@ app.frame('/check', async (c) => {
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
 
   const shareText = userInfo 
-    ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time 😏! My TVL is $${typeof userInfo.tvl === 'number' ? userInfo.tvl.toFixed(2) : '0.00'}. Check your @moxie.eth stats. Frame by @goldie`
+    ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time 😏! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
-  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&tvl=${userInfo?.tvl}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
+  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&farBoost=${userInfo?.farBoost}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
   console.log('Rendering frame');
@@ -347,14 +347,14 @@ app.frame('/check', async (c) => {
                   color: '#FFFFFF',
                   marginBottom: '10px'
                 }}>
-                  TVL
+                  FarBoost Score
                 </p>
                 <p style={{ 
                   fontSize: '46px', 
                   fontWeight: 'bold', 
                   color: '#000000',
                 }}>
-                  ${typeof userInfo.tvl === 'number' ? userInfo.tvl.toFixed(2) : '0.00'}
+                  {typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}
                 </p>
               </div>
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
@@ -408,12 +408,12 @@ app.frame('/share', async (c) => {
   const fid = c.req.query('fid');
   const todayEarnings = c.req.query('todayEarnings');
   const lifetimeEarnings = c.req.query('lifetimeEarnings');
-  const tvl = c.req.query('tvl');
+  const farBoost = c.req.query('farBoost');
   const moxieClaimed = c.req.query('moxieClaimed');
   const username = c.req.query('username');
   const farScore = c.req.query('farScore');
   
-  if (!fid || !todayEarnings || !lifetimeEarnings || !tvl || !moxieClaimed) {
+  if (!fid || !todayEarnings || !lifetimeEarnings || !farBoost || !moxieClaimed) {
     return c.res({
       image: (
         <div style={{ 
@@ -440,7 +440,7 @@ app.frame('/share', async (c) => {
     username,
     todayEarnings: Number(todayEarnings),
     lifetimeEarnings: Number(lifetimeEarnings),
-    tvl: Number(tvl),
+    farBoost: Number(farBoost),
     moxieClaimed: Number(moxieClaimed),
     farScore: farScore ? Number(farScore) : null
   };
@@ -549,14 +549,14 @@ app.frame('/share', async (c) => {
               color: '#FFFFFF',
               marginBottom: '10px'
             }}>
-              TVL
+              FarBoost Score
             </p>
             <p style={{ 
               fontSize: '46px', 
               fontWeight: 'bold', 
               color: '#000000',
             }}>
-              ${typeof userInfo.tvl === 'number' ? userInfo.tvl.toFixed(2) : '0.00'}
+              {typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}
             </p>
           </div>
           <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
