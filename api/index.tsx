@@ -51,10 +51,10 @@ interface AirstackApiResponse {
 interface MoxieUserInfo {
   profileName: string | null;
   profileImage: string | null;
-  todayEarnings: string;
-  lifetimeEarnings: string;
+  todayEarnings: number;
+  lifetimeEarnings: number;
   tvl: number | null;
-  moxieClaimed: string;
+  moxieClaimed: number;
   farScore: number | null;
   username: string | null;
 }
@@ -123,9 +123,9 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
     }
 
     const socialInfo = data.data.socialInfo?.Social?.[0] || {};
-    const todayEarnings = data.data.todayEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0';
-    const lifetimeEarnings = data.data.lifetimeEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0';
-    const moxieClaimed = data.data.moxieClaimed?.FarcasterMoxieClaimDetails?.[0]?.claimedAmount || '0';
+    const todayEarnings = Number(data.data.todayEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0');
+    const lifetimeEarnings = Number(data.data.lifetimeEarnings?.FarcasterMoxieEarningStat?.[0]?.allEarningsAmount || '0');
+    const moxieClaimed = Number(data.data.moxieClaimed?.FarcasterMoxieClaimDetails?.[0]?.claimedAmount || '0');
     const farScore = socialInfo.farcasterScore?.farScore || null;
     const tvl = socialInfo.farcasterScore?.tvl || null;
     const username = socialInfo.profileName || null;
@@ -208,7 +208,7 @@ app.frame('/check', async (c) => {
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
 
   const shareText = userInfo 
-    ? `I've earned ${Number(userInfo.todayEarnings).toFixed(2)} $MOXIE today and ${Number(userInfo.lifetimeEarnings).toFixed(2)} $MOXIE all-time 😏! My TVL is $${userInfo.tvl?.toFixed(2) || '0.00'}. Check your @moxie.eth stats. Frame by @goldie`
+    ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time 😏! My TVL is $${userInfo.tvl?.toFixed(2) || '0.00'}. Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
   const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&tvl=${userInfo?.tvl}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
@@ -322,7 +322,7 @@ app.frame('/check', async (c) => {
                   fontWeight: 'bold', 
                   color: '#000000',
                 }}>
-                  {Number(userInfo.todayEarnings).toFixed(2)}
+                  {userInfo.todayEarnings.toFixed(2)}
                 </p>
               </div>
               <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
@@ -338,7 +338,7 @@ app.frame('/check', async (c) => {
                   fontWeight: 'bold', 
                   color: '#000000',
                 }}>
-                  {Number(userInfo.lifetimeEarnings).toFixed(2)}
+                  {userInfo.lifetimeEarnings.toFixed(2)}
                 </p>
               </div>
               <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
@@ -370,7 +370,7 @@ app.frame('/check', async (c) => {
                   fontWeight: 'bold', 
                   color: '#000000',
                 }}>
-                  {Number(userInfo.moxieClaimed).toFixed(2)}
+                  {userInfo.moxieClaimed.toFixed(2)}
                 </p>
               </div>
             </div>
@@ -438,11 +438,11 @@ app.frame('/share', async (c) => {
 
   const userInfo = {
     username,
-    todayEarnings,
-    lifetimeEarnings,
-    tvl,
-    moxieClaimed,
-    farScore: farScore ? parseFloat(farScore) : null
+    todayEarnings: Number(todayEarnings),
+    lifetimeEarnings: Number(lifetimeEarnings),
+    tvl: Number(tvl),
+    moxieClaimed: Number(moxieClaimed),
+    farScore: farScore ? Number(farScore) : null
   };
 
   const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
@@ -524,7 +524,7 @@ app.frame('/share', async (c) => {
               fontWeight: 'bold', 
               color: '#000000',
             }}>
-              {Number(userInfo.todayEarnings).toFixed(2)}
+              {userInfo.todayEarnings.toFixed(2)}
             </p>
           </div>
           <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
@@ -540,7 +540,7 @@ app.frame('/share', async (c) => {
               fontWeight: 'bold', 
               color: '#000000',
             }}>
-              {Number(userInfo.lifetimeEarnings).toFixed(2)}
+              {userInfo.lifetimeEarnings.toFixed(2)}
             </p>
           </div>
           <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
@@ -556,7 +556,7 @@ app.frame('/share', async (c) => {
               fontWeight: 'bold', 
               color: '#000000',
             }}>
-              ${Number(userInfo.tvl).toFixed(2)}
+              ${userInfo.tvl.toFixed(2)}
             </p>
           </div>
           <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
@@ -572,7 +572,7 @@ app.frame('/share', async (c) => {
               fontWeight: 'bold', 
               color: '#000000',
             }}>
-              {Number(userInfo.moxieClaimed).toFixed(2)}
+              {userInfo.moxieClaimed.toFixed(2)}
             </p>
           </div>
         </div>
@@ -584,5 +584,6 @@ app.frame('/share', async (c) => {
   });
 });
 
+// Export the handlers for Vercel serverless functions
 export const GET = handle(app);
 export const POST = handle(app);
