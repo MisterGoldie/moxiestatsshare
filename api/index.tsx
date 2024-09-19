@@ -584,6 +584,5 @@ app.frame('/share', async (c) => {
   });
 });
 
-// Export the handlers for Vercel serverless functions
 export const GET = handle(app);
 export const POST = handle(app);
