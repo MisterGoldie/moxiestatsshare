@@ -601,7 +601,7 @@ app.frame('/share', async (c) => {
       </div>
     ),
     intents: [
-      <Button action="/check">Check Your Stats</Button>
+      <Button action="/check">Check your Stats</Button>
     ]
   });
 });
