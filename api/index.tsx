@@ -179,17 +179,6 @@ app.frame('/check', async (c) => {
   const { fid } = c.frameData || {};
   const { displayName, pfpUrl } = c.var.interactor || {};
 
-  const backgroundImages = [
-    "https://bafybeidoiml4oq4e3o4kwaa65xu3awkxhobholg7wzontmtmoxf5baxc4a.ipfs.w3s.link/check%20frame%2028.png",
-    "https://bafybeibhvagxrzv5wqof3zagro3yn4h4gyzjujibk5bbe7tn7e76ogyday.ipfs.w3s.link/check%20frame%2029.png",
-    "https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png"
-  ];
-
-  function getRandomBackgroundImage(): string {
-    const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-    return backgroundImages[randomIndex];
-  }
-
   if (!fid) {
     console.error('No FID found in frameData');
     return c.res({
@@ -216,13 +205,13 @@ app.frame('/check', async (c) => {
     errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const backgroundImageUrl = getRandomBackgroundImage();
+  const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
 
   const shareText = userInfo 
     ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time 😏! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
-  const shareUrl = 'https://moxiestatsv2.vercel.app/api/share';
+  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&farBoost=${userInfo?.farBoost}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
   console.log('Rendering frame');
@@ -424,19 +413,6 @@ app.frame('/share', async (c) => {
   const username = c.req.query('username');
   const farScore = c.req.query('farScore');
   
-  const backgroundImages = [
-    "https://bafybeidoiml4oq4e3o4kwaa65xu3awkxhobholg7wzontmtmoxf5baxc4a.ipfs.w3s.link/check%20frame%2028.png",
-    "https://bafybeibhvagxrzv5wqof3zagro3yn4h4gyzjujibk5bbe7tn7e76ogyday.ipfs.w3s.link/check%20frame%2029.png",
-    "https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png"
-  ];
-
-  function getRandomBackgroundImage(): string {
-    const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-    return backgroundImages[randomIndex];
-  }
-
-  const backgroundImageUrl = getRandomBackgroundImage();
-
   if (!fid || !todayEarnings || !lifetimeEarnings || !farBoost || !moxieClaimed) {
     return c.res({
       image: (
@@ -468,6 +444,8 @@ app.frame('/share', async (c) => {
     moxieClaimed: Number(moxieClaimed),
     farScore: farScore ? Number(farScore) : null
   };
+
+  const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
 
   return c.res({
     image: (
@@ -601,7 +579,7 @@ app.frame('/share', async (c) => {
       </div>
     ),
     intents: [
-      <Button action="/check">Check your Stats</Button>
+      <Button action="/check">Check Your Stats</Button>
     ]
   });
 });
