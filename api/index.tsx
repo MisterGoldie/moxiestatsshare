@@ -255,11 +255,11 @@ app.frame('/check', async (c) => {
     errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const backgroundImage = 'https://bafybeifsk34tmrw7la4fq5oooo2knuud4wwlqkglz25d7lo4q5qpjk5mva.ipfs.w3s.link/Frame%2063.png';
+  const backgroundImage = 'https://bafybeigllj2kj3nvxxe3klq44st5jvdwcqnxiyuyjnl2243dqobwzt24qq.ipfs.w3s.link/Frame%2063%20(1).png';
 
   const shareText = userInfo 
     ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
-    : 'Check your @moxie.eth stats on Farcaster!';
+    : 'Check your @moxie.eth stats on Farcaster! Frame by @goldie';
   
   const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&farBoost=${userInfo?.farBoost}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
@@ -357,7 +357,7 @@ app.frame('/share', async (c) => {
     });
   }
 
-  const backgroundImage = 'https://bafybeifsk34tmrw7la4fq5oooo2knuud4wwlqkglz25d7lo4q5qpjk5mva.ipfs.w3s.link/Frame%2063.png';
+  const backgroundImage = 'https://bafybeigllj2kj3nvxxe3klq44st5jvdwcqnxiyuyjnl2243dqobwzt24qq.ipfs.w3s.link/Frame%2063%20(1).png';
 
   console.log('Rendering share image');
   try {
