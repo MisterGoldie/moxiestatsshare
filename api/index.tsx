@@ -366,7 +366,7 @@ app.frame('/share', async (c) => {
         display: 'flex', 
         flexDirection: 'column', 
         width: '1200px', 
-        height: '630px', 
+        height: '628px', 
         backgroundImage: `url(${backgroundImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -382,7 +382,8 @@ app.frame('/share', async (c) => {
             height: '100px', 
             borderRadius: '50%', 
             backgroundColor: 'rgba(255, 255, 255, 0.2)', 
-            marginRight: '20px' 
+            marginRight: '20px',
+            border: '3px solid white'
           }} />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
