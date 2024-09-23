@@ -177,14 +177,14 @@ app.frame('/', () => {
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
   const { fid } = c.frameData || {};
-  const { displayName, pfpUrl } = c.var.interactor || {};
+  const { displayName } = c.var.interactor || {};
 
   if (!fid) {
     console.error('No FID found in frameData');
     return c.res({
       image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#f0e6fa' }}>
-          <h1 style={{ fontSize: '36px', color: 'black' }}>Error: No FID</h1>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1000px', height: '1000px', backgroundColor: '#1E1E1E' }}>
+          <h1 style={{ fontSize: '36px', color: '#FF6B6B' }}>Error: No FID</h1>
         </div>
       ),
       intents: [
@@ -205,10 +205,10 @@ app.frame('/check', async (c) => {
     errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
+  const backgroundGradient = 'linear-gradient(135deg, #4A148C, #880E4F)';
 
   const shareText = userInfo 
-    ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time 😏! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
+    ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
   const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&farBoost=${userInfo?.farBoost}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
@@ -221,39 +221,43 @@ app.frame('/check', async (c) => {
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column', 
-          width: '1200px', 
-          height: '630px', 
-          backgroundImage: `url(${backgroundImageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          width: '1000px', 
+          height: '1000px', 
+          background: backgroundGradient,
           color: 'white',
           fontFamily: 'Arial, sans-serif',
-          padding: '20px'
+          padding: '40px',
+          boxSizing: 'border-box',
+          justifyContent: 'space-between'
         }}>
-          <div style={{ marginBottom: '20px' }}>
-            <h1 style={{ fontSize: '36px', marginBottom: '10px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <h1 style={{ fontSize: '48px', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
               @{userInfo?.username || displayName || 'Unknown'}
             </h1>
-            <p style={{ fontSize: '18px', margin: '0' }}>FID: {fid}</p>
+            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
             {userInfo && userInfo.farScore !== null && (
-              <p style={{ fontSize: '18px', margin: '5px 0 0 0' }}>
+              <p style={{ fontSize: '24px', margin: '10px 0 0 0', opacity: 0.8 }}>
                 Farscore: {userInfo.farScore.toFixed(2)}
               </p>
             )}
           </div>
           
           {errorMessage ? (
-            <p style={{ fontSize: '24px', color: 'red', textAlign: 'center' }}>Error: {errorMessage}</p>
+            <p style={{ fontSize: '28px', color: '#FF6B6B', textAlign: 'center' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '30px', flex: 1, justifyContent: 'center' }}>
               <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
               <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
               <StatBox label="FarBoost Score" value={userInfo.farBoost} />
               <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
             </div>
           ) : (
-            <p style={{ fontSize: '24px', textAlign: 'center' }}>No user data available</p>
+            <p style={{ fontSize: '28px', textAlign: 'center' }}>No user data available</p>
           )}
+          
+          <div style={{ textAlign: 'center', fontSize: '18px', opacity: 0.7, marginTop: '20px' }}>
+            Frame by @goldie | Powered by Moxie
+          </div>
         </div>
       ),
       intents: [
@@ -266,9 +270,9 @@ app.frame('/check', async (c) => {
     console.error('Error rendering frame:', renderError);
     return c.res({
       image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#f0e6fa' }}>
-          <h1 style={{ fontSize: '30px', marginBottom: '20px', color: 'black' }}>Render Error</h1>
-          <p style={{ fontSize: '24px', textAlign: 'center', color: 'black' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1000px', height: '1000px', backgroundColor: '#1E1E1E' }}>
+          <h1 style={{ fontSize: '36px', marginBottom: '20px', color: '#FF6B6B' }}>Render Error</h1>
+          <p style={{ fontSize: '24px', textAlign: 'center', color: 'white' }}>
             {renderError instanceof Error ? renderError.message : 'An unknown error occurred during rendering'}
           </p>
         </div>
@@ -281,15 +285,21 @@ app.frame('/check', async (c) => {
   }
 });
 
-// Helper component for stat boxes
+// Updated helper component for stat boxes
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
   <div style={{ 
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-    padding: '10px',
-    borderRadius: '5px'
+    padding: '20px',
+    borderRadius: '15px',
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+    ':hover': {
+      transform: 'translateY(-5px)',
+      boxShadow: '0 12px 20px rgba(0, 0, 0, 0.3)'
+    }
   }}>
-    <p style={{ fontSize: '18px', margin: '0 0 5px 0' }}>{label}</p>
-    <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
+    <p style={{ fontSize: '24px', margin: '0 0 10px 0', opacity: 0.8 }}>{label}</p>
+    <p style={{ fontSize: '42px', fontWeight: 'bold', margin: 0 }}>
       {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
     </p>
   </div>
