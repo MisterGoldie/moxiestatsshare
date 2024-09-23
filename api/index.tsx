@@ -291,12 +291,7 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
     padding: '20px',
     borderRadius: '15px',
-    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-    ':hover': {
-      transform: 'translateY(-5px)',
-      boxShadow: '0 12px 20px rgba(0, 0, 0, 0.3)'
-    }
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)'
   }}>
     <p style={{ fontSize: '24px', margin: '0 0 10px 0', opacity: 0.8 }}>{label}</p>
     <p style={{ fontSize: '42px', fontWeight: 'bold', margin: 0 }}>
