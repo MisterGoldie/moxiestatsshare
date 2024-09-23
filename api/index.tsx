@@ -290,7 +290,6 @@ app.frame('/check', async (c) => {
   });
 });
 
-// Updated StatBox component with explicit flex display
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
   <div style={{ 
     display: 'flex',
@@ -405,6 +404,7 @@ app.frame('/share', async (c) => {
     ]
   });
 });
+
 
 export const GET = handle(app);
 export const POST = handle(app);
