@@ -17,6 +17,18 @@ export const app = new Frog({
   })
 );
 
+const formatLargeNumber = (num: number): string => {
+  if (num >= 1e9) {
+    return (num / 1e9).toFixed(2) + 'B';
+  } else if (num >= 1e6) {
+    return (num / 1e6).toFixed(2) + 'M';
+  } else if (num >= 1e3) {
+    return (num / 1e3).toFixed(2) + 'K';
+  } else {
+    return num.toFixed(2);
+  }
+};
+
 interface AirstackApiResponse {
   data: {
     socialInfo?: {
@@ -275,7 +287,7 @@ app.frame('/check', async (c) => {
             <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
             <StatBox label="FarBoost Score" value={userInfo.farBoost} />
             <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
-            <StatBox label="TVL" value={userInfo.tvl} />
+            <StatBox label="TVL (ETH)" value={userInfo.tvl} isTVL={true} />
             <StatBox label="FarRank" value={userInfo.farRank} />
           </div>
         ) : (
@@ -301,7 +313,7 @@ app.frame('/check', async (c) => {
 });
 
 // Update the StatBox component to fit 6 boxes
-const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
+const StatBox = ({ label, value, isTVL = false }: { label: string, value: number | string | null | undefined, isTVL?: boolean }) => (
   <div style={{ 
     display: 'flex',
     flexDirection: 'column',
@@ -328,7 +340,11 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
       fontWeight: 'bold', 
       margin: 0 
     }}>
-      {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
+      {isTVL && typeof value === 'string' 
+        ? formatLargeNumber(parseFloat(value) / 1e18) // Assuming TVL is in wei, convert to ETH
+        : typeof value === 'number' 
+          ? value.toFixed(2) 
+          : 'N/A'}
     </p>
   </div>
 );
