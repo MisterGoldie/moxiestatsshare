@@ -297,25 +297,25 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-    padding: '15px',
+    padding: '20px',
     borderRadius: '15px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     width: '23%',
-    height: '150px', // Fixed height for consistent appearance
-    textAlign: 'center'
+    height: '100%', // Ensure it takes full height of its container
   }}>
     <p style={{ 
       fontSize: '22px', 
       margin: '0 0 10px 0', 
       opacity: 0.8,
-      fontWeight: 'bold'
+      textAlign: 'center'
     }}>
       {label}
     </p>
     <p style={{ 
       fontSize: '36px', 
       fontWeight: 'bold', 
-      margin: 0 
+      margin: 0,
+      textAlign: 'center'
     }}>
       {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
     </p>
