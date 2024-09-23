@@ -325,9 +325,12 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
 
 
 app.frame('/share', async (c) => {
+  console.log('Entering /share route');
   const { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username } = c.req.query();
-  
+  console.log('Query params:', { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username });
+
   if (!fid || !todayEarnings || !lifetimeEarnings || !farBoost || !moxieClaimed) {
+    console.log('Error: Incomplete data');
     return c.res({
       image: (
         <div style={{ 
@@ -348,6 +351,7 @@ app.frame('/share', async (c) => {
     });
   }
 
+  console.log('Rendering share image');
   return c.res({
     image: (
       <div style={{ 
