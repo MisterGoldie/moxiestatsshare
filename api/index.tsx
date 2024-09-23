@@ -323,7 +323,7 @@ app.frame('/check', async (c) => {
         )}
         
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
+          <p style={{ fontSize: '24px', opacity: 0.7, margin: 0 }}>
             Frame by @goldie | Powered by Moxie
           </p>
         </div>
