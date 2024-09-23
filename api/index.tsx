@@ -354,8 +354,7 @@ app.frame('/share', async (c) => {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#1E1E1E' }}>
           <h1 style={{ fontSize: '36px', color: '#FF6B6B' }}>Error: Incomplete data</h1>
         </div>
-      ),
-      intents: [<Button action="/check">Check Your Stats</Button>]
+      )
     });
   }
 
@@ -363,10 +362,7 @@ app.frame('/share', async (c) => {
 
   console.log('Rendering share frame');
   return c.res({
-    image: gifUrl,
-    intents: [
-      <Button action="/check">Check Your Stats</Button>
-    ]
+    image: gifUrl
   });
 });
 
