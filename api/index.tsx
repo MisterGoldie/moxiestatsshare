@@ -63,7 +63,6 @@ interface MoxieUserInfo {
   farRank: number | null;
 }
 
-// Define StatBox component once, to be used by both /check and /share routes
 const StatBox = ({ label, value }: { label: string, value: number | string | null | undefined }) => (
   <div style={{ 
     display: 'flex',
@@ -91,11 +90,9 @@ const StatBox = ({ label, value }: { label: string, value: number | string | nul
       fontWeight: 'bold', 
       margin: 0 
     }}>
-      {typeof value === 'number' 
-        ? value.toFixed(2) 
-        : typeof value === 'string'
-          ? value
-          : 'N/A'}
+      {value !== null && value !== undefined
+        ? (typeof value === 'number' ? value.toFixed(2) : value)
+        : 'N/A'}
     </p>
   </div>
 );
@@ -361,66 +358,66 @@ app.frame('/share', async (c) => {
 
   console.log('Rendering share image');
   try {
-    return c.res({
-      image: (
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          width: '1200px', 
-          height: '628px', 
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          color: 'white',
-          fontFamily: 'Arial, sans-serif',
-          padding: '30px',
-          boxSizing: 'border-box',
-          justifyContent: 'space-between'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-            <div style={{ 
-              width: '100px', 
-              height: '100px', 
-              borderRadius: '50%', 
-              backgroundColor: 'rgba(255, 255, 255, 0.2)', 
-              marginRight: '20px',
-              border: '3px solid white'
-            }} />
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-                @{username || 'Unknown'}
-              </h1>
-              <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
-              {farScore && (
-                <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
-                  Farscore: {Number(farScore).toFixed(2)}
-                </p>
-              )}
-            </div>
-          </div>
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
-            <StatBox label="Today" value={Number(todayEarnings)} />
-            <StatBox label="All-time" value={Number(lifetimeEarnings)} />
-            <StatBox label="FarBoost" value={Number(farBoost)} />
-            <StatBox label="Claimed" value={Number(moxieClaimed)} />
-          </div>
-          
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
-              Frame by @goldie | Powered by Moxie
-            </p>
+    const image = (
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        width: '1200px', 
+        height: '628px', 
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        color: 'white',
+        fontFamily: 'Arial, sans-serif',
+        padding: '30px',
+        boxSizing: 'border-box',
+        justifyContent: 'space-between'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ 
+            width: '100px', 
+            height: '100px', 
+            borderRadius: '50%', 
+            backgroundColor: 'rgba(255, 255, 255, 0.2)', 
+            marginRight: '20px',
+            border: '3px solid white'
+          }} />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+              @{username || 'Unknown'}
+            </h1>
+            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
+            {farScore && (
+              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
+                Farscore: {Number(farScore).toFixed(2)}
+              </p>
+            )}
           </div>
         </div>
-      ),
-      intents: [<Button action="/check">Check Your Stats</Button>]
-    });
+        
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
+          <StatBox label="Today" value={Number(todayEarnings)} />
+          <StatBox label="All-time" value={Number(lifetimeEarnings)} />
+          <StatBox label="FarBoost" value={Number(farBoost)} />
+          <StatBox label="Claimed" value={Number(moxieClaimed)} />
+        </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
+            Frame by @goldie | Powered by Moxie
+          </p>
+        </div>
+      </div>
+    );
+    console.log('Image rendered successfully');
+    return c.res({ image, intents: [<Button action="/check">Check Your Stats</Button>] });
   } catch (error) {
     console.error('Error rendering image:', error);
     return c.res({
       image: (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#1E1E1E' }}>
           <h1 style={{ fontSize: '36px', color: '#FF6B6B' }}>Error: Failed to generate image</h1>
+          <p style={{ fontSize: '24px', color: '#FF6B6B' }}>{error instanceof Error ? error.message : 'Unknown error'}</p>
         </div>
       ),
       intents: [<Button action="/check">Check Your Stats</Button>]
