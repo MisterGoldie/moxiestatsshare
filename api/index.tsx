@@ -183,11 +183,10 @@ app.frame('/check', async (c) => {
     console.error('No FID found in frameData');
     return c.res({
       image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1000px', height: '1000px', backgroundColor: '#1E1E1E' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#1E1E1E' }}>
           <h1 style={{ fontSize: '36px', color: '#FF6B6B' }}>Error: No FID</h1>
         </div>
       ),
-      imageAspectRatio: '1:1',
       intents: [
         <Button action="/">Back</Button>
       ]
@@ -199,7 +198,9 @@ app.frame('/check', async (c) => {
 
   try {
     console.log(`Fetching user info for FID: ${fid}`);
-    userInfo = await getMoxieUserInfo(fid.toString());
+    userInfo = await Promise.race([
+      getMoxieUserInfo(fid.toString()),
+    ]);
     console.log('User info retrieved:', JSON.stringify(userInfo, null, 2));
   } catch (error) {
     console.error('Error in getMoxieUserInfo:', error);
@@ -216,78 +217,64 @@ app.frame('/check', async (c) => {
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
   console.log('Rendering frame');
-  try {
-    return c.res({
-      image: (
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          width: '1000px', 
-          height: '1000px', 
-          background: backgroundGradient,
-          color: 'white',
-          fontFamily: 'Arial, sans-serif',
-          padding: '20px',
-          boxSizing: 'border-box',
-          justifyContent: 'space-between'
-        }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '10px' }}>
-            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-              @{userInfo?.username || displayName || 'Unknown'}
-            </h1>
-            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
-            {userInfo && userInfo.farScore !== null && (
-              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
-                Farscore: {userInfo.farScore.toFixed(2)}
-              </p>
-            )}
-          </div>
-          
-          {errorMessage ? (
-            <p style={{ fontSize: '28px', color: '#FF6B6B', textAlign: 'center' }}>Error: {errorMessage}</p>
-          ) : userInfo ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', flex: 1, justifyContent: 'center' }}>
-              <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
-              <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
-              <StatBox label="FarBoost Score" value={userInfo.farBoost} />
-              <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
-            </div>
-          ) : (
-            <p style={{ fontSize: '28px', textAlign: 'center' }}>No user data available</p>
-          )}
-          
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
-            <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
-              Frame by @goldie | Powered by Moxie
+  return c.res({
+    image: (
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        width: '1200px', 
+        height: '630px', 
+        background: backgroundGradient,
+        color: 'white',
+        fontFamily: 'Arial, sans-serif',
+        padding: '30px',
+        boxSizing: 'border-box',
+        justifyContent: 'space-between'
+      }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
+          <h1 style={{ fontSize: '48px', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+            @{userInfo?.username || displayName || 'Unknown'}
+          </h1>
+          <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
+          {userInfo && userInfo.farScore !== null && (
+            <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
+              Farscore: {userInfo.farScore.toFixed(2)}
             </p>
-          </div>
+          )}
         </div>
-      ),
-      imageAspectRatio: '1:1',
-      intents: [
-        <Button action="/">Back</Button>,
-        <Button action="/check">Refresh</Button>,
-        <Button.Link href={farcasterShareURL}>Share</Button.Link>,
-      ]
-    });
-  } catch (renderError) {
-    console.error('Error rendering frame:', renderError);
-    return c.res({
-      image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1000px', height: '1000px', backgroundColor: '#1E1E1E' }}>
-          <h1 style={{ fontSize: '36px', marginBottom: '20px', color: '#FF6B6B' }}>Render Error</h1>
-          <p style={{ fontSize: '24px', textAlign: 'center', color: 'white' }}>
-            {renderError instanceof Error ? renderError.message : 'An unknown error occurred during rendering'}
+        
+        {errorMessage ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+            <p style={{ fontSize: '28px', color: '#FF6B6B', textAlign: 'center' }}>Error: {errorMessage}</p>
+            <p style={{ fontSize: '24px', textAlign: 'center' }}>Please try again later.</p>
+          </div>
+        ) : userInfo ? (
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
+            <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
+            <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
+            <StatBox label="FarBoost Score" value={userInfo.farBoost} />
+            <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+            <p style={{ fontSize: '28px', textAlign: 'center' }}>Loading data...</p>
+            <p style={{ fontSize: '24px', textAlign: 'center' }}>Please try again in a moment.</p>
+          </div>
+        )}
+        
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
+            Frame by @goldie | Powered by Moxie
           </p>
         </div>
-      ),
-      imageAspectRatio: '1:1',
-      intents: [
-        <Button action="/">Back</Button>,
-        <Button action="/check">Retry</Button>
-      ]
-    });
-  }
+      </div>
+    ),
+    intents: [
+      <Button action="/">Back</Button>,
+      <Button action="/check">Refresh</Button>,
+      <Button.Link href={farcasterShareURL}>Share</Button.Link>,
+    ]
+  });
 });
 
 // Updated helper component for stat boxes
@@ -296,12 +283,13 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-    padding: '15px',
+    padding: '20px',
     borderRadius: '15px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)'
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    width: '23%'
   }}>
-    <p style={{ fontSize: '20px', margin: '0 0 5px 0', opacity: 0.8 }}>{label}</p>
-    <p style={{ fontSize: '32px', fontWeight: 'bold', margin: 0 }}>
+    <p style={{ fontSize: '18px', margin: '0 0 10px 0', opacity: 0.8 }}>{label}</p>
+    <p style={{ fontSize: '28px', fontWeight: 'bold', margin: 0 }}>
       {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
     </p>
   </div>
