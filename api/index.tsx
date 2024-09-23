@@ -301,7 +301,7 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
     borderRadius: '15px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     width: '22%', // Slightly reduced to fit better
-    height: '100px', // height
+    height: '120px', // height
     textAlign: 'center'
   }}>
     <p style={{ 
