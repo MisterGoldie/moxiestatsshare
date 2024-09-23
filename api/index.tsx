@@ -79,7 +79,7 @@ const StatBox = ({ label, value }: { label: string, value: number | string | nul
     textAlign: 'center'
   }}>
     <p style={{ 
-      fontSize: '24px', 
+      fontSize: '26px', 
       margin: '0 0 5px 0', 
       opacity: 0.8,
       fontWeight: 'bold'
