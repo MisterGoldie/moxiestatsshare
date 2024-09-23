@@ -177,7 +177,7 @@ app.frame('/', () => {
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
   const { fid } = c.frameData || {};
-  const { displayName } = c.var.interactor || {};
+  const { displayName, pfpUrl } = c.var.interactor || {};
 
   if (!fid) {
     console.error('No FID found in frameData');
@@ -231,16 +231,29 @@ app.frame('/check', async (c) => {
         boxSizing: 'border-box',
         justifyContent: 'space-between'
       }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}>
-          <h1 style={{ fontSize: '48px', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-            @{userInfo?.username || displayName || 'Unknown'}
-          </h1>
-          <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
-          {userInfo && userInfo.farScore !== null && (
-            <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
-              Farscore: {userInfo.farScore.toFixed(2)}
-            </p>
-          )}
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <img 
+            src={pfpUrl || 'https://placeholder.com/150'} 
+            alt="Profile"
+            style={{ 
+              width: '100px', 
+              height: '100px', 
+              borderRadius: '50%', 
+              marginRight: '20px',
+              border: '3px solid white'
+            }} 
+          />
+          <div>
+            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+              @{userInfo?.username || displayName || 'Unknown'}
+            </h1>
+            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
+            {userInfo && userInfo.farScore !== null && (
+              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
+                Farscore: {userInfo.farScore.toFixed(2)}
+              </p>
+            )}
+          </div>
         </div>
         
         {errorMessage ? (
@@ -276,6 +289,10 @@ app.frame('/check', async (c) => {
     ]
   });
 });
+
+// The StatBox component remains the same
+
+// The StatBox component remains the same
 
 // Updated helper component for stat boxes
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
