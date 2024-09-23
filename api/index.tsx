@@ -17,18 +17,6 @@ export const app = new Frog({
   })
 );
 
-const formatLargeNumber = (num: number): string => {
-  if (num >= 1e9) {
-    return (num / 1e9).toFixed(2) + 'B';
-  } else if (num >= 1e6) {
-    return (num / 1e6).toFixed(2) + 'M';
-  } else if (num >= 1e3) {
-    return (num / 1e3).toFixed(2) + 'K';
-  } else {
-    return num.toFixed(2);
-  }
-};
-
 interface AirstackApiResponse {
   data: {
     socialInfo?: {
@@ -38,8 +26,6 @@ interface AirstackApiResponse {
         farcasterScore?: {
           farScore?: number;
           farBoost?: number;
-          tvl?: number;
-          farRank?: number;
         };
       }>;
     };
@@ -71,8 +57,6 @@ interface MoxieUserInfo {
   moxieClaimed: number;
   farScore: number | null;
   username: string | null;
-  tvl: number | null;
-  farRank: number | null;
 }
 
 async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
@@ -89,8 +73,6 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
           farcasterScore {
             farScore
             farBoost
-            tvl
-            farRank
           }
         }
       }
@@ -157,8 +139,6 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
       moxieClaimed: moxieClaimed,
       farScore: farScore,
       username: username,
-      tvl: socialInfo.farcasterScore?.tvl || null,
-    farRank: socialInfo.farcasterScore?.farRank || null,
     };
   } catch (error) {
     console.error('Detailed error in getMoxieUserInfo:', error);
@@ -233,7 +213,7 @@ app.frame('/check', async (c) => {
     ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
     : 'Check your @moxie.eth stats on Farcaster!';
   
-  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&farBoost=${userInfo?.farBoost}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}&tvl=${userInfo?.tvl}&farRank=${userInfo?.farRank}`;
+  const shareUrl = `https://moxiestatsv2.vercel.app/api/share?fid=${fid}&todayEarnings=${userInfo?.todayEarnings}&lifetimeEarnings=${userInfo?.lifetimeEarnings}&farBoost=${userInfo?.farBoost}&moxieClaimed=${userInfo?.moxieClaimed}&username=${userInfo?.username}&farScore=${userInfo?.farScore}`;
   const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
   console.log('Rendering frame');
@@ -282,13 +262,11 @@ app.frame('/check', async (c) => {
             <p style={{ fontSize: '24px', textAlign: 'center' }}>Please try again later.</p>
           </div>
         ) : userInfo ? (
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flexWrap: 'wrap', flex: 1 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
             <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
             <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
             <StatBox label="FarBoost Score" value={userInfo.farBoost} />
             <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
-            <StatBox label="TVL (ETH)" value={userInfo.tvl} isTVL={true} />
-            <StatBox label="FarRank" value={userInfo.farRank} />
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
@@ -312,9 +290,8 @@ app.frame('/check', async (c) => {
   });
 });
 
-// Update the StatBox component to fit 6 boxes
-const StatBox = ({ label, value, isTVL = false }: { label: string, value: number | string | null | undefined, isTVL?: boolean }) => (
-  <div style={{ 
+const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
+  <div style={{ // actual transparent statBoxes
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -323,12 +300,12 @@ const StatBox = ({ label, value, isTVL = false }: { label: string, value: number
     padding: '15px',
     borderRadius: '15px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    width: '30%',
-    height: '110px',
+    width: '22%', // Slightly reduced to fit better
+    height: '120px', // height
     textAlign: 'center'
   }}>
     <p style={{ 
-      fontSize: '18px', 
+      fontSize: '20px', 
       margin: '0 0 5px 0', 
       opacity: 0.8,
       fontWeight: 'bold'
@@ -336,15 +313,11 @@ const StatBox = ({ label, value, isTVL = false }: { label: string, value: number
       {label}
     </p>
     <p style={{ 
-      fontSize: '24px', 
+      fontSize: '32px', 
       fontWeight: 'bold', 
       margin: 0 
     }}>
-      {isTVL && typeof value === 'string' 
-        ? formatLargeNumber(parseFloat(value) / 1e18) // Assuming TVL is in wei, convert to ETH
-        : typeof value === 'number' 
-          ? value.toFixed(2) 
-          : 'N/A'}
+      {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
     </p>
   </div>
 );
@@ -357,14 +330,12 @@ app.frame('/share', async (c) => {
   const moxieClaimed = c.req.query('moxieClaimed');
   const username = c.req.query('username');
   const farScore = c.req.query('farScore');
-  const tvl = c.req.query('tvl');
-  const farRank = c.req.query('farRank');
   
-  if (!fid || !todayEarnings || !lifetimeEarnings || !farBoost || !moxieClaimed || !tvl || !farRank) {
+  if (!fid || !todayEarnings || !lifetimeEarnings || !farBoost || !moxieClaimed) {
     return c.res({
       image: (
         <div style={{ 
-          display: 'flex', 
+          display: 'flex',
           flexDirection: 'column', 
           alignItems: 'center', 
           justifyContent: 'center', 
@@ -389,9 +360,7 @@ app.frame('/share', async (c) => {
     lifetimeEarnings: Number(lifetimeEarnings),
     farBoost: Number(farBoost),
     moxieClaimed: Number(moxieClaimed),
-    farScore: farScore ? Number(farScore) : null,
-    tvl: Number(tvl),
-    farRank: Number(farRank)
+    farScore: farScore ? Number(farScore) : null
   };
 
   const backgroundGradient = 'linear-gradient(135deg, #4A148C, #880E4F)';
@@ -406,62 +375,40 @@ app.frame('/share', async (c) => {
         background: backgroundGradient,
         color: 'white',
         fontFamily: 'Arial, sans-serif',
-        padding: '20px',
+        padding: '30px',
         boxSizing: 'border-box',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'space-between'
       }}>
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
-          marginBottom: '20px'
-        }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
           <div style={{ 
-            width: '80px', 
-            height: '80px', 
+            width: '100px', 
+            height: '100px', 
             borderRadius: '50%', 
             backgroundColor: 'rgba(255, 255, 255, 0.2)', 
-            marginBottom: '10px'
+            marginRight: '20px' 
           }} />
-          <h1 style={{ 
-            fontSize: '36px', 
-            marginBottom: '5px', 
-            textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-          }}>
-            @{userInfo.username || 'Unknown'}
-          </h1>
-          <p style={{ fontSize: '18px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
-          {userInfo.farScore !== null && (
-            <p style={{ fontSize: '18px', margin: '5px 0 0 0', opacity: 0.8 }}>
-              Farscore: {userInfo.farScore.toFixed(2)}
-            </p>
-          )}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+              @{userInfo.username || 'Unknown'}
+            </h1>
+            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
+            {userInfo.farScore !== null && (
+              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
+                Farscore: {userInfo.farScore.toFixed(2)}
+              </p>
+            )}
+          </div>
         </div>
         
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          flexWrap: 'wrap', 
-          gap: '15px', 
-          maxWidth: '90%'
-        }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
           <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
           <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
           <StatBox label="FarBoost Score" value={userInfo.farBoost} />
           <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
-          <StatBox label="TVL" value={userInfo.tvl} />
-          <StatBox label="FarRank" value={userInfo.farRank} />
         </div>
         
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          marginTop: '20px', 
-          width: '100%'
-        }}>
-          <p style={{ fontSize: '16px', opacity: 0.7, margin: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
             Frame by @goldie | Powered by Moxie
           </p>
         </div>
@@ -472,6 +419,7 @@ app.frame('/share', async (c) => {
     ]
   });
 });
+
 
 export const GET = handle(app);
 export const POST = handle(app);
