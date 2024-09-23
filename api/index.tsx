@@ -371,7 +371,6 @@ app.frame('/share', async (c) => {
         fontFamily: 'Arial, sans-serif',
         padding: '30px',
         boxSizing: 'border-box',
-        justifyContent: 'space-between'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
           <div style={{ 
