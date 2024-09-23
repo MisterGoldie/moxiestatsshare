@@ -78,7 +78,7 @@ const StatBox = ({ label, value }: { label: string, value: number | string | nul
     textAlign: 'center'
   }}>
     <p style={{ 
-      fontSize: '26px', 
+      fontSize: '28px', 
       margin: '0 0 5px 0', 
       opacity: 0.8,
       fontWeight: 'bold'
@@ -86,7 +86,7 @@ const StatBox = ({ label, value }: { label: string, value: number | string | nul
       {label}
     </p>
     <p style={{ 
-      fontSize: '32px', 
+      fontSize: '34px', 
       fontWeight: 'bold', 
       margin: 0 
     }}>
@@ -364,7 +364,6 @@ app.frame('/share', async (c) => {
     image: gifUrl,
     intents: [
       <Button action="/check">Check Your Stats</Button>,
-      <Button.Link href={`https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`}>Share on Warpcast</Button.Link>
     ]
   });
 });
