@@ -354,7 +354,6 @@ app.frame('/share', async (c) => {
     });
   }
 
-  // Use the same GIF URL as in the (/) route
   const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
 
   console.log('Rendering share frame');
