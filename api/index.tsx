@@ -230,7 +230,7 @@ app.frame('/check', async (c) => {
           boxSizing: 'border-box',
           justifyContent: 'space-between'
         }}>
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <h1 style={{ fontSize: '48px', marginBottom: '10px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
               @{userInfo?.username || displayName || 'Unknown'}
             </h1>
@@ -255,8 +255,10 @@ app.frame('/check', async (c) => {
             <p style={{ fontSize: '28px', textAlign: 'center' }}>No user data available</p>
           )}
           
-          <div style={{ textAlign: 'center', fontSize: '18px', opacity: 0.7, marginTop: '20px' }}>
-            Frame by @goldie | Powered by Moxie
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <p style={{ fontSize: '18px', opacity: 0.7, margin: 0 }}>
+              Frame by @goldie | Powered by Moxie
+            </p>
           </div>
         </div>
       ),
@@ -288,6 +290,8 @@ app.frame('/check', async (c) => {
 // Updated helper component for stat boxes
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
   <div style={{ 
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
     padding: '20px',
     borderRadius: '15px',
