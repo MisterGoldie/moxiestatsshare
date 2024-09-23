@@ -192,7 +192,7 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
 
 
 app.frame('/', () => {
-  const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif' // GIF URL link
+  const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF' // GIF URL link
   const baseUrl = 'https://moxiestatsv2.vercel.app' // Replace with your base URL
 
   const html = `
@@ -354,7 +354,7 @@ app.frame('/share', async (c) => {
     });
   }
 
-  const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
+  const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF';
 
   console.log('Rendering share frame');
   return c.res({
