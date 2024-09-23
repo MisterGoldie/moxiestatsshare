@@ -320,7 +320,7 @@ app.frame('/share', async (c) => {
     return c.res({
       image: (
         <div style={{ 
-          display: 'flex', 
+          display: 'flex',
           flexDirection: 'column', 
           alignItems: 'center', 
           justifyContent: 'center', 
@@ -400,7 +400,7 @@ app.frame('/share', async (c) => {
       </div>
     ),
     intents: [
-      <Button action="/check">Check your Stats</Button>
+      <Button action="/check">Check Your Stats</Button>
     ]
   });
 });
