@@ -322,14 +322,10 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
   </div>
 );
 
+
+
 app.frame('/share', async (c) => {
-  const fid = c.req.query('fid');
-  const todayEarnings = c.req.query('todayEarnings');
-  const lifetimeEarnings = c.req.query('lifetimeEarnings');
-  const farBoost = c.req.query('farBoost');
-  const moxieClaimed = c.req.query('moxieClaimed');
-  const username = c.req.query('username');
-  const farScore = c.req.query('farScore');
+  const { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username } = c.req.query();
   
   if (!fid || !todayEarnings || !lifetimeEarnings || !farBoost || !moxieClaimed) {
     return c.res({
@@ -341,29 +337,16 @@ app.frame('/share', async (c) => {
           justifyContent: 'center', 
           width: '1200px', 
           height: '630px', 
-          background: 'linear-gradient(135deg, #4A148C, #880E4F)',
+          backgroundColor: '#4A148C',
           color: 'white',
           fontFamily: 'Arial, sans-serif'
         }}>
-          <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error: Incomplete data provided</h1>
+          <h1 style={{ fontSize: '36px', textAlign: 'center' }}>Error: Incomplete data</h1>
         </div>
       ),
-      intents: [
-        <Button action="/check">Check Your Stats</Button>
-      ]
+      intents: [<Button action="/check">Check Your Stats</Button>]
     });
   }
-
-  const userInfo = {
-    username,
-    todayEarnings: Number(todayEarnings),
-    lifetimeEarnings: Number(lifetimeEarnings),
-    farBoost: Number(farBoost),
-    moxieClaimed: Number(moxieClaimed),
-    farScore: farScore ? Number(farScore) : null
-  };
-
-  const backgroundGradient = 'linear-gradient(135deg, #4A148C, #880E4F)';
 
   return c.res({
     image: (
@@ -372,54 +355,28 @@ app.frame('/share', async (c) => {
         flexDirection: 'column', 
         width: '1200px', 
         height: '630px', 
-        background: backgroundGradient,
+        backgroundColor: '#4A148C',
         color: 'white',
         fontFamily: 'Arial, sans-serif',
-        padding: '30px',
+        padding: '20px',
         boxSizing: 'border-box',
-        justifyContent: 'space-between'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-          <div style={{ 
-            width: '100px', 
-            height: '100px', 
-            borderRadius: '50%', 
-            backgroundColor: 'rgba(255, 255, 255, 0.2)', 
-            marginRight: '20px' 
-          }} />
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-              @{userInfo.username || 'Unknown'}
-            </h1>
-            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
-            {userInfo.farScore !== null && (
-              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
-                Farscore: {userInfo.farScore.toFixed(2)}
-              </p>
-            )}
-          </div>
-        </div>
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
-          <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
-          <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
-          <StatBox label="FarBoost Score" value={userInfo.farBoost} />
-          <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
-        </div>
-        
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
-            Frame by @goldie | Powered by Moxie
-          </p>
-        </div>
+        <h1 style={{ fontSize: '36px', marginBottom: '20px', textAlign: 'center' }}>
+          Moxie Stats for @{username || 'Unknown'}
+        </h1>
+        <p style={{ fontSize: '24px', marginBottom: '10px' }}>FID: {fid}</p>
+        <p style={{ fontSize: '24px', marginBottom: '10px' }}>Today's Earnings: {Number(todayEarnings).toFixed(2)}</p>
+        <p style={{ fontSize: '24px', marginBottom: '10px' }}>Lifetime Earnings: {Number(lifetimeEarnings).toFixed(2)}</p>
+        <p style={{ fontSize: '24px', marginBottom: '10px' }}>FarBoost Score: {Number(farBoost).toFixed(2)}</p>
+        <p style={{ fontSize: '24px', marginBottom: '10px' }}>Moxie Claimed: {Number(moxieClaimed).toFixed(2)}</p>
+        <p style={{ fontSize: '18px', marginTop: 'auto', textAlign: 'center' }}>
+          Frame by @goldie | Powered by Moxie
+        </p>
       </div>
     ),
-    intents: [
-      <Button action="/check">Check Your Stats</Button>
-    ]
+    intents: [<Button action="/check">Check Your Stats</Button>]
   });
 });
-
 
 export const GET = handle(app);
 export const POST = handle(app);
