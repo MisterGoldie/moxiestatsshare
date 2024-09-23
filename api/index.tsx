@@ -255,7 +255,7 @@ app.frame('/check', async (c) => {
     errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const backgroundGradient = 'linear-gradient(135deg, #4A148C, #880E4F)';
+  const backgroundImage = 'https://bafybeifsk34tmrw7la4fq5oooo2knuud4wwlqkglz25d7lo4q5qpjk5mva.ipfs.w3s.link/Frame%2063.png';
 
   const shareText = userInfo 
     ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
@@ -271,8 +271,10 @@ app.frame('/check', async (c) => {
         display: 'flex', 
         flexDirection: 'column', 
         width: '1200px', 
-        height: '630px', 
-        background: backgroundGradient,
+        height: '628px', 
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
         color: 'white',
         fontFamily: 'Arial, sans-serif',
         padding: '30px',
@@ -338,9 +340,6 @@ app.frame('/check', async (c) => {
   });
 });
 
-
-
-
 app.frame('/share', async (c) => {
   console.log('Entering /share route');
   const { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username, farScore } = c.req.query();
@@ -358,7 +357,7 @@ app.frame('/share', async (c) => {
     });
   }
 
-  const backgroundGradient = 'linear-gradient(135deg, #4A148C, #880E4F)';
+  const backgroundImage = 'https://bafybeifsk34tmrw7la4fq5oooo2knuud4wwlqkglz25d7lo4q5qpjk5mva.ipfs.w3s.link/Frame%2063.png';
 
   console.log('Rendering share image');
   return c.res({
@@ -368,7 +367,9 @@ app.frame('/share', async (c) => {
         flexDirection: 'column', 
         width: '1200px', 
         height: '630px', 
-        background: backgroundGradient,
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
         color: 'white',
         fontFamily: 'Arial, sans-serif',
         padding: '30px',
