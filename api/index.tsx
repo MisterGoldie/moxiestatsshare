@@ -291,31 +291,31 @@ app.frame('/check', async (c) => {
 });
 
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
-  <div style={{ 
+  <div style={{ // actual transparent statBoxes
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-    padding: '20px',
+    padding: '15px',
     borderRadius: '15px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    width: '23%',
-    height: '100%', // Ensure it takes full height of its container
+    width: '22%', // Slightly reduced to fit better
+    height: '130px', // height
+    textAlign: 'center'
   }}>
     <p style={{ 
-      fontSize: '22px', 
-      margin: '0 0 10px 0', 
+      fontSize: '20px', 
+      margin: '0 0 5px 0', 
       opacity: 0.8,
-      textAlign: 'center'
+      fontWeight: 'bold'
     }}>
       {label}
     </p>
     <p style={{ 
-      fontSize: '36px', 
+      fontSize: '32px', 
       fontWeight: 'bold', 
-      margin: 0,
-      textAlign: 'center'
+      margin: 0 
     }}>
       {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
     </p>
