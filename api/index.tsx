@@ -235,41 +235,33 @@ app.frame('/check', async (c) => {
         background: backgroundGradient,
         color: 'white',
         fontFamily: 'Arial, sans-serif',
-        padding: '20px',
+        padding: '30px',
         boxSizing: 'border-box',
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'space-between'
       }}>
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          alignItems: 'center', 
-          marginBottom: '20px'
-        }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
           <img 
             src={pfpUrl || 'https://placeholder.com/150'} 
             alt="Profile"
             style={{ 
-              width: '80px', 
-              height: '80px', 
+              width: '100px', 
+              height: '100px', 
               borderRadius: '50%', 
-              marginBottom: '10px',
+              marginRight: '20px',
               border: '3px solid white'
             }} 
           />
-          <h1 style={{ 
-            fontSize: '36px', 
-            marginBottom: '5px', 
-            textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
-          }}>
-            @{userInfo?.username || displayName || 'Unknown'}
-          </h1>
-          <p style={{ fontSize: '18px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
-          {userInfo && userInfo.farScore !== null && (
-            <p style={{ fontSize: '18px', margin: '5px 0 0 0', opacity: 0.8 }}>
-              Farscore: {userInfo.farScore.toFixed(2)}
-            </p>
-          )}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+              @{userInfo?.username || displayName || 'Unknown'}
+            </h1>
+            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
+            {userInfo && userInfo.farScore !== null && (
+              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
+                Farscore: {userInfo.farScore.toFixed(2)}
+              </p>
+            )}
+          </div>
         </div>
         
         {errorMessage ? (
@@ -278,14 +270,7 @@ app.frame('/check', async (c) => {
             <p style={{ fontSize: '24px', textAlign: 'center' }}>Please try again later.</p>
           </div>
         ) : userInfo ? (
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center',
-            flexWrap: 'wrap', 
-            gap: '15px', 
-            maxWidth: '90%'
-          }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flexWrap: 'wrap', flex: 1 }}>
             <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
             <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
             <StatBox label="FarBoost Score" value={userInfo.farBoost} />
@@ -300,13 +285,8 @@ app.frame('/check', async (c) => {
           </div>
         )}
         
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          marginTop: '20px', 
-          width: '100%'
-        }}>
-          <p style={{ fontSize: '16px', opacity: 0.7, margin: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
             Frame by @goldie | Powered by Moxie
           </p>
         </div>
@@ -320,6 +300,7 @@ app.frame('/check', async (c) => {
   });
 });
 
+// Update the StatBox component to fit 6 boxes
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
   <div style={{ 
     display: 'flex',
@@ -327,7 +308,7 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-    padding: '12px',
+    padding: '15px',
     borderRadius: '15px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
     width: '30%',
@@ -343,7 +324,7 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
       {label}
     </p>
     <p style={{ 
-      fontSize: '28px', 
+      fontSize: '24px', 
       fontWeight: 'bold', 
       margin: 0 
     }}>
