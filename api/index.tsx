@@ -325,10 +325,10 @@ app.frame('/share', async (c) => {
           flexDirection: 'column', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          width: '100%', 
-          height: '100%', 
-          backgroundColor: '#f0e6fa',
-          color: 'black',
+          width: '1200px', 
+          height: '630px', 
+          backgroundColor: '#4A148C',
+          color: 'white',
           fontFamily: 'Arial, sans-serif'
         }}>
           <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error: Incomplete data provided</h1>
@@ -349,136 +349,54 @@ app.frame('/share', async (c) => {
     farScore: farScore ? Number(farScore) : null
   };
 
-  const backgroundImageUrl = 'https://bafybeic3f4uenita4argk5knvzm7xnkagqjz4beawbvnilruwoilfb7q7e.ipfs.w3s.link/Frame%2059%20(7).png';
+  const backgroundGradient = 'linear-gradient(135deg, #4A148C, #880E4F)';
 
   return c.res({
     image: (
       <div style={{ 
         display: 'flex', 
         flexDirection: 'column', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        width: '100%', 
-        height: '100%', 
-        backgroundImage: `url(${backgroundImageUrl})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        position: 'relative',
-        fontFamily: 'Arial, sans-serif'
+        width: '1200px', 
+        height: '630px', 
+        background: backgroundGradient,
+        color: 'white',
+        fontFamily: 'Arial, sans-serif',
+        padding: '30px',
+        boxSizing: 'border-box',
+        justifyContent: 'space-between'
       }}>
-        <div style={{
-          position: 'absolute',
-          top: '30px',
-          left: '30px',
-          display: 'flex',
-          alignItems: 'center',
-          width: '100%'
-        }}>
-          <div style={{ marginLeft: 'auto', marginRight: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-            <p style={{ 
-              fontSize: '72px', 
-              color: 'black', 
-              margin: '0 0 10px 0',
-              fontWeight: 'bold'
-            }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ 
+            width: '100px', 
+            height: '100px', 
+            borderRadius: '50%', 
+            backgroundColor: 'rgba(255, 255, 255, 0.2)', 
+            marginRight: '20px' 
+          }} />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
               @{userInfo.username || 'Unknown'}
-            </p>
-            <p style={{ 
-              fontSize: '24px', 
-              color: 'black', 
-              margin: '0',
-              fontWeight: 'bold'
-            }}>
-              FID: {fid}
-            </p>
+            </h1>
+            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
             {userInfo.farScore !== null && (
-              <p style={{ 
-                fontSize: '24px', 
-                color: 'black', 
-                margin: '5px 0 0 0',
-                fontWeight: 'bold'
-              }}>
+              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
                 Farscore: {userInfo.farScore.toFixed(2)}
               </p>
             )}
           </div>
         </div>
         
-        <div style={{ 
-          display: 'flex', 
-          flexWrap: 'wrap', 
-          justifyContent: 'center', 
-          position: 'absolute', 
-          top: '46%', 
-          left: '50%', 
-          transform: 'translateX(-50%)',
-          width: '100%' 
-        }}>
-          <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-            <p style={{ 
-              fontSize: '28px', 
-              color: '#FFFFFF',
-              marginBottom: '10px'
-            }}>
-              Moxie earned today
-            </p>
-            <p style={{ 
-              fontSize: '46px', 
-              fontWeight: 'bold', 
-              color: '#000000',
-            }}>
-              {userInfo.todayEarnings.toFixed(2)}
-            </p>
-          </div>
-          <div style={{ width: '45%', textAlign: 'center', display: 'flex', flexDirection: 'column' }}>
-            <p style={{ 
-              fontSize: '28px', 
-              color: '#FFFFFF',
-              marginBottom: '10px'
-            }}>
-              Moxie earned all-time
-            </p>
-            <p style={{ 
-              fontSize: '46px', 
-              fontWeight: 'bold', 
-              color: '#000000',
-            }}>
-              {userInfo.lifetimeEarnings.toFixed(2)}
-            </p>
-          </div>
-          <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
-            <p style={{ 
-              fontSize: '28px', 
-              color: '#FFFFFF',
-              marginBottom: '10px'
-            }}>
-              FarBoost Score
-            </p>
-            <p style={{ 
-              fontSize: '46px', 
-              fontWeight: 'bold', 
-              color: '#000000',
-            }}>
-              {typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}
-            </p>
-          </div>
-          <div style={{ width: '45%', textAlign: 'center', marginTop: '20px', display: 'flex', flexDirection: 'column' }}>
-            <p style={{ 
-              fontSize: '28px', 
-              color: '#FFFFFF',
-              marginBottom: '10px'
-            }}>
-              Moxie claimed
-            </p>
-            <p style={{ 
-              fontSize: '46px', 
-              fontWeight: 'bold', 
-              color: '#000000',
-            }}>
-              {userInfo.moxieClaimed.toFixed(2)}
-            </p>
-          </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
+          <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
+          <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
+          <StatBox label="FarBoost Score" value={userInfo.farBoost} />
+          <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
+        </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
+            Frame by @goldie | Powered by Moxie
+          </p>
         </div>
       </div>
     ),
