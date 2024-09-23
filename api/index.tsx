@@ -291,7 +291,7 @@ app.frame('/check', async (c) => {
 });
 
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
-  <div style={{ // actual transparent statboxes
+  <div style={{ // actual transparent statBoxes
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
