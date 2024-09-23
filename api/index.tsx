@@ -344,6 +344,8 @@ app.frame('/check', async (c) => {
 
 app.frame('/share', async (c) => {
   console.log('Entering /share route');
+  console.log('Request method:', c.req.method);
+  
   const { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username, farScore } = c.req.query();
   console.log('Query params:', { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username, farScore });
 
@@ -360,9 +362,13 @@ app.frame('/share', async (c) => {
 
   const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF';
 
-  console.log('Rendering share frame');
+  console.log('Rendering share frame with GIF:', gifUrl);
+  
   return c.res({
-    image: gifUrl
+    image: gifUrl,
+    headers: {
+      'Content-Type': 'image/gif',
+    },
   });
 });
 
