@@ -187,6 +187,7 @@ app.frame('/check', async (c) => {
           <h1 style={{ fontSize: '36px', color: '#FF6B6B' }}>Error: No FID</h1>
         </div>
       ),
+      imageAspectRatio: '1:1',
       intents: [
         <Button action="/">Back</Button>
       ]
@@ -262,6 +263,7 @@ app.frame('/check', async (c) => {
           </div>
         </div>
       ),
+      imageAspectRatio: '1:1',
       intents: [
         <Button action="/">Back</Button>,
         <Button action="/check">Refresh</Button>,
@@ -279,6 +281,7 @@ app.frame('/check', async (c) => {
           </p>
         </div>
       ),
+      imageAspectRatio: '1:1',
       intents: [
         <Button action="/">Back</Button>,
         <Button action="/check">Retry</Button>
@@ -286,6 +289,8 @@ app.frame('/check', async (c) => {
     });
   }
 });
+
+// The StatBox component remains the same as in the previous version
 
 // Updated helper component for stat boxes
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
