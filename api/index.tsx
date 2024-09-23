@@ -292,14 +292,14 @@ app.frame('/check', async (c) => {
             </div>
           </div>
           
-          {/* Stats Grid */}
+          {/* Stats Flex Container */}
           {errorMessage ? (
             <p style={{ fontSize: '24px', color: 'red', textAlign: 'center' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
             <div style={{ 
-              display: 'grid', 
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: '20px',
+              display: 'flex', 
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
               flex: 1
             }}>
               {[
@@ -312,7 +312,9 @@ app.frame('/check', async (c) => {
                   backgroundColor: 'rgba(255, 255, 255, 0.1)', 
                   borderRadius: '10px',
                   padding: '20px',
-                  textAlign: 'center'
+                  textAlign: 'center',
+                  width: 'calc(50% - 10px)',
+                  marginBottom: '20px'
                 }}>
                   <p style={{ 
                     fontSize: '18px', 
