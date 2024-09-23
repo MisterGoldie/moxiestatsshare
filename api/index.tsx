@@ -183,7 +183,7 @@ app.frame('/check', async (c) => {
     console.error('No FID found in frameData');
     return c.res({
       image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#f0e6fa' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#f0e6fa' }}>
           <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'black' }}>Error: No FID</h1>
         </div>
       ),
@@ -221,8 +221,8 @@ app.frame('/check', async (c) => {
         <div style={{ 
           display: 'flex', 
           flexDirection: 'column', 
-          width: '100%', 
-          height: '100%', 
+          width: '1200px', 
+          height: '630px', 
           backgroundImage: `url(${backgroundImageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -230,7 +230,6 @@ app.frame('/check', async (c) => {
           fontFamily: 'Arial, sans-serif',
           color: 'white',
           padding: '40px',
-          boxSizing: 'border-box'
         }}>
           {/* Header */}
           <div style={{
@@ -245,7 +244,7 @@ app.frame('/check', async (c) => {
                 style={{ 
                   width: '100px', 
                   height: '100px', 
-                  borderRadius: '50%',
+                  borderRadius: '50px',
                   border: '3px solid white'
                 }}
               />
@@ -253,7 +252,7 @@ app.frame('/check', async (c) => {
               <div style={{ 
                 width: '100px', 
                 height: '100px', 
-                borderRadius: '50%', 
+                borderRadius: '50px', 
                 backgroundColor: '#ccc', 
                 display: 'flex', 
                 alignItems: 'center', 
@@ -292,46 +291,24 @@ app.frame('/check', async (c) => {
             </div>
           </div>
           
-          {/* Stats Flex Container */}
+          {/* Stats Container */}
           {errorMessage ? (
             <p style={{ fontSize: '24px', color: 'red', textAlign: 'center' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
             <div style={{ 
               display: 'flex', 
-              flexWrap: 'wrap',
+              flexDirection: 'column',
               justifyContent: 'space-between',
               flex: 1
             }}>
-              {[
-                { label: 'Moxie earned today', value: userInfo.todayEarnings },
-                { label: 'Moxie earned all-time', value: userInfo.lifetimeEarnings },
-                { label: 'FarBoost Score', value: userInfo.farBoost },
-                { label: 'Moxie claimed', value: userInfo.moxieClaimed }
-              ].map((item, index) => (
-                <div key={index} style={{ 
-                  backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-                  borderRadius: '10px',
-                  padding: '20px',
-                  textAlign: 'center',
-                  width: 'calc(50% - 10px)',
-                  marginBottom: '20px'
-                }}>
-                  <p style={{ 
-                    fontSize: '18px', 
-                    margin: '0 0 10px 0',
-                    opacity: 0.8
-                  }}>
-                    {item.label}
-                  </p>
-                  <p style={{ 
-                    fontSize: '28px', 
-                    fontWeight: 'bold', 
-                    margin: 0
-                  }}>
-                    {typeof item.value === 'number' ? item.value.toFixed(2) : 'N/A'}
-                  </p>
-                </div>
-              ))}
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
+                <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <StatBox label="FarBoost Score" value={userInfo.farBoost} />
+                <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
+              </div>
             </div>
           ) : (
             <p style={{ fontSize: '24px', textAlign: 'center' }}>No user data available</p>
@@ -348,7 +325,7 @@ app.frame('/check', async (c) => {
     console.error('Error rendering frame:', renderError);
     return c.res({
       image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', backgroundColor: '#f0e6fa' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#f0e6fa' }}>
           <h1 style={{ fontSize: '30px', marginBottom: '20px', color: 'black' }}>Render Error</h1>
           <p style={{ fontSize: '24px', textAlign: 'center', color: 'black' }}>
             {renderError instanceof Error ? renderError.message : 'An unknown error occurred during rendering'}
@@ -362,6 +339,32 @@ app.frame('/check', async (c) => {
     });
   }
 });
+
+// Helper component for stat boxes
+const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
+  <div style={{ 
+    backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+    borderRadius: '10px',
+    padding: '20px',
+    textAlign: 'center',
+    width: '520px',
+  }}>
+    <p style={{ 
+      fontSize: '18px', 
+      margin: '0 0 10px 0',
+      opacity: 0.8
+    }}>
+      {label}
+    </p>
+    <p style={{ 
+      fontSize: '28px', 
+      fontWeight: 'bold', 
+      margin: 0
+    }}>
+      {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
+    </p>
+  </div>
+);
 
 app.frame('/share', async (c) => {
   const fid = c.req.query('fid');
