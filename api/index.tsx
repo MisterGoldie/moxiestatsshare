@@ -6,6 +6,12 @@ import { neynar } from 'frog/middlewares';
 const AIRSTACK_API_URL = 'https://api.airstack.xyz/gql';
 const AIRSTACK_API_KEY = '103ba30da492d4a7e89e7026a6d3a234e'; // Your actual API key
 
+const formatNumber = (value: number | string | null | undefined): string => {
+  if (value === null || value === undefined) return 'N/A';
+  const num = typeof value === 'string' ? parseFloat(value) : value;
+  return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+};
+
 export const app = new Frog({
   basePath: '/api',
   imageOptions: { width: 1200, height: 630 },
@@ -63,6 +69,7 @@ interface MoxieUserInfo {
   farRank: number | null;
 }
 
+
 const StatBox = ({ label, value }: { label: string, value: number | string | null | undefined }) => (
   <div style={{ 
     display: 'flex',
@@ -90,9 +97,7 @@ const StatBox = ({ label, value }: { label: string, value: number | string | nul
       fontWeight: 'bold', 
       margin: 0 
     }}>
-      {value !== null && value !== undefined
-        ? (typeof value === 'number' ? value.toFixed(2) : value)
-        : 'N/A'}
+      {formatNumber(value)}
     </p>
   </div>
 );
