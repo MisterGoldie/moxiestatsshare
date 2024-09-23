@@ -354,74 +354,19 @@ app.frame('/share', async (c) => {
     });
   }
 
-  const backgroundImage = 'https://bafybeigllj2kj3nvxxe3klq44st5jvdwcqnxiyuyjnl2243dqobwzt24qq.ipfs.w3s.link/Frame%2063%20(1).png';
+  // Use the same GIF URL as in the (/) route
+  const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
 
-  console.log('Rendering share image');
-  try {
-    const image = (
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        width: '1200px', 
-        height: '628px', 
-        backgroundImage: `url(${backgroundImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        color: 'white',
-        fontFamily: 'Arial, sans-serif',
-        padding: '30px',
-        boxSizing: 'border-box',
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-          <div style={{ 
-            width: '100px', 
-            height: '100px', 
-            borderRadius: '50%', 
-            backgroundColor: 'rgba(255, 255, 255, 0.2)', 
-            marginRight: '20px',
-            border: '3px solid white'
-          }} />
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
-              @{username || 'Unknown'}
-            </h1>
-            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
-            {farScore && (
-              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
-                Farscore: {Number(farScore).toFixed(2)}
-              </p>
-            )}
-          </div>
-        </div>
-        
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
-          <StatBox label="Today" value={Number(todayEarnings)} />
-          <StatBox label="All-time" value={Number(lifetimeEarnings)} />
-          <StatBox label="FarBoost" value={Number(farBoost)} />
-          <StatBox label="Claimed" value={Number(moxieClaimed)} />
-        </div>
-        
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
-            Frame by @goldie | Powered by Moxie
-          </p>
-        </div>
-      </div>
-    );
-    console.log('Image rendered successfully');
-    return c.res({ image, intents: [<Button action="/check">Check Your Stats</Button>] });
-  } catch (error) {
-    console.error('Error rendering image:', error);
-    return c.res({
-      image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#1E1E1E' }}>
-          <h1 style={{ fontSize: '36px', color: '#FF6B6B' }}>Error: Failed to generate image</h1>
-          <p style={{ fontSize: '24px', color: '#FF6B6B' }}>{error instanceof Error ? error.message : 'Unknown error'}</p>
-        </div>
-      ),
-      intents: [<Button action="/check">Check Your Stats</Button>]
-    });
-  }
+  const shareText = `I've earned ${Number(todayEarnings).toFixed(2)} $MOXIE today and ${Number(lifetimeEarnings).toFixed(2)} $MOXIE all-time! My FarBoost score is ${Number(farBoost).toFixed(2)}. Check your @moxie.eth stats. Frame by @goldie`;
+
+  console.log('Rendering share frame');
+  return c.res({
+    image: gifUrl,
+    intents: [
+      <Button action="/check">Check Your Stats</Button>,
+      <Button.Link href={`https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}`}>Share on Warpcast</Button.Link>
+    ]
+  });
 });
 
 export const GET = handle(app);
