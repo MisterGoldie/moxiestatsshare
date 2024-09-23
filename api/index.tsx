@@ -326,7 +326,7 @@ app.frame('/share', async (c) => {
           justifyContent: 'center', 
           width: '1200px', 
           height: '630px', 
-          backgroundColor: '#4A148C',
+          background: 'linear-gradient(135deg, #4A148C, #880E4F)',
           color: 'white',
           fontFamily: 'Arial, sans-serif'
         }}>
