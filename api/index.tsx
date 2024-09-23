@@ -252,7 +252,7 @@ app.frame('/check', async (c) => {
     errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
   }
 
-  const backgroundImage = 'https://bafybeigllj2kj3nvxxe3klq44st5jvdwcqnxiyuyjnl2243dqobwzt24qq.ipfs.w3s.link/Frame%2063%20(1).png';
+  const backgroundImage = 'https://bafybeidx4wcsy6err33oxki2pzx6xoddzpcf6inuvyzsgxvq4prgxyj6im.ipfs.w3s.link/Frame%2063%20(3).png';
 
   const shareText = userInfo 
     ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
