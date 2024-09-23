@@ -26,6 +26,8 @@ interface AirstackApiResponse {
         farcasterScore?: {
           farScore?: number;
           farBoost?: number;
+          tvl?: string;
+          farRank?: number;
         };
       }>;
     };
@@ -57,7 +59,46 @@ interface MoxieUserInfo {
   moxieClaimed: number;
   farScore: number | null;
   username: string | null;
+  tvl: string | null;
+  farRank: number | null;
 }
+
+// Define StatBox component once, to be used by both /check and /share routes
+const StatBox = ({ label, value }: { label: string, value: number | string | null | undefined }) => (
+  <div style={{ 
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+    padding: '15px',
+    borderRadius: '15px',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    width: '22%',
+    height: '120px',
+    textAlign: 'center'
+  }}>
+    <p style={{ 
+      fontSize: '20px', 
+      margin: '0 0 5px 0', 
+      opacity: 0.8,
+      fontWeight: 'bold'
+    }}>
+      {label}
+    </p>
+    <p style={{ 
+      fontSize: '32px', 
+      fontWeight: 'bold', 
+      margin: 0 
+    }}>
+      {typeof value === 'number' 
+        ? value.toFixed(2) 
+        : typeof value === 'string'
+          ? value
+          : 'N/A'}
+    </p>
+  </div>
+);
 
 async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
   console.log(`Fetching info for FID: ${fid}`);
@@ -73,6 +114,8 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
           farcasterScore {
             farScore
             farBoost
+            tvl
+            farRank
           }
         }
       }
@@ -129,22 +172,27 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
     const farScore = socialInfo.farcasterScore?.farScore || null;
     const farBoost = socialInfo.farcasterScore?.farBoost || null;
     const username = socialInfo.profileName || null;
+    const tvl = socialInfo.farcasterScore?.tvl || null;
+    const farRank = socialInfo.farcasterScore?.farRank || null;
 
     return {
       profileName: socialInfo.profileName || null,
       profileImage: socialInfo.profileImage || null,
-      todayEarnings: todayEarnings,
-      lifetimeEarnings: lifetimeEarnings,
-      farBoost: farBoost,
-      moxieClaimed: moxieClaimed,
-      farScore: farScore,
-      username: username,
+      todayEarnings,
+      lifetimeEarnings,
+      farBoost,
+      moxieClaimed,
+      farScore,
+      username,
+      tvl,
+      farRank,
     };
   } catch (error) {
     console.error('Detailed error in getMoxieUserInfo:', error);
     throw error;
   }
 }
+
 
 app.frame('/', () => {
   const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif' // GIF URL link
@@ -290,66 +338,27 @@ app.frame('/check', async (c) => {
   });
 });
 
-const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
-  <div style={{ // actual transparent statBoxes
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-    padding: '15px',
-    borderRadius: '15px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    width: '22%', // Slightly reduced to fit better
-    height: '120px', // Height
-    textAlign: 'center'
-  }}>
-    <p style={{ 
-      fontSize: '20px', 
-      margin: '0 0 5px 0', 
-      opacity: 0.8,
-      fontWeight: 'bold'
-    }}>
-      {label}
-    </p>
-    <p style={{ 
-      fontSize: '32px', 
-      fontWeight: 'bold', 
-      margin: 0 
-    }}>
-      {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
-    </p>
-  </div>
-);
 
 
 
 app.frame('/share', async (c) => {
   console.log('Entering /share route');
-  const { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username } = c.req.query();
-  console.log('Query params:', { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username });
+  const { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username, farScore } = c.req.query();
+  console.log('Query params:', { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username, farScore });
 
   if (!fid || !todayEarnings || !lifetimeEarnings || !farBoost || !moxieClaimed) {
     console.log('Error: Incomplete data');
     return c.res({
       image: (
-        <div style={{ 
-          display: 'flex',
-          flexDirection: 'column', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          width: '1200px', 
-          height: '630px', 
-          backgroundColor: '#4A148C',
-          color: 'white',
-          fontFamily: 'Arial, sans-serif'
-        }}>
-          <h1 style={{ fontSize: '36px', textAlign: 'center' }}>Error: Incomplete data</h1>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#1E1E1E' }}>
+          <h1 style={{ fontSize: '36px', color: '#FF6B6B' }}>Error: Incomplete data</h1>
         </div>
       ),
       intents: [<Button action="/check">Check Your Stats</Button>]
     });
   }
+
+  const backgroundGradient = 'linear-gradient(135deg, #4A148C, #880E4F)';
 
   console.log('Rendering share image');
   return c.res({
@@ -359,23 +368,46 @@ app.frame('/share', async (c) => {
         flexDirection: 'column', 
         width: '1200px', 
         height: '630px', 
-        backgroundColor: '#4A148C',
+        background: backgroundGradient,
         color: 'white',
         fontFamily: 'Arial, sans-serif',
-        padding: '20px',
+        padding: '30px',
         boxSizing: 'border-box',
+        justifyContent: 'space-between'
       }}>
-        <h1 style={{ fontSize: '36px', marginBottom: '20px', textAlign: 'center' }}>
-          Moxie Stats for @{username || 'Unknown'}
-        </h1>
-        <p style={{ fontSize: '24px', marginBottom: '10px' }}>FID: {fid}</p>
-        <p style={{ fontSize: '24px', marginBottom: '10px' }}>Today's Earnings: {Number(todayEarnings).toFixed(2)}</p>
-        <p style={{ fontSize: '24px', marginBottom: '10px' }}>Lifetime Earnings: {Number(lifetimeEarnings).toFixed(2)}</p>
-        <p style={{ fontSize: '24px', marginBottom: '10px' }}>FarBoost Score: {Number(farBoost).toFixed(2)}</p>
-        <p style={{ fontSize: '24px', marginBottom: '10px' }}>Moxie Claimed: {Number(moxieClaimed).toFixed(2)}</p>
-        <p style={{ fontSize: '18px', marginTop: 'auto', textAlign: 'center' }}>
-          Frame by @goldie | Powered by Moxie
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <div style={{ 
+            width: '100px', 
+            height: '100px', 
+            borderRadius: '50%', 
+            backgroundColor: 'rgba(255, 255, 255, 0.2)', 
+            marginRight: '20px' 
+          }} />
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <h1 style={{ fontSize: '48px', marginBottom: '5px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+              @{username || 'Unknown'}
+            </h1>
+            <p style={{ fontSize: '24px', margin: '0', opacity: 0.8 }}>FID: {fid}</p>
+            {farScore && (
+              <p style={{ fontSize: '24px', margin: '5px 0 0 0', opacity: 0.8 }}>
+                Farscore: {Number(farScore).toFixed(2)}
+              </p>
+            )}
+          </div>
+        </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
+          <StatBox label="Moxie earned today" value={Number(todayEarnings)} />
+          <StatBox label="Moxie earned all-time" value={Number(lifetimeEarnings)} />
+          <StatBox label="FarBoost Score" value={Number(farBoost)} />
+          <StatBox label="Moxie claimed" value={Number(moxieClaimed)} />
+        </div>
+        
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+          <p style={{ fontSize: '20px', opacity: 0.7, margin: 0 }}>
+            Frame by @goldie | Powered by Moxie
+          </p>
+        </div>
       </div>
     ),
     intents: [<Button action="/check">Check Your Stats</Button>]
