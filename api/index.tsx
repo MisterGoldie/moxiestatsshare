@@ -308,8 +308,8 @@ app.frame('/check', async (c) => {
         
         {errorMessage ? (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-            <p style={{ fontSize: '28px', color: '#FF6B6B', textAlign: 'center' }}>Error: {errorMessage}</p>
-            <p style={{ fontSize: '24px', textAlign: 'center' }}>Please try again later.</p>
+            <p style={{ fontSize: '32px', color: '#FF6B6B', textAlign: 'center' }}>Error: {errorMessage}</p>
+            <p style={{ fontSize: '28px', textAlign: 'center' }}>Please try again later.</p>
           </div>
         ) : userInfo ? (
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
@@ -320,8 +320,8 @@ app.frame('/check', async (c) => {
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-            <p style={{ fontSize: '28px', textAlign: 'center' }}>Loading data...</p>
-            <p style={{ fontSize: '24px', textAlign: 'center' }}>Please try again in a moment.</p>
+            <p style={{ fontSize: '32px', textAlign: 'center' }}>Loading data...</p>
+            <p style={{ fontSize: '28px', textAlign: 'center' }}>Please try again in a moment.</p>
           </div>
         )}
         
