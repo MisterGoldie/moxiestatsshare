@@ -313,10 +313,10 @@ app.frame('/check', async (c) => {
           </div>
         ) : userInfo ? (
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
-            <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
-            <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
-            <StatBox label="FarBoost Score" value={userInfo.farBoost} />
-            <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
+            <StatBox label="Today" value={userInfo.todayEarnings} />
+            <StatBox label="All-time" value={userInfo.lifetimeEarnings} />
+            <StatBox label="FarBoost" value={userInfo.farBoost} />
+            <StatBox label="Claimed" value={userInfo.moxieClaimed} />
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flex: 1 }}>
@@ -400,10 +400,10 @@ app.frame('/share', async (c) => {
           </div>
           
           <div style={{ display: 'flex', justifyContent: 'space-between', gap: '20px', flex: 1 }}>
-            <StatBox label="Moxie earned today" value={Number(todayEarnings)} />
-            <StatBox label="Moxie earned all-time" value={Number(lifetimeEarnings)} />
-            <StatBox label="FarBoost Score" value={Number(farBoost)} />
-            <StatBox label="Moxie claimed" value={Number(moxieClaimed)} />
+            <StatBox label="Today" value={Number(todayEarnings)} />
+            <StatBox label="All-time" value={Number(lifetimeEarnings)} />
+            <StatBox label="FarBoost" value={Number(farBoost)} />
+            <StatBox label="Claimed" value={Number(moxieClaimed)} />
           </div>
           
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
