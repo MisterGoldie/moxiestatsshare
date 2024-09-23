@@ -184,7 +184,7 @@ app.frame('/check', async (c) => {
     return c.res({
       image: (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#f0e6fa' }}>
-          <h1 style={{ fontSize: '36px', marginBottom: '20px', color: 'black' }}>Error: No FID</h1>
+          <h1 style={{ fontSize: '36px', color: 'black' }}>Error: No FID</h1>
         </div>
       ),
       intents: [
@@ -226,89 +226,30 @@ app.frame('/check', async (c) => {
           backgroundImage: `url(${backgroundImageUrl})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          fontFamily: 'Arial, sans-serif',
           color: 'white',
-          padding: '40px',
+          fontFamily: 'Arial, sans-serif',
+          padding: '20px'
         }}>
-          {/* Header */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: '40px'
-          }}>
-            {pfpUrl ? (
-              <img 
-                src={pfpUrl} 
-                alt="Profile" 
-                style={{ 
-                  width: '100px', 
-                  height: '100px', 
-                  borderRadius: '50px',
-                  border: '3px solid white'
-                }}
-              />
-            ) : (
-              <div style={{ 
-                width: '100px', 
-                height: '100px', 
-                borderRadius: '50px', 
-                backgroundColor: '#ccc', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center',
-                border: '3px solid white',
-                fontSize: '36px',
-                color: '#333'
-              }}>
-                {displayName ? displayName.charAt(0).toUpperCase() : 'U'}
-              </div>
-            )}
-            <div style={{ marginLeft: '20px' }}>
-              <h1 style={{ 
-                fontSize: '36px', 
-                margin: '0 0 5px 0',
-                fontWeight: 'bold'
-              }}>
-                @{userInfo?.username || displayName || 'Unknown'}
-              </h1>
-              <p style={{ 
-                fontSize: '18px', 
-                margin: '0',
-                opacity: 0.8
-              }}>
-                FID: {fid}
+          <div style={{ marginBottom: '20px' }}>
+            <h1 style={{ fontSize: '36px', marginBottom: '10px' }}>
+              @{userInfo?.username || displayName || 'Unknown'}
+            </h1>
+            <p style={{ fontSize: '18px', margin: '0' }}>FID: {fid}</p>
+            {userInfo && userInfo.farScore !== null && (
+              <p style={{ fontSize: '18px', margin: '5px 0 0 0' }}>
+                Farscore: {userInfo.farScore.toFixed(2)}
               </p>
-              {userInfo && userInfo.farScore !== null && (
-                <p style={{ 
-                  fontSize: '18px', 
-                  margin: '5px 0 0 0',
-                  opacity: 0.8
-                }}>
-                  Farscore: {userInfo.farScore.toFixed(2)}
-                </p>
-              )}
-            </div>
+            )}
           </div>
           
-          {/* Stats Container */}
           {errorMessage ? (
             <p style={{ fontSize: '24px', color: 'red', textAlign: 'center' }}>Error: {errorMessage}</p>
           ) : userInfo ? (
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              flex: 1
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-                <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
-                <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <StatBox label="FarBoost Score" value={userInfo.farBoost} />
-                <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
-              </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <StatBox label="Moxie earned today" value={userInfo.todayEarnings} />
+              <StatBox label="Moxie earned all-time" value={userInfo.lifetimeEarnings} />
+              <StatBox label="FarBoost Score" value={userInfo.farBoost} />
+              <StatBox label="Moxie claimed" value={userInfo.moxieClaimed} />
             </div>
           ) : (
             <p style={{ fontSize: '24px', textAlign: 'center' }}>No user data available</p>
@@ -344,23 +285,11 @@ app.frame('/check', async (c) => {
 const StatBox = ({ label, value }: { label: string, value: number | null | undefined }) => (
   <div style={{ 
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-    borderRadius: '10px',
-    padding: '20px',
-    textAlign: 'center',
-    width: '520px',
+    padding: '10px',
+    borderRadius: '5px'
   }}>
-    <p style={{ 
-      fontSize: '18px', 
-      margin: '0 0 10px 0',
-      opacity: 0.8
-    }}>
-      {label}
-    </p>
-    <p style={{ 
-      fontSize: '28px', 
-      fontWeight: 'bold', 
-      margin: 0
-    }}>
+    <p style={{ fontSize: '18px', margin: '0 0 5px 0' }}>{label}</p>
+    <p style={{ fontSize: '24px', fontWeight: 'bold', margin: 0 }}>
       {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
     </p>
   </div>
