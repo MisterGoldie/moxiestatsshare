@@ -357,13 +357,11 @@ app.frame('/share', async (c) => {
   // Use the same GIF URL as in the (/) route
   const gifUrl = 'https://bafybeieo7vvxff3xadbfaylxdrk5rqkadf23bou2nj6aunakitxvdtp47i.ipfs.w3s.link/IMG_7916%201.gif';
 
-  const shareText = `I've earned ${Number(todayEarnings).toFixed(2)} $MOXIE today and ${Number(lifetimeEarnings).toFixed(2)} $MOXIE all-time! My FarBoost score is ${Number(farBoost).toFixed(2)}. Check your @moxie.eth stats. Frame by @goldie`;
-
   console.log('Rendering share frame');
   return c.res({
     image: gifUrl,
     intents: [
-      <Button action="/check">Check Your Stats</Button>,
+      <Button action="/check">Check Your Stats</Button>
     ]
   });
 });
