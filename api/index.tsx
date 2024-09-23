@@ -294,29 +294,14 @@ const StatBox = ({ label, value }: { label: string, value: number | null | undef
   <div style={{ 
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: 'rgba(255, 255, 255, 0.1)', 
     padding: '20px',
     borderRadius: '15px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-    width: '23%',
-    height: '150px', // Fixed height for consistent appearance
-    textAlign: 'center'
+    width: '23%'
   }}>
-    <p style={{ 
-      fontSize: '22px', 
-      margin: '0 0 10px 0', 
-      opacity: 0.8,
-      fontWeight: 'bold'
-    }}>
-      {label}
-    </p>
-    <p style={{ 
-      fontSize: '36px', 
-      fontWeight: 'bold', 
-      margin: 0 
-    }}>
+    <p style={{ fontSize: '18px', margin: '0 0 10px 0', opacity: 0.8 }}>{label}</p>
+    <p style={{ fontSize: '28px', fontWeight: 'bold', margin: 0 }}>
       {typeof value === 'number' ? value.toFixed(2) : 'N/A'}
     </p>
   </div>
