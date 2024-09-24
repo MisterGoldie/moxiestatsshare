@@ -387,5 +387,6 @@ app.frame('/share', async (c) => {
   }
 });
 
+export const HEAD = handle(app);
 export const GET = handle(app);
 export const POST = handle(app);
