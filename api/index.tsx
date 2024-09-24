@@ -69,6 +69,7 @@ interface MoxieUserInfo {
   farRank: number | null;
 }
 
+
 const StatBox = ({ label, value }: { label: string, value: number | string | null | undefined }) => (
   <div style={{ 
     display: 'flex',
@@ -194,9 +195,10 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
   }
 }
 
+
 app.frame('/', () => {
-  const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF';
-  const baseUrl = 'https://moxiestatsv2.vercel.app';
+  const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF' // GIF URL link
+  const baseUrl = 'https://moxiestatsv2.vercel.app' // Replace with your base URL
 
   const html = `
     <!DOCTYPE html>
@@ -207,22 +209,20 @@ app.frame('/', () => {
       <title>$MOXIE Earnings Tracker</title>
       <meta property="fc:frame" content="vNext">
       <meta property="fc:frame:image" content="${gifUrl}">
-      <meta property="fc:frame:button:1" content="Check my stats">
-      <meta property="fc:frame:button:2" content="About">
+      <meta property="fc:frame:button:1" content="Check stats">
+      <meta property="fc:frame:button:1:action" content="post">
       <meta property="fc:frame:post_url" content="${baseUrl}/api/check">
     </head>
     <body>
       <h1>$MOXIE stats V2 Earnings tracker by @goldie. Only viewable on Warpcast. Follow Goldie on Warpcast - https://warpcast.com/goldie </h1>
     </body>
     </html>
-  `;
+  `
 
   return new Response(html, {
     headers: { 'Content-Type': 'text/html' },
-  });
-});
-
-// The /check frame starts here...
+  })
+})
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
@@ -248,7 +248,9 @@ app.frame('/check', async (c) => {
 
   try {
     console.log(`Fetching user info for FID: ${fid}`);
-    userInfo = await getMoxieUserInfo(fid.toString());
+    userInfo = await Promise.race([
+      getMoxieUserInfo(fid.toString()),
+    ]);
     console.log('User info retrieved:', JSON.stringify(userInfo, null, 2));
   } catch (error) {
     console.error('Error in getMoxieUserInfo:', error);
@@ -342,32 +344,91 @@ app.frame('/check', async (c) => {
 
 app.frame('/share', async (c) => {
   console.log('Entering /share route');
-  console.log('Request method:', c.req.method);
-  
-  const { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username, farScore } = c.req.query();
-  console.log('Query params:', { fid, todayEarnings, lifetimeEarnings, farBoost, moxieClaimed, username, farScore });
+  const fid = c.req.query('fid');
+  const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF';
 
-  if (!fid || !todayEarnings || !lifetimeEarnings || !farBoost || !moxieClaimed) {
-    console.log('Error: Incomplete data');
+  if (!fid) {
     return c.res({
       image: (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '1200px', height: '630px', backgroundColor: '#1E1E1E' }}>
-          <h1 style={{ fontSize: '36px', color: '#FF6B6B' }}>Error: Incomplete data</h1>
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          width: '1200px', 
+          height: '630px', 
+          backgroundColor: '#1E1E1E',
+          color: 'white',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error: No FID provided</h1>
+          <p style={{ fontSize: '24px' }}>Unable to retrieve user information</p>
         </div>
-      )
+      ),
+      intents: [
+        <Button action="/">Back to Home</Button>
+      ]
     });
   }
 
-  const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF';
+  try {
+    const userInfo = await getMoxieUserInfo(fid);
+    
+    const shareText = userInfo 
+      ? `I've earned ${userInfo.todayEarnings.toFixed(2)} $MOXIE today and ${userInfo.lifetimeEarnings.toFixed(2)} $MOXIE all-time! My FarBoost score is ${typeof userInfo.farBoost === 'number' ? userInfo.farBoost.toFixed(2) : 'N/A'}. Check your @moxie.eth stats. Frame by @goldie`
+      : 'Check your @moxie.eth stats on Farcaster! Frame by @goldie';
 
-  console.log('Rendering share frame with GIF:', gifUrl);
-  
-  return c.res({
-    image: gifUrl,
-    headers: {
-      'Content-Type': 'image/gif',
-    },
-  });
+    return c.res({
+      image: (
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          width: '1200px', 
+          height: '630px', 
+          backgroundImage: `url(${gifUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          color: 'white',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <h1 style={{ fontSize: '48px', marginBottom: '20px', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+            $MOXIE Earnings Tracker
+          </h1>
+          <p style={{ fontSize: '24px', textAlign: 'center', maxWidth: '80%', textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
+            {shareText}
+          </p>
+        </div>
+      ),
+      intents: [
+        <Button action="/check">Check Your Stats</Button>
+      ]
+    });
+  } catch (error) {
+    console.error('Error fetching Moxie user data:', error);
+    return c.res({
+      image: (
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          width: '1200px', 
+          height: '630px', 
+          backgroundColor: '#1E1E1E',
+          color: 'white',
+          fontFamily: 'Arial, sans-serif'
+        }}>
+          <h1 style={{ fontSize: '48px', marginBottom: '20px' }}>Error</h1>
+          <p style={{ fontSize: '24px' }}>Unable to retrieve Moxie stats. Please try again later.</p>
+        </div>
+      ),
+      intents: [
+        <Button action="/check">Try Again</Button>
+      ]
+    });
+  }
 });
 
 export const GET = handle(app);
