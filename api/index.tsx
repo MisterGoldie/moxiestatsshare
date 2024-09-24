@@ -14,8 +14,16 @@ const formatNumber = (value: number | string | null | undefined): string => {
 
 export const app = new Frog({
   basePath: '/api',
-  imageOptions: { width: 1200, height: 630 },
-  title: '$MOXIE Earnings Tracker',
+  imageOptions: { width: 1200, height: 628 },
+  title: '$Moxie Stats Tracker',
+  hub: {
+    apiUrl: "https://hubs.airstack.xyz",
+    fetchOptions: {
+      headers: {
+        "x-airstack-hubs": "103ba30da492d4a7e89e7026a6d3a234e", // Your Airstack API key
+      }
+    }
+  }
 }).use(
   neynar({
     apiKey: 'NEYNAR_FROG_FM',
