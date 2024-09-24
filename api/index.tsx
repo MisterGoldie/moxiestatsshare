@@ -69,7 +69,6 @@ interface MoxieUserInfo {
   farRank: number | null;
 }
 
-
 const StatBox = ({ label, value }: { label: string, value: number | string | null | undefined }) => (
   <div style={{ 
     display: 'flex',
@@ -195,10 +194,9 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
   }
 }
 
-
 app.frame('/', () => {
-  const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF' // GIF URL link
-  const baseUrl = 'https://moxiestatsv2.vercel.app' // Replace with your base URL
+  const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF';
+  const baseUrl = 'https://moxiestatsv2.vercel.app';
 
   const html = `
     <!DOCTYPE html>
@@ -209,20 +207,22 @@ app.frame('/', () => {
       <title>$MOXIE Earnings Tracker</title>
       <meta property="fc:frame" content="vNext">
       <meta property="fc:frame:image" content="${gifUrl}">
-      <meta property="fc:frame:button:1" content="Check stats">
-      <meta property="fc:frame:button:1:action" content="post">
+      <meta property="fc:frame:button:1" content="Check my stats">
+      <meta property="fc:frame:button:2" content="About">
       <meta property="fc:frame:post_url" content="${baseUrl}/api/check">
     </head>
     <body>
       <h1>$MOXIE stats V2 Earnings tracker by @goldie. Only viewable on Warpcast. Follow Goldie on Warpcast - https://warpcast.com/goldie </h1>
     </body>
     </html>
-  `
+  `;
 
   return new Response(html, {
     headers: { 'Content-Type': 'text/html' },
-  })
-})
+  });
+});
+
+// The /check frame starts here...
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
@@ -248,9 +248,7 @@ app.frame('/check', async (c) => {
 
   try {
     console.log(`Fetching user info for FID: ${fid}`);
-    userInfo = await Promise.race([
-      getMoxieUserInfo(fid.toString()),
-    ]);
+    userInfo = await getMoxieUserInfo(fid.toString());
     console.log('User info retrieved:', JSON.stringify(userInfo, null, 2));
   } catch (error) {
     console.error('Error in getMoxieUserInfo:', error);
