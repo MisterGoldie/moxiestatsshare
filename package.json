@@ -8,6 +8,7 @@
     "deploy": "vercel"
   },
   "dependencies": {
+    "@airstack/frames": "^1.2.0",
     "@airstack/node": "^0.0.7",
     "@vercel/og": "^0.6.2",
     "@vercel/speed-insights": "^1.0.12",

@@ -69,7 +69,6 @@ interface MoxieUserInfo {
   farRank: number | null;
 }
 
-
 const StatBox = ({ label, value }: { label: string, value: number | string | null | undefined }) => (
   <div style={{ 
     display: 'flex',
@@ -195,7 +194,6 @@ async function getMoxieUserInfo(fid: string): Promise<MoxieUserInfo> {
   }
 }
 
-
 app.frame('/', () => {
   const gifUrl = 'https://bafybeihjgj5ha5exb2dfzywrg276vlsydivdtsdmf23z5nf6whximajt4y.ipfs.w3s.link/IMG_8105.GIF' // GIF URL link
   const baseUrl = 'https://moxiestatsv2.vercel.app' // Replace with your base URL
@@ -223,6 +221,8 @@ app.frame('/', () => {
     headers: { 'Content-Type': 'text/html' },
   })
 })
+
+// The /check frame starts here...
 
 app.frame('/check', async (c) => {
   console.log('Entering /check frame');
